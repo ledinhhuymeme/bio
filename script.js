@@ -214,6 +214,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // 13. Đồng hồ thời gian thực (Live Clock trên Desktop)
     initLiveClock();
 
+    // 13b. Nút Thả Tim tương tác (Floating Hearts Reaction)
+    initHeartReactions();
+
+    // 13c. Xem ảnh phóng to (Photo Lightbox khi bấm vào Avatar hoặc Featured Moment)
+    initPhotoLightbox();
+
     // 14. Nút chia sẻ trang Bio (dùng luôn link ngắn https://is.gd/huydinh_bio)
     const OFFICIAL_SHORT_URL = "https://is.gd/huydinh_bio";
     const shareBtn = document.getElementById("shareBtn");
@@ -342,10 +348,39 @@ function initChillMusicPlayer() {
     const playSvg = document.getElementById("playSvg");
     const pauseSvg = document.getElementById("pauseSvg");
     const statusLabel = document.getElementById("music-status-label");
+    const progressFill = document.getElementById("musicProgressFill");
+    const progressWrap = document.getElementById("musicProgressWrap");
+    const timeEl = document.getElementById("music-time");
+    const avatarContainer = document.querySelector(".avatar-container");
 
     if (!playerBar || !audio) return;
 
     audio.volume = 0.75;
+
+    function formatTime(sec) {
+        if (!sec || isNaN(sec)) return "0:00";
+        const m = Math.floor(sec / 60);
+        const s = Math.floor(sec % 60);
+        return `${m}:${s < 10 ? "0" + s : s}`;
+    }
+
+    audio.addEventListener("timeupdate", () => {
+        if (audio.duration) {
+            const pct = (audio.currentTime / audio.duration) * 100;
+            if (progressFill) progressFill.style.width = `${pct}%`;
+            if (timeEl) timeEl.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+        }
+    });
+
+    if (progressWrap) {
+        progressWrap.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (!audio.duration) return;
+            const rect = progressWrap.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            audio.currentTime = (clickX / rect.width) * audio.duration;
+        });
+    }
 
     function updatePlayerUI(playing) {
         isMusicPlaying = playing;
@@ -353,12 +388,14 @@ function initChillMusicPlayer() {
         if (playing) {
             vinyl.classList.remove("paused");
             eq.classList.remove("paused");
+            if (avatarContainer) avatarContainer.classList.add("music-playing");
             playSvg.style.display = "none";
             pauseSvg.style.display = "block";
             statusLabel.textContent = dict.musicPlaying;
         } else {
             vinyl.classList.add("paused");
             eq.classList.add("paused");
+            if (avatarContainer) avatarContainer.classList.remove("music-playing");
             playSvg.style.display = "block";
             pauseSvg.style.display = "none";
             statusLabel.textContent = dict.musicPaused;
@@ -580,6 +617,61 @@ function animateCount(el, target) {
         }
     }
     requestAnimationFrame(update);
+}
+
+// Nút Thả Tim tương tác với hiệu ứng tim bay (Floating Hearts)
+function initHeartReactions() {
+    const heartBtn = document.getElementById("heartBtn");
+    const heartCountEl = document.getElementById("heart-count");
+    if (!heartBtn || !heartCountEl) return;
+
+    const baseHearts = 3640;
+    const storageKey = "huydinh_bio_hearts";
+    let userHearts = parseInt(localStorage.getItem(storageKey) || "2", 10);
+    heartCountEl.textContent = (baseHearts + userHearts).toLocaleString("en-US");
+
+    const emojis = ["❤️", "💖", "✨", "🔥", "💛"];
+
+    heartBtn.addEventListener("click", (e) => {
+        userHearts++;
+        localStorage.setItem(storageKey, userHearts.toString());
+        heartCountEl.textContent = (baseHearts + userHearts).toLocaleString("en-US");
+
+        const rect = heartBtn.getBoundingClientRect();
+        const originX = e.clientX || rect.left + rect.width / 2;
+        const originY = e.clientY || rect.top + rect.height / 2;
+
+        for (let i = 0; i < 3; i++) {
+            const heart = document.createElement("span");
+            heart.className = "floating-heart";
+            heart.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            heart.style.left = `${originX}px`;
+            heart.style.top = `${originY}px`;
+            heart.style.setProperty("--dx", `${(Math.random() - 0.5) * 70}px`);
+            heart.style.setProperty("--rot", `${(Math.random() - 0.5) * 40}deg`);
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 1100);
+        }
+    });
+}
+
+// Xem ảnh phóng to (Photo Lightbox)
+function initPhotoLightbox() {
+    const photoModal = document.getElementById("photoModal");
+    const photoClose = document.getElementById("photoClose");
+    const avatarContainer = document.querySelector(".avatar-container");
+    const featuredCard = document.getElementById("featuredMomentCard");
+
+    if (!photoModal) return;
+
+    const openLightbox = () => photoModal.classList.add("active");
+    if (avatarContainer) avatarContainer.addEventListener("click", openLightbox);
+    if (featuredCard) featuredCard.addEventListener("click", openLightbox);
+    if (photoClose) photoClose.addEventListener("click", () => photoModal.classList.remove("active"));
+
+    photoModal.addEventListener("click", (e) => {
+        if (e.target === photoModal) photoModal.classList.remove("active");
+    });
 }
 
 // Sao chép vào clipboard

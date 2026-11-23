@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=9">
+    <link rel="stylesheet" href="style.css?v=11">
 </head>
 <body data-theme="aurora">
     <!-- Interactive Particle Canvas -->
@@ -65,6 +65,10 @@
                             <span id="live-clock">--:--:--</span>
                             <span class="tz-badge">VN</span>
                         </div>
+                        <button class="heart-pill" id="heartBtn" title="Thả tim cho Huy Đình 💖">
+                            <span class="heart-icon">❤️</span>
+                            <span id="heart-count">3,642</span>
+                        </button>
                     </div>
 
                     <div class="top-actions">
@@ -156,10 +160,13 @@
                         </div>
 
                         <!-- Featured Moment Photo Card (Desktop Enrichment) -->
-                        <div class="featured-moment">
+                        <div class="featured-moment" id="featuredMomentCard" title="Bấm để xem ảnh lớn">
                             <img src="avatar.jpg" alt="Featured Moment" class="moment-img">
                             <div class="moment-overlay">
-                                <span class="moment-tag" id="moment-tag">📸 KHOẢNH KHẮC NỔI BẬT</span>
+                                <div class="moment-top-row">
+                                    <span class="moment-tag" id="moment-tag">📸 KHOẢNH KHẮC NỔI BẬT</span>
+                                    <span class="moment-zoom-badge">🔍</span>
+                                </div>
                                 <p class="moment-caption" id="moment-caption">"Giữa núi đồi bình yên & tự do ⛰️☁️"</p>
                             </div>
                         </div>
@@ -371,8 +378,14 @@
                                 <div class="vinyl-inner"></div>
                             </div>
                             <div class="music-meta">
-                                <span class="music-label" id="music-status-label">CHẠM ĐỂ PHÁT NHẠC 🎧</span>
+                                <div class="music-top-line">
+                                    <span class="music-label" id="music-status-label">CHẠM ĐỂ PHÁT NHẠC 🎧</span>
+                                    <span class="music-time" id="music-time">0:00 / 1:00</span>
+                                </div>
                                 <span class="music-track">We Don't Talk Anymore • Slowed & Reverb</span>
+                                <div class="music-progress-wrap" id="musicProgressWrap">
+                                    <div class="music-progress-fill" id="musicProgressFill"></div>
+                                </div>
                             </div>
                             <button class="music-play-btn" id="musicToggleIcon" aria-label="Phát nhạc">
                                 <svg id="playSvg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
@@ -420,9 +433,18 @@
         </div>
     </div>
 
+    <!-- Photo Lightbox Modal -->
+    <div class="qr-modal" id="photoModal">
+        <div class="photo-lightbox-box">
+            <button class="qr-close" id="photoClose" aria-label="Đóng">&times;</button>
+            <img src="avatar.jpg" alt="Huy Đình" class="lightbox-img">
+            <p class="lightbox-caption" id="lightbox-caption">"Giữa núi đồi bình yên & tự do ⛰️☁️" — Huy Đình</p>
+        </div>
+    </div>
+
     <!-- Toast Notification -->
     <div class="toast" id="toast">Đã sao chép liên kết! ✨</div>
 
-    <script src="script.js?v=10"></script>
+    <script src="script.js?v=11"></script>
 </body>
 </html>
