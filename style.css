@@ -1135,16 +1135,16 @@ body {
     transform: translateX(2px);
 }
 
-/* Prominent Secret Message Banner Card */
+/* Prominent Secret Message Banner Card (Masculine Cyber Blue & Slate Tech Style) */
 .secret-banner-card {
     position: relative;
     z-index: 3;
     margin: 0 22px 16px;
     padding: 13px 15px;
-    border-radius: 22px;
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(236, 72, 153, 0.22) 100%);
-    border: 1px solid rgba(236, 72, 153, 0.5);
-    box-shadow: 0 12px 28px -8px rgba(236, 72, 153, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 58, 138, 0.35) 55%, rgba(6, 182, 212, 0.22) 100%);
+    border: 1px solid rgba(56, 189, 248, 0.45);
+    box-shadow: 0 12px 28px -8px rgba(14, 165, 233, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.14);
     display: flex;
     align-items: center;
     gap: 13px;
@@ -1154,23 +1154,23 @@ body {
 
 .secret-banner-card:hover {
     transform: translateY(-3px) scale(1.01);
-    border-color: rgba(236, 72, 153, 0.85);
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.28) 0%, rgba(236, 72, 153, 0.3) 100%);
-    box-shadow: 0 16px 34px -8px rgba(236, 72, 153, 0.5);
+    border-color: rgba(56, 189, 248, 0.85);
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(37, 99, 235, 0.42) 55%, rgba(6, 182, 212, 0.32) 100%);
+    box-shadow: 0 16px 34px -8px rgba(14, 165, 233, 0.48);
 }
 
 .secret-banner-icon {
     width: 46px;
     height: 46px;
-    border-radius: 15px;
-    background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+    border-radius: 14px;
+    background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+    color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.35rem;
     flex-shrink: 0;
-    box-shadow: 0 6px 16px -3px rgba(236, 72, 153, 0.6);
-    animation: pulseBtn 2.2s infinite;
+    border: 1px solid rgba(125, 211, 252, 0.35);
+    box-shadow: 0 6px 18px -3px rgba(14, 165, 233, 0.55);
 }
 
 .secret-banner-info {
@@ -1193,44 +1193,44 @@ body {
     font-family: 'Be Vietnam Pro', sans-serif;
     font-size: 0.95rem;
     font-weight: 800;
-    color: #ffffff;
+    color: #f8fafc;
 }
 
 .secret-banner-badge {
     font-size: 0.58rem;
     font-weight: 800;
     padding: 2px 7px;
-    border-radius: 99px;
-    background: rgba(236, 72, 153, 0.25);
-    border: 1px solid rgba(236, 72, 153, 0.55);
-    color: #fbcfe8;
-    letter-spacing: 0.04em;
+    border-radius: 6px;
+    background: rgba(14, 165, 233, 0.2);
+    border: 1px solid rgba(56, 189, 248, 0.45);
+    color: #38bdf8;
+    letter-spacing: 0.05em;
 }
 
 .secret-banner-sub {
     font-size: 0.76rem;
-    color: #e2e8f0;
+    color: #cbd5e1;
     line-height: 1.35;
 }
 
 .secret-banner-cta {
-    background: #ffffff;
-    color: #0f172a;
-    border: none;
+    background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.22);
     font-family: inherit;
     font-size: 0.76rem;
     font-weight: 800;
-    padding: 8px 14px;
-    border-radius: 99px;
+    padding: 8px 15px;
+    border-radius: 12px;
     cursor: pointer;
     flex-shrink: 0;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    transition: transform 0.2s ease, background 0.2s ease;
+    box-shadow: 0 6px 16px -4px rgba(37, 99, 235, 0.6);
+    transition: transform 0.2s ease, filter 0.2s ease;
 }
 
 .secret-banner-card:hover .secret-banner-cta {
-    background: #fdf2f8;
-    transform: scale(1.05);
+    filter: brightness(1.12);
+    transform: scale(1.04);
 }
 
 /* Section Header (Shown on both Mobile & Desktop) */
@@ -2207,10 +2207,10 @@ body {
     justify-content: center;
     width: 48px;
     height: 48px;
-    border-radius: 16px;
-    background: rgba(236, 72, 153, 0.15);
-    border: 1px solid rgba(236, 72, 153, 0.35);
-    font-size: 1.5rem;
+    border-radius: 14px;
+    background: rgba(14, 165, 233, 0.16);
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    color: #38bdf8;
     margin-bottom: 10px;
 }
 
@@ -2284,15 +2284,15 @@ body {
 .secret-submit-btn {
     width: 100%;
     padding: 12px 20px;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.22);
-    background: linear-gradient(135deg, var(--aurora-c1), var(--aurora-c2));
+    border-radius: 14px;
+    border: 1px solid rgba(125, 211, 252, 0.3);
+    background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
     color: #fff;
     font-family: inherit;
     font-size: 0.88rem;
     font-weight: 800;
     cursor: pointer;
-    box-shadow: 0 10px 24px -6px rgba(236, 72, 153, 0.55);
+    box-shadow: 0 10px 24px -6px rgba(37, 99, 235, 0.6);
     transition: transform 0.2s ease, filter 0.2s ease;
 }
 

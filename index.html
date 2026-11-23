@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=24">
+    <link rel="stylesheet" href="style.css?v=26">
 </head>
 <body data-theme="aurora">
     <!-- Glass Splash Screen (Rich Portal Card with Cover, Live Badges, Music Teaser & Social Icons) -->
@@ -252,17 +252,22 @@
 
                 <!-- RIGHT COLUMN: Social Grid + Interactive Widgets -->
                 <div class="bento-right">
-                    <!-- Prominent Secret Message Banner Card (Easy to see on both Mobile & Desktop) -->
-                    <div class="secret-banner-card" id="secretMsgBtn" title="Gửi lời nhắn cho Huy Đình">
-                        <div class="secret-banner-icon">💌</div>
+                    <!-- Prominent Secret Message Banner Card (Masculine Cyber Blue/Slate Style) -->
+                    <div class="secret-banner-card" id="secretMsgBtn" title="Gửi tin nhắn cho Huy Đình">
+                        <div class="secret-banner-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                            </svg>
+                        </div>
                         <div class="secret-banner-info">
                             <div class="secret-banner-top">
-                                <span class="secret-banner-title" id="secret-banner-title">Gửi lời nhắn cho Huy Đình</span>
-                                <span class="secret-banner-badge">ẨN DANH</span>
+                                <span class="secret-banner-title" id="secret-banner-title">Gửi tin nhắn cho Huy Đình</span>
+                                <span class="secret-banner-badge">DIRECT / ẨN DANH</span>
                             </div>
-                            <span class="secret-banner-sub" id="secret-banner-sub">Để lại câu hỏi, lời chúc hoặc nhắn nhủ bí mật ✨</span>
+                            <span class="secret-banner-sub" id="secret-banner-sub">Để lại câu hỏi, lời nhắn hoặc kết nối công việc ⚡</span>
                         </div>
-                        <button type="button" class="secret-banner-cta" id="secret-banner-cta">Nhắn ngay</button>
+                        <button type="button" class="secret-banner-cta" id="secret-banner-cta">Gửi ngay</button>
                     </div>
 
                     <div class="section-header">
@@ -562,20 +567,25 @@
         <div class="secret-modal-box">
             <button class="qr-close" id="secretMsgClose" aria-label="Đóng">&times;</button>
             <div class="secret-modal-header">
-                <span class="secret-icon-badge">💌</span>
-                <h3 id="secret-modal-title">Gửi lời nhắn cho Huy Đình</h3>
-                <p id="secret-modal-sub">Để lại lời nhắn, câu hỏi hoặc lời chào của bạn nhé!</p>
+                <span class="secret-icon-badge">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </span>
+                <h3 id="secret-modal-title">Gửi tin nhắn cho Huy Đình</h3>
+                <p id="secret-modal-sub">Gửi câu hỏi, trao đổi hoặc để lại lời nhắn trực tiếp</p>
             </div>
             <div class="secret-form">
-                <input type="text" id="secretSender" class="secret-input" placeholder="Tên hoặc biệt danh của bạn (có thể bỏ trống nếu muốn ẩn danh)">
-                <textarea id="secretContent" class="secret-textarea" rows="3" placeholder="Nhập nội dung lời nhắn gửi tới Huy Đình... ✨"></textarea>
+                <input type="text" id="secretSender" class="secret-input" placeholder="Tên của bạn (để trống nếu muốn ẩn danh)">
+                <textarea id="secretContent" class="secret-textarea" rows="3" placeholder="Nhập nội dung tin nhắn..."></textarea>
                 <div class="secret-quick-chips">
-                    <button type="button" class="quick-msg-chip">Trang Bio xịn quá! 🔥</button>
-                    <button type="button" class="quick-msg-chip">Kết bạn Locket nhé 💛</button>
-                    <button type="button" class="quick-msg-chip">Đã gửi cá cho mèo 🐟</button>
+                    <button type="button" class="quick-msg-chip">Giao diện Bio chất quá! 🔥</button>
+                    <button type="button" class="quick-msg-chip">Add Locket giao lưu nhé 🤝</button>
+                    <button type="button" class="quick-msg-chip">Đã donate cá cho mèo 🐟</button>
                 </div>
                 <button type="button" class="secret-submit-btn" id="secretSubmitBtn">
-                    <span id="secret-submit-text">Gửi lời nhắn ngay 🚀</span>
+                    <span id="secret-submit-text">Gửi tin nhắn ⚡</span>
                 </button>
             </div>
         </div>
