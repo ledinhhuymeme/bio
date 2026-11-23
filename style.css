@@ -97,31 +97,31 @@ body {
 
 .enter-cover {
     position: relative;
-    height: 135px;
+    height: 155px;
     width: 100%;
     overflow: hidden;
 }
 
 .enter-cover-img {
     position: absolute;
-    inset: -8px;
+    inset: 0;
     background-image: url('avatar.jpg');
     background-size: cover;
-    background-position: center 35%;
-    filter: blur(1px) brightness(0.85) saturate(1.2);
-    transform: scale(1.06);
+    background-position: center 42%;
+    filter: brightness(1.02) contrast(1.06) saturate(1.22);
+    transform: scale(1.02);
     animation: slowZoom 12s infinite alternate ease-in-out;
 }
 
 @keyframes slowZoom {
-    0% { transform: scale(1.05); }
-    100% { transform: scale(1.16); }
+    0% { transform: scale(1.02); }
+    100% { transform: scale(1.1); }
 }
 
 .enter-cover-grad {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(5, 6, 11, 0.2) 0%, rgba(15, 18, 29, 0.98) 100%);
+    background: linear-gradient(180deg, rgba(5, 6, 11, 0.08) 0%, rgba(15, 18, 29, 0.25) 60%, rgba(15, 18, 29, 0.96) 100%);
 }
 
 .enter-top-pills {
@@ -617,27 +617,29 @@ body {
     opacity: 1;
 }
 
-/* Hero Cover Banner */
+/* Hero Cover Banner (Crystal Clear HD Mountain View) */
 .cover-banner {
     position: relative;
-    height: 155px;
+    height: 185px;
     width: 100%;
     overflow: hidden;
+    cursor: pointer;
 }
 
 .cover-image {
     position: absolute;
-    inset: -10px;
+    inset: 0;
     background-image: url('avatar.jpg');
     background-size: cover;
-    background-position: center 35%;
-    filter: blur(2px) brightness(0.85) saturate(1.2);
-    transform: scale(1.06);
-    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    background-position: center 42%;
+    filter: brightness(1.04) contrast(1.06) saturate(1.22);
+    transform: scale(1.01);
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
 }
 
 .bento-card:hover .cover-image {
-    transform: scale(1.11);
+    transform: scale(1.06);
+    filter: brightness(1.1) contrast(1.08) saturate(1.28);
 }
 
 .cover-gradient {
@@ -645,9 +647,9 @@ body {
     inset: 0;
     background: linear-gradient(
         180deg,
-        rgba(5, 6, 10, 0.25) 0%,
-        rgba(14, 17, 26, 0.55) 55%,
-        rgba(14, 17, 26, 0.98) 100%
+        rgba(5, 6, 10, 0.12) 0%,
+        rgba(14, 17, 26, 0.18) 62%,
+        rgba(14, 17, 26, 0.96) 100%
     );
 }
 
@@ -2326,7 +2328,7 @@ body {
     }
 
     .cover-banner {
-        height: 165px;
+        height: 215px;
     }
 
     .top-bar {

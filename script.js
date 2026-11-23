@@ -926,6 +926,19 @@ function initPhotoLightbox() {
         });
     }
 
+    const coverBanner = document.getElementById("coverBanner");
+    if (coverBanner) {
+        coverBanner.addEventListener("click", (e) => {
+            // Không mở lightbox nếu người dùng bấm vào các nút trên thanh top-bar
+            if (e.target.closest(".top-bar")) return;
+            if (lightboxImg) lightboxImg.src = "avatar.jpg";
+            if (lightboxCaption) lightboxCaption.textContent = "\"Giữa núi đồi bình yên & tự do ⛰️☁️\" — Huy Đình";
+            const dlBtn = document.getElementById("lightboxDownloadBtn");
+            if (dlBtn) dlBtn.style.display = "none";
+            photoModal.classList.add("active");
+        });
+    }
+
     if (photoClose) photoClose.addEventListener("click", () => photoModal.classList.remove("active"));
 
     photoModal.addEventListener("click", (e) => {
