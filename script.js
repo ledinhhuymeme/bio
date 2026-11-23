@@ -625,9 +625,18 @@ function initCardInteractions() {
     card.addEventListener("mouseleave", () => {
         card.style.transform = "rotateX(0deg) rotateY(0deg)";
     });
+
+    // Ánh sáng Spotlight 3D riêng trên từng thẻ mạng xã hội
+    document.querySelectorAll(".link-card").forEach((linkCard) => {
+        linkCard.addEventListener("mousemove", (e) => {
+            const r = linkCard.getBoundingClientRect();
+            linkCard.style.setProperty("--card-mx", `${e.clientX - r.left}px`);
+            linkCard.style.setProperty("--card-my", `${e.clientY - r.top}px`);
+        });
+    });
 }
 
-// Hiệu ứng hạt phát sáng lơ lửng (Fireflies / Stars)
+// Hiệu ứng hạt phát sáng lơ lửng + Sao băng (Fireflies & Shooting Stars)
 function initParticles() {
     const canvas = document.getElementById("bg-canvas");
     if (!canvas) return;
@@ -641,14 +650,27 @@ function initParticles() {
         height = canvas.height = window.innerHeight;
     });
 
-    const particles = Array.from({ length: 42 }, () => ({
+    const particles = Array.from({ length: 48 }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
-        r: Math.random() * 2 + 0.6,
+        r: Math.random() * 2.1 + 0.6,
         vx: (Math.random() - 0.5) * 0.35,
         vy: -Math.random() * 0.45 - 0.1,
         alpha: Math.random() * 0.65 + 0.2
     }));
+
+    const meteors = [];
+    function spawnMeteor() {
+        if (meteors.length < 2 && Math.random() < 0.018) {
+            meteors.push({
+                x: Math.random() * width * 0.8 + width * 0.1,
+                y: -20,
+                len: 65 + Math.random() * 55,
+                speed: 9 + Math.random() * 6,
+                alpha: 1
+            });
+        }
+    }
 
     function draw() {
         ctx.clearRect(0, 0, width, height);
@@ -665,6 +687,32 @@ function initParticles() {
             ctx.fillStyle = `rgba(255, 255, 255, ${p.alpha})`;
             ctx.fill();
         }
+
+        spawnMeteor();
+        for (let i = meteors.length - 1; i >= 0; i--) {
+            const m = meteors[i];
+            m.x -= m.speed;
+            m.y += m.speed * 0.65;
+            m.alpha -= 0.016;
+
+            if (m.alpha <= 0 || m.y > height + 100 || m.x < -100) {
+                meteors.splice(i, 1);
+                continue;
+            }
+
+            const grad = ctx.createLinearGradient(m.x, m.y, m.x + m.len, m.y - m.len * 0.65);
+            grad.addColorStop(0, `rgba(56, 189, 248, ${m.alpha})`);
+            grad.addColorStop(1, "rgba(255, 255, 255, 0)");
+
+            ctx.beginPath();
+            ctx.moveTo(m.x, m.y);
+            ctx.lineTo(m.x + m.len, m.y - m.len * 0.65);
+            ctx.strokeStyle = grad;
+            ctx.lineWidth = 2;
+            ctx.lineCap = "round";
+            ctx.stroke();
+        }
+
         requestAnimationFrame(draw);
     }
 
