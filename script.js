@@ -47,8 +47,10 @@ const BIO_CONFIG = {
             statViews: "Lượt ghé thăm",
             statChannels: "Kênh kết nối",
             statOnline: "Trực tuyến",
-            momentTag: "📸 KHOẢNH KHẮC NỔI BẬT",
-            momentCaption: "\"Giữa núi đồi bình yên & tự do ⛰️☁️\"",
+            catDonateTag: "🐱 GÓC NUÔI MÈO",
+            catDonateTitle: "Ủng hộ cho chú mèo ít cá 😄",
+            catDonateSub: "Chạm vào để phóng to mã MoMo / VietQR 🐟✨",
+            catDonateBtn: "Mở mã QR 💛",
             sectionTitle: "KẾT NỐI MẠNG XÃ HỘI",
             sectionSub: "Chạm để mở hoặc sao chép nhanh",
             subtitles: {
@@ -87,8 +89,10 @@ const BIO_CONFIG = {
             statViews: "Total Visits",
             statChannels: "Channels",
             statOnline: "Available",
-            momentTag: "📸 FEATURED MOMENT",
-            momentCaption: "\"Peaceful & free among the mountains ⛰️☁️\"",
+            catDonateTag: "🐱 FEED THE CAT",
+            catDonateTitle: "Ủng hộ cho chú mèo ít cá 😄",
+            catDonateSub: "Tap to zoom MoMo / VietQR code 🐟✨",
+            catDonateBtn: "Open QR 💛",
             sectionTitle: "SOCIAL NETWORKS",
             sectionSub: "Tap to open or quick copy link",
             subtitles: {
@@ -292,8 +296,10 @@ function applyLanguage(lang, showNotification) {
     setText("stat-label-views", dict.statViews);
     setText("stat-label-channels", dict.statChannels);
     setText("stat-label-online", dict.statOnline);
-    setText("moment-tag", dict.momentTag);
-    setText("moment-caption", dict.momentCaption);
+    setText("cat-donate-tag", dict.catDonateTag);
+    setText("cat-donate-title", dict.catDonateTitle);
+    setText("cat-donate-sub", dict.catDonateSub);
+    setText("cat-donate-btn", dict.catDonateBtn);
     setText("section-title", dict.sectionTitle);
     setText("section-sub", dict.sectionSub);
     setText("music-status-label", isMusicPlaying ? dict.musicPlaying : dict.musicPaused);
@@ -711,18 +717,33 @@ function initHeartReactions() {
     });
 }
 
-// Xem ảnh phóng to (Photo Lightbox)
+// Xem ảnh phóng to (Photo Lightbox cho cả ảnh Chú Mèo QR & Avatar)
 function initPhotoLightbox() {
     const photoModal = document.getElementById("photoModal");
     const photoClose = document.getElementById("photoClose");
+    const lightboxImg = document.getElementById("lightboxImg");
+    const lightboxCaption = document.getElementById("lightbox-caption");
     const avatarContainer = document.querySelector(".avatar-container");
-    const featuredCard = document.getElementById("featuredMomentCard");
+    const catDonateCard = document.getElementById("catDonateCard");
 
     if (!photoModal) return;
 
-    const openLightbox = () => photoModal.classList.add("active");
-    if (avatarContainer) avatarContainer.addEventListener("click", openLightbox);
-    if (featuredCard) featuredCard.addEventListener("click", openLightbox);
+    if (catDonateCard) {
+        catDonateCard.addEventListener("click", () => {
+            if (lightboxImg) lightboxImg.src = "donate_cat.jpg";
+            if (lightboxCaption) lightboxCaption.textContent = "Ủng hộ cho chú mèo ít cá 😄🐟 (Quét mã MoMo / VietQR)";
+            photoModal.classList.add("active");
+        });
+    }
+
+    if (avatarContainer) {
+        avatarContainer.addEventListener("click", () => {
+            if (lightboxImg) lightboxImg.src = "avatar.jpg";
+            if (lightboxCaption) lightboxCaption.textContent = "\"Giữa núi đồi bình yên & tự do ⛰️☁️\" — Huy Đình";
+            photoModal.classList.add("active");
+        });
+    }
+
     if (photoClose) photoClose.addEventListener("click", () => photoModal.classList.remove("active"));
 
     photoModal.addEventListener("click", (e) => {

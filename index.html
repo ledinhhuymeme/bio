@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=18">
+    <link rel="stylesheet" href="style.css?v=20">
 </head>
 <body data-theme="aurora">
     <!-- Glass Splash Screen (Rich Portal Card with Cover, Live Badges, Music Teaser & Social Icons) -->
@@ -234,15 +234,17 @@
                             </div>
                         </div>
 
-                        <!-- Featured Moment Photo Card (Desktop Enrichment) -->
-                        <div class="featured-moment" id="featuredMomentCard" title="Bấm để xem ảnh lớn">
-                            <img src="avatar.jpg" alt="Featured Moment" class="moment-img">
-                            <div class="moment-overlay">
-                                <div class="moment-top-row">
-                                    <span class="moment-tag" id="moment-tag">📸 KHOẢNH KHẮC NỔI BẬT</span>
-                                    <span class="moment-zoom-badge">🔍</span>
-                                </div>
-                                <p class="moment-caption" id="moment-caption">"Giữa núi đồi bình yên & tự do ⛰️☁️"</p>
+                        <!-- Cute Cat Donate Card (Ủng hộ cho chú mèo ít cá 😄) -->
+                        <div class="cat-donate-card" id="catDonateCard" title="Bấm để phóng to mã QR ủng hộ chú mèo cá 🐟">
+                            <div class="cat-img-wrap">
+                                <img src="donate_cat.jpg" alt="Ủng hộ cho chú mèo ít cá" class="cat-donate-img">
+                                <span class="cat-zoom-badge">🔍 Quét QR</span>
+                            </div>
+                            <div class="cat-donate-info">
+                                <span class="cat-donate-tag" id="cat-donate-tag">🐱 GÓC NUÔI MÈO</span>
+                                <h3 class="cat-donate-title" id="cat-donate-title">Ủng hộ cho chú mèo ít cá 😄</h3>
+                                <p class="cat-donate-sub" id="cat-donate-sub">Chạm vào ảnh để phóng to mã MoMo / VietQR 🐟✨</p>
+                                <span class="cat-donate-btn" id="cat-donate-btn">Mở mã QR 💛</span>
                             </div>
                         </div>
                     </header>
@@ -524,14 +526,14 @@
     <div class="qr-modal" id="photoModal">
         <div class="photo-lightbox-box">
             <button class="qr-close" id="photoClose" aria-label="Đóng">&times;</button>
-            <img src="avatar.jpg" alt="Huy Đình" class="lightbox-img">
-            <p class="lightbox-caption" id="lightbox-caption">"Giữa núi đồi bình yên & tự do ⛰️☁️" — Huy Đình</p>
+            <img src="donate_cat.jpg" alt="Ủng hộ cho chú mèo ít cá" class="lightbox-img" id="lightboxImg">
+            <p class="lightbox-caption" id="lightbox-caption">Ủng hộ cho chú mèo ít cá 😄🐟</p>
         </div>
     </div>
 
     <!-- Toast Notification -->
     <div class="toast" id="toast">Đã sao chép liên kết! ✨</div>
 
-    <script src="script.js?v=19"></script>
+    <script src="script.js?v=20"></script>
 </body>
 </html>
