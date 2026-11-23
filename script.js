@@ -664,25 +664,26 @@ function initParticles() {
     draw();
 }
 
-// Bộ đếm lượt ghé thăm trực tiếp
+// Bộ đếm lượt ghé thăm trực tiếp (Đồng bộ Cloud xuyên thiết bị 24/7)
+const CLOUD_APP_KEY = "4st2bgq2";
+
 function initVisitorCounter() {
     const countEl = document.getElementById("visitor-count");
     if (!countEl) return;
 
-    const baseViews = 1280;
-    const storageKey = "huydinh_bio_views";
-    let localBonus = parseInt(localStorage.getItem(storageKey) || "4", 10) + 1;
-    localStorage.setItem(storageKey, localBonus.toString());
+    const storageKey = "huydinh_bio_views_cache";
+    let currentViews = parseInt(localStorage.getItem(storageKey) || "1290", 10);
+    animateCount(countEl, currentViews);
 
-    const targetCount = baseViews + localBonus;
-    animateCount(countEl, targetCount);
-
-    fetch("https://api.counterapi.dev/v1/ledinhhuymeme_bio/visits/up")
+    fetch(`https://keyvalue.immanuel.co/api/KeyVal/GetValue/${CLOUD_APP_KEY}/visits`)
         .then((res) => res.json())
-        .then((data) => {
-            if (data && typeof data.count === "number") {
-                animateCount(countEl, baseViews + data.count);
-            }
+        .then((val) => {
+            let cloudViews = parseInt(val, 10);
+            if (isNaN(cloudViews) || cloudViews < 1280) cloudViews = currentViews;
+            const nextViews = cloudViews + 1;
+            localStorage.setItem(storageKey, nextViews.toString());
+            animateCount(countEl, nextViews);
+            fetch(`https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/${CLOUD_APP_KEY}/visits/${nextViews}`, { method: "POST" }).catch(() => {});
         })
         .catch(() => {});
 }
@@ -705,23 +706,41 @@ function animateCount(el, target) {
     requestAnimationFrame(update);
 }
 
-// Nút Thả Tim tương tác với hiệu ứng tim bay (Floating Hearts)
+// Nút Thả Tim tương tác đồng bộ Cloud thời gian thực giữa mọi thiết bị (Floating Hearts)
 function initHeartReactions() {
     const heartBtn = document.getElementById("heartBtn");
     const heartCountEl = document.getElementById("heart-count");
     if (!heartBtn || !heartCountEl) return;
 
-    const baseHearts = 3640;
-    const storageKey = "huydinh_bio_hearts";
-    let userHearts = parseInt(localStorage.getItem(storageKey) || "2", 10);
-    heartCountEl.textContent = (baseHearts + userHearts).toLocaleString("en-US");
+    const storageKey = "huydinh_bio_hearts_cache";
+    let totalHearts = parseInt(localStorage.getItem(storageKey) || "3642", 10);
+    if (totalHearts < 3640) totalHearts = 3642;
+    heartCountEl.textContent = totalHearts.toLocaleString("en-US");
+
+    // Hàm tải số tim mới nhất từ Cloud
+    async function syncHeartsFromCloud() {
+        try {
+            const res = await fetch(`https://keyvalue.immanuel.co/api/KeyVal/GetValue/${CLOUD_APP_KEY}/hearts`);
+            const val = await res.json();
+            const cloudHearts = parseInt(val, 10);
+            if (!isNaN(cloudHearts) && cloudHearts >= totalHearts) {
+                totalHearts = cloudHearts;
+                localStorage.setItem(storageKey, totalHearts.toString());
+                heartCountEl.textContent = totalHearts.toLocaleString("en-US");
+            }
+        } catch {}
+    }
+
+    syncHeartsFromCloud();
+    // Tự động cập nhật số tim từ các thiết bị khác mỗi 6 giây
+    setInterval(syncHeartsFromCloud, 6000);
 
     const emojis = ["❤️", "💖", "✨", "🔥", "💛"];
 
-    heartBtn.addEventListener("click", (e) => {
-        userHearts++;
-        localStorage.setItem(storageKey, userHearts.toString());
-        heartCountEl.textContent = (baseHearts + userHearts).toLocaleString("en-US");
+    heartBtn.addEventListener("click", async (e) => {
+        totalHearts++;
+        localStorage.setItem(storageKey, totalHearts.toString());
+        heartCountEl.textContent = totalHearts.toLocaleString("en-US");
 
         const rect = heartBtn.getBoundingClientRect();
         const originX = e.clientX || rect.left + rect.width / 2;
@@ -738,6 +757,19 @@ function initHeartReactions() {
             document.body.appendChild(heart);
             setTimeout(() => heart.remove(), 1100);
         }
+
+        // Đồng bộ ngay số tim mới lên Cloud để mọi thiết bị khác đều thấy tăng
+        try {
+            const res = await fetch(`https://keyvalue.immanuel.co/api/KeyVal/GetValue/${CLOUD_APP_KEY}/hearts`);
+            const val = await res.json();
+            const cloudHearts = parseInt(val, 10);
+            if (!isNaN(cloudHearts) && cloudHearts >= totalHearts) {
+                totalHearts = cloudHearts + 1;
+            }
+            localStorage.setItem(storageKey, totalHearts.toString());
+            heartCountEl.textContent = totalHearts.toLocaleString("en-US");
+            await fetch(`https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/${CLOUD_APP_KEY}/hearts/${totalHearts}`, { method: "POST" });
+        } catch {}
     });
 }
 
@@ -910,28 +942,39 @@ function initSecretMessageModal() {
         });
     }
 
-    // Kho lưu trữ tin nhắn đám mây miễn phí + đồng bộ LocalStorage
-    const CLOUD_DB_URL = "https://keyvalue.immanuel.co/api/KeyVal/GetValue/huydinh21bio/messages";
-    const CLOUD_SAVE_URL = "https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/huydinh21bio/messages";
+    // Kho lưu trữ tin nhắn đám mây thực tế xuyên thiết bị (AppKey đã cấp: 4st2bgq2)
+    const CLOUD_DB_URL = `https://keyvalue.immanuel.co/api/KeyVal/GetValue/${CLOUD_APP_KEY}/messages`;
+    const CLOUD_SAVE_URL = `https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/${CLOUD_APP_KEY}/messages`;
     const LOCAL_KEY = "huydinh_bio_inbox_messages";
 
-    const defaultMessages = [
-        {
-            sender: "Một người bạn ẩn danh",
-            text: "Giao diện Bio chất quá! 🔥",
-            time: "Vừa xong"
-        }
-    ];
+    // Bảng mã Base64 an toàn với URL (thay + bằng -, / bằng _, bỏ =) để dữ liệu không bao giờ bị lỗi khi lưu lên Cloud
+    function encodeUrlSafeBase64(obj) {
+        const jsonStr = JSON.stringify(obj);
+        const bytes = new TextEncoder().encode(jsonStr);
+        let binary = "";
+        bytes.forEach((b) => (binary += String.fromCharCode(b)));
+        return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+    }
+
+    function decodeUrlSafeBase64(safeB64) {
+        let b64 = safeB64.replace(/-/g, "+").replace(/_/g, "/");
+        while (b64.length % 4 !== 0) b64 += "=";
+        const binary = atob(b64);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+        const jsonStr = new TextDecoder().decode(bytes);
+        return JSON.parse(jsonStr);
+    }
 
     function getLocalMessages() {
         try {
             const raw = localStorage.getItem(LOCAL_KEY);
             if (raw) {
                 const parsed = JSON.parse(raw);
-                if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+                if (Array.isArray(parsed)) return parsed;
             }
         } catch {}
-        return defaultMessages;
+        return [];
     }
 
     function renderInbox(messages) {
@@ -963,30 +1006,32 @@ function initSecretMessageModal() {
             .join("");
     }
 
-    async function loadCloudMessages() {
-        renderInbox(getLocalMessages());
+    async function fetchCloudMessagesList() {
         try {
-            const res = await fetch(CLOUD_DB_URL);
+            const res = await fetch(CLOUD_DB_URL, { cache: "no-store" });
             const data = await res.json();
             if (data && typeof data === "string" && data.trim() !== "") {
-                const decoded = JSON.parse(decodeURIComponent(atob(data)));
-                if (Array.isArray(decoded) && decoded.length > 0) {
+                const decoded = decodeUrlSafeBase64(data.trim());
+                if (Array.isArray(decoded)) {
                     localStorage.setItem(LOCAL_KEY, JSON.stringify(decoded));
-                    renderInbox(decoded);
+                    return decoded;
                 }
             }
         } catch {}
+        return getLocalMessages();
     }
 
-    async function saveCloudMessages(messages) {
-        const trimmed = messages.slice(-30);
-        localStorage.setItem(LOCAL_KEY, JSON.stringify(trimmed));
-        renderInbox(trimmed);
-        try {
-            const b64 = btoa(encodeURIComponent(JSON.stringify(trimmed)));
-            await fetch(`${CLOUD_SAVE_URL}/${encodeURIComponent(b64)}`, { method: "POST" });
-        } catch {}
+    async function loadCloudMessages() {
+        const list = await fetchCloudMessagesList();
+        renderInbox(list);
     }
+
+    // Tự động làm mới hộp thư mỗi 5 giây khi Huy Đình đang mở khóa hộp thư
+    setInterval(() => {
+        if (isOwnerUnlocked && modal.classList.contains("active")) {
+            loadCloudMessages();
+        }
+    }, 5000);
 
     triggerBtn.addEventListener("click", () => {
         modal.classList.add("active");
@@ -1025,21 +1070,32 @@ function initSecretMessageModal() {
                 month: "2-digit"
             });
 
-            const currentList = getLocalMessages();
-            currentList.push({
+            // Tải danh sách mới nhất từ Cloud trước khi nối thêm tin nhắn mới để không ghi đè tin nhắn của thiết bị khác!
+            const latestList = await fetchCloudMessagesList();
+            latestList.push({
                 sender: sender,
                 text: msg,
                 time: nowStr
             });
 
-            await saveCloudMessages(currentList);
+            const trimmed = latestList.slice(-40);
+            localStorage.setItem(LOCAL_KEY, JSON.stringify(trimmed));
+
+            try {
+                const safeB64 = encodeUrlSafeBase64(trimmed);
+                await fetch(`${CLOUD_SAVE_URL}/${safeB64}`, { method: "POST" });
+            } catch {}
+
+            if (isOwnerUnlocked) {
+                renderInbox(trimmed);
+            }
 
             if (contentInput) contentInput.value = "";
             if (senderInput) senderInput.value = "";
             if (btnTextEl) btnTextEl.textContent = originalText;
             submitBtn.disabled = false;
 
-            showToast("Đã gửi tin nhắn thành công vào Hộp thư! ⚡");
+            showToast("Đã gửi tin nhắn thành công tới Huy Đình! ⚡");
         });
     }
 }
