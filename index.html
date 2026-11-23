@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=33">
+    <link rel="stylesheet" href="style.css?v=34">
 </head>
 <body data-theme="aurora">
     <!-- Glass Splash Screen (Rich Portal Card with Cover, Live Badges, Music Teaser & Social Icons) -->
@@ -620,9 +620,31 @@
         </div>
     </div>
 
+    <!-- 3D Message Sent Success Hologram Overlay -->
+    <div class="sent-3d-overlay" id="sent3dOverlay">
+        <div class="sent-3d-stage">
+            <div class="sent-3d-card">
+                <div class="sent-3d-ring ring-outer"></div>
+                <div class="sent-3d-ring ring-inner"></div>
+                <div class="sent-3d-orb">
+                    <svg class="sent-3d-plane" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                    <svg class="sent-3d-check" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </div>
+                <h3 class="sent-3d-title">ĐÃ GỬI THÀNH CÔNG!</h3>
+                <p class="sent-3d-sub">Tin nhắn của bạn đã chuyển tới <strong>Huy Đình</strong> ⚡</p>
+                <div class="sent-3d-glow-bar"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast Notification -->
     <div class="toast" id="toast">Đã sao chép liên kết! ✨</div>
 
-    <script src="script.js?v=33"></script>
+    <script src="script.js?v=34"></script>
 </body>
 </html>

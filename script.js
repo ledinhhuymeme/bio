@@ -1191,9 +1191,28 @@ function initSecretMessageModal() {
 
             const btnRect = submitBtn.getBoundingClientRect();
             spawnConfettiBurst(btnRect.left + btnRect.width / 2, btnRect.top + btnRect.height / 2);
-            showToast("Đã gửi tin nhắn thành công tới Huy Đình! ⚡");
+            trigger3dSentAnimation();
         });
     }
+}
+
+// Hiệu ứng Hologram 3D khi gửi tin nhắn thành công
+let sent3dTimer = null;
+function trigger3dSentAnimation() {
+    const overlay = document.getElementById("sent3dOverlay");
+    if (!overlay) {
+        showToast("Đã gửi tin nhắn thành công tới Huy Đình! ⚡");
+        return;
+    }
+    overlay.classList.remove("active");
+    void overlay.offsetWidth; // Reset animation
+    overlay.classList.add("active");
+    spawnConfettiBurst(window.innerWidth / 2, window.innerHeight / 2);
+
+    if (sent3dTimer) clearTimeout(sent3dTimer);
+    sent3dTimer = setTimeout(() => {
+        overlay.classList.remove("active");
+    }, 2250);
 }
 
 // Hiệu ứng pháo hoa Confetti khi gửi tin nhắn hoặc tương tác
