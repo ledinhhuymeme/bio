@@ -25,9 +25,25 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=15">
+    <link rel="stylesheet" href="style.css?v=16">
 </head>
 <body data-theme="aurora">
+    <!-- Glass Splash Screen (Always shown first, click "Vào Bio ✨" to enter and play music) -->
+    <div class="enter-overlay" id="enterOverlay">
+        <div class="enter-box">
+            <div class="enter-avatar-wrap">
+                <div class="avatar-glow"></div>
+                <div class="avatar-ring"></div>
+                <img src="avatar.jpg" alt="Huy Đình" class="enter-avatar">
+            </div>
+            <h2 class="enter-title">Huy Đình</h2>
+            <p class="enter-handle">@huy_dinhhh</p>
+            <button class="enter-btn" id="enterBtn">
+                <span id="enter-btn-text">Vào Bio ✨</span>
+            </button>
+        </div>
+    </div>
+
     <!-- Interactive Particle Canvas -->
     <canvas id="bg-canvas"></canvas>
 
@@ -461,6 +477,6 @@
     <!-- Toast Notification -->
     <div class="toast" id="toast">Đã sao chép liên kết! ✨</div>
 
-    <script src="script.js?v=14"></script>
+    <script src="script.js?v=16"></script>
 </body>
 </html>

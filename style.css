@@ -80,9 +80,9 @@ body {
 
 .enter-avatar-wrap {
     position: relative;
-    width: 96px;
-    height: 96px;
-    margin-bottom: 4px;
+    width: 112px;
+    height: 112px;
+    margin-bottom: 6px;
 }
 
 .enter-avatar {
@@ -91,23 +91,24 @@ body {
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid #0e1018;
+    border: 4px solid #0e1018;
     z-index: 2;
 }
 
 .enter-title {
     font-family: 'Be Vietnam Pro', sans-serif;
-    font-size: 1.55rem;
+    font-size: 1.65rem;
     font-weight: 800;
     color: #fff;
     letter-spacing: -0.02em;
 }
 
-.enter-sub {
+.enter-handle {
     font-size: 0.88rem;
-    color: #cbd5e1;
-    max-width: 280px;
-    line-height: 1.45;
+    font-weight: 600;
+    color: var(--accent-primary);
+    margin-top: -6px;
+    margin-bottom: 4px;
 }
 
 .enter-btn {

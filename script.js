@@ -461,61 +461,32 @@ function initChillMusicPlayer() {
         }
     }
 
-    // Tự động kích hoạt phát nhạc ngay lập tức khi vào trang Bio (không dùng màn chắn)
-    function tryAutoPlay() {
-        audio.muted = false;
-        const playPromise = audio.play();
-        if (playPromise !== undefined) {
-            playPromise.then(() => {
-                updatePlayerUI(true);
-                removeUnlockListeners();
-            }).catch(() => {
-                // Dự phòng khi trình duyệt chặn tiếng lúc đầu: chạy ngầm muted rồi tự bật tiếng ngay khi người dùng nhúc nhích chuột/chạm màn hình
-                audio.muted = true;
-                audio.play().then(() => {
-                    updatePlayerUI(true);
-                    if (volOnSvg && volOffSvg) {
-                        volOnSvg.style.display = "none";
-                        volOffSvg.style.display = "block";
-                    }
-                }).catch(() => {
-                    updatePlayerUI(false);
-                });
-            });
+    // Luôn hiển thị màn kính mờ có Avatar của Huy Đình và nút "Vào Bio ✨" lúc mới vào;
+    // Khi bấm nút hoặc chạm vào màn kính mờ sẽ mở khóa vào Bio và phát nhạc nền ngay lập tức!
+    function enterBioAndPlayMusic(e) {
+        if (e) e.stopPropagation();
+        if (enterOverlay && !enterOverlay.classList.contains("hidden")) {
+            enterOverlay.classList.add("hidden");
         }
-    }
-
-    function unlockOnFirstInteraction() {
         audio.muted = false;
         if (volOnSvg && volOffSvg) {
             volOnSvg.style.display = "block";
             volOffSvg.style.display = "none";
         }
-        if (audio.paused) {
-            audio.play().then(() => {
-                updatePlayerUI(true);
-                removeUnlockListeners();
-            }).catch(() => {});
-        } else {
+        audio.play().then(() => {
             updatePlayerUI(true);
-            removeUnlockListeners();
-        }
-    }
-
-    function removeUnlockListeners() {
-        ["click", "touchstart", "touchend", "mousedown", "mousemove", "pointerdown", "pointermove", "keydown", "wheel", "scroll"].forEach((evt) => {
-            window.removeEventListener(evt, unlockOnFirstInteraction);
+        }).catch(() => {
+            updatePlayerUI(false);
         });
     }
 
-    ["click", "touchstart", "touchend", "mousedown", "mousemove", "pointerdown", "pointermove", "keydown", "wheel", "scroll"].forEach((evt) => {
-        window.addEventListener(evt, unlockOnFirstInteraction, { passive: true });
-    });
-
-    tryAutoPlay();
-    window.addEventListener("load", () => {
-        if (audio.paused || audio.muted) tryAutoPlay();
-    });
+    const enterBtn = document.getElementById("enterBtn");
+    if (enterBtn) {
+        enterBtn.addEventListener("click", enterBioAndPlayMusic);
+    }
+    if (enterOverlay) {
+        enterOverlay.addEventListener("click", enterBioAndPlayMusic);
+    }
 
     // Bấm vào thanh nhạc để Bật / Tắt chủ động
     playerBar.addEventListener("click", (e) => {
