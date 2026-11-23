@@ -182,13 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 7. Sự kiện nút Lưu Danh Bạ (.vcf vCard)
-    const saveContactBtn = document.getElementById("saveContactBtn");
-    if (saveContactBtn) {
-        saveContactBtn.addEventListener("click", downloadVCard);
-    }
-
-    // 8. Trình phát nhạc nền Lo-Fi Chill (Web Audio Synthesizer - không lo lỗi bản quyền hay mất mạng)
+    // 7. Trình phát nhạc nền Lo-Fi Chill (Web Audio Synthesizer - không lo lỗi bản quyền hay mất mạng)
     initChillMusicPlayer();
 
     // 9. Hiệu ứng ánh sáng Spotlight & nghiêng 3D theo chuột
