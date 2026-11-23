@@ -1,55 +1,114 @@
 /**
  * ==========================================================
- * CẤU HÌNH THÔNG TIN CÁ NHÂN & LINK CỦA BẠN TẠI ĐÂY
+ * CẤU HÌNH THÔNG TIN CÁ NHÂN & ĐA NGÔN NGỮ (VI / EN)
  * ==========================================================
  */
 const BIO_CONFIG = {
     name: "Huy Đình",
     username: "@huy_dinhhh",
-    bioLines: [
-        "✨ Kết nối với mình qua các mạng xã hội bên dưới nhé!",
-        "📸 Chia sẻ khoảnh khắc mỗi ngày trên Locket & IG",
-        "🎵 Follow TikTok của mình để xem video mới nhất!"
-    ],
-    status: "Online",
     avatar: "avatar.jpg",
 
     links: {
         facebook: {
-            url: "https://www.facebook.com/share/1FgFbPsM9g/?mibextid=wwXIfr",
-            subtitle: "Kết bạn & nhắn tin cho mình"
+            url: "https://www.facebook.com/share/1FgFbPsM9g/?mibextid=wwXIfr"
         },
         instagram: {
-            url: "https://www.instagram.com/huy_chuis?lqvp=aTQwbm82bDJ4aTE0&utm_source=qr",
-            subtitle: "@huy_chuis • Daily stories 📸"
+            url: "https://www.instagram.com/huy_chuis?lqvp=aTQwbm82bDJ4aTE0&utm_source=qr"
         },
         tiktok: {
-            url: "https://www.tiktok.com/@huy_cao_met8",
-            subtitle: "@huy_cao_met8 • Follow kênh mình 🎵"
+            url: "https://www.tiktok.com/@huy_cao_met8"
         },
         locket: {
-            url: "https://locket.cam/huy_dinhhh",
-            subtitle: "@huy_dinhhh • Add Locket xem ảnh 💛"
+            url: "https://locket.cam/huy_dinhhh"
         },
         zalo: {
             // Link được mã hóa Base64 để không hiển thị số điện thoại trên giao diện hay thanh xem trước URL
-            encodedUrl: "aHR0cHM6Ly96YWxvLm1lLzA3ODM1MzkwMDA=",
-            subtitle: "Nhắn tin trực tiếp cho mình 💬"
+            encodedUrl: "aHR0cHM6Ly96YWxvLm1lLzA3ODM1MzkwMDA="
         },
         gmail: {
             url: "mailto:huyledinh21@gmail.com",
-            copyText: "huyledinh21@gmail.com",
-            subtitle: "huyledinh21@gmail.com"
+            copyText: "huyledinh21@gmail.com"
+        }
+    },
+
+    i18n: {
+        vi: {
+            status: "Trực tuyến",
+            shareBtn: "Chia sẻ",
+            qrBtn: "Mã QR",
+            bioLines: [
+                "✨ Kết nối với mình qua các mạng xã hội bên dưới nhé!",
+                "📸 Chia sẻ khoảnh khắc mỗi ngày trên Locket & IG",
+                "🎵 Follow TikTok của mình để xem video mới nhất!"
+            ],
+            statViews: "Lượt ghé thăm",
+            statChannels: "Kênh kết nối",
+            statOnline: "Trực tuyến",
+            momentTag: "📸 KHOẢNH KHẮC NỔI BẬT",
+            momentCaption: "\"Giữa núi đồi bình yên & tự do ⛰️☁️\"",
+            sectionTitle: "KẾT NỐI MẠNG XÃ HỘI",
+            sectionSub: "Chạm để mở hoặc sao chép nhanh",
+            subtitles: {
+                facebook: "Kết bạn & nhắn tin cho mình",
+                instagram: "@huy_chuis • Stories mỗi ngày 📸",
+                tiktok: "@huy_cao_met8 • Follow kênh mình 🎵",
+                locket: "@huy_dinhhh • Add Locket xem ảnh 💛",
+                zalo: "Nhắn tin trực tiếp cho mình 💬",
+                gmail: "huyledinh21@gmail.com"
+            },
+            miniQrTitle: "Quét trên điện thoại",
+            miniQrSub: "Mở nhanh trang Bio",
+            footerCrafted: "Thiết kế với ✨",
+            qrModalTitle: "Quét mã QR Bio",
+            qrModalSub: "Mở camera điện thoại để truy cập nhanh",
+            toastCopiedPlatform: (p) => `Đã sao chép ${p.toUpperCase()}! ✨`,
+            toastCopiedBio: "Đã sao chép link trang Bio! 🔗",
+            toastLangSwitched: "Đã chuyển sang Tiếng Việt 🇻🇳"
+        },
+        en: {
+            status: "Online",
+            shareBtn: "Share",
+            qrBtn: "QR Code",
+            bioLines: [
+                "✨ Connect with me on my social channels below!",
+                "📸 Sharing daily moments on Locket & Instagram",
+                "🎵 Follow my TikTok for the latest videos!"
+            ],
+            statViews: "Total Visits",
+            statChannels: "Channels",
+            statOnline: "Available",
+            momentTag: "📸 FEATURED MOMENT",
+            momentCaption: "\"Peaceful & free among the mountains ⛰️☁️\"",
+            sectionTitle: "SOCIAL NETWORKS",
+            sectionSub: "Tap to open or quick copy link",
+            subtitles: {
+                facebook: "Add friend & message me",
+                instagram: "@huy_chuis • Daily stories 📸",
+                tiktok: "@huy_cao_met8 • Follow my channel 🎵",
+                locket: "@huy_dinhhh • Add Locket for live pics 💛",
+                zalo: "Direct message me on Zalo 💬",
+                gmail: "huyledinh21@gmail.com"
+            },
+            miniQrTitle: "Scan on mobile",
+            miniQrSub: "Quickly open Bio page",
+            footerCrafted: "Crafted with ✨",
+            qrModalTitle: "Scan Bio QR Code",
+            qrModalSub: "Open your phone camera to access quickly",
+            toastCopiedPlatform: (p) => `Copied ${p.toUpperCase()} link! ✨`,
+            toastCopiedBio: "Copied Bio page link! 🔗",
+            toastLangSwitched: "Switched to English 🇬🇧"
         }
     }
 };
 
+let currentLang = localStorage.getItem("huydinh_bio_lang") || "vi";
+let typewriterTimer = null;
+
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Gắn dữ liệu cá nhân
+    // 1. Gắn dữ liệu cá nhân cố định
     document.title = `${BIO_CONFIG.name} | Official Bio ✨`;
     document.getElementById("profile-name").textContent = BIO_CONFIG.name;
     document.getElementById("profile-handle").textContent = BIO_CONFIG.username;
-    document.getElementById("status-text").textContent = BIO_CONFIG.status;
     document.getElementById("profile-avatar").src = BIO_CONFIG.avatar;
     document.getElementById("year").textContent = new Date().getFullYear();
 
@@ -58,12 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const card = document.querySelector(`.link-card[data-platform="${platform}"]`);
         const data = BIO_CONFIG.links[platform];
         if (card && data) {
-            const subEl = card.querySelector(".link-sub");
-            if (subEl && data.subtitle) {
-                subEl.textContent = data.subtitle;
-            }
             if (data.encodedUrl) {
-                // Giấu URL thật trên thẻ <a> để khi di chuột vào không lộ số điện thoại ở góc trình duyệt
                 card.removeAttribute("href");
                 card.style.cursor = "pointer";
                 card.addEventListener("click", (e) => {
@@ -76,16 +130,26 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // 3. Hiệu ứng chữ chạy Typewriter
-    initTypewriter(BIO_CONFIG.bioLines);
+    // 3. Áp dụng ngôn ngữ ban đầu (VI hoặc EN)
+    applyLanguage(currentLang, false);
 
-    // 4. Hiệu ứng ánh sáng Spotlight & nghiêng 3D theo chuột
+    // 4. Sự kiện nút chuyển đổi ngôn ngữ VI / EN
+    const langBtn = document.getElementById("langBtn");
+    if (langBtn) {
+        langBtn.addEventListener("click", () => {
+            currentLang = currentLang === "vi" ? "en" : "vi";
+            localStorage.setItem("huydinh_bio_lang", currentLang);
+            applyLanguage(currentLang, true);
+        });
+    }
+
+    // 5. Hiệu ứng ánh sáng Spotlight & nghiêng 3D theo chuột
     initCardInteractions();
 
-    // 5. Hiệu ứng hạt sao lơ lửng (Canvas Particles)
+    // 6. Hiệu ứng hạt sao lơ lửng (Canvas Particles)
     initParticles();
 
-    // 6. Nút sao chép từng link
+    // 7. Nút sao chép từng link
     document.querySelectorAll(".copy-small-btn").forEach((btn) => {
         btn.addEventListener("click", (e) => {
             e.preventDefault();
@@ -95,38 +159,40 @@ document.addEventListener("DOMContentLoaded", () => {
             if (linkData) {
                 const textToCopy = linkData.copyText || linkData.url;
                 if (textToCopy) {
-                    copyToClipboard(textToCopy, `Đã sao chép ${platform.toUpperCase()}! ✨`);
+                    const dict = BIO_CONFIG.i18n[currentLang];
+                    copyToClipboard(textToCopy, dict.toastCopiedPlatform(platform));
                 }
             }
         });
     });
 
-    // 6b. Bộ đếm lượt ghé thăm trực tiếp (Live Visitor Counter)
+    // 8. Bộ đếm lượt ghé thăm trực tiếp (Live Visitor Counter)
     initVisitorCounter();
 
-    // 6c. Đồng hồ thời gian thực (Live Clock trên Desktop)
+    // 9. Đồng hồ thời gian thực (Live Clock trên Desktop)
     initLiveClock();
 
-    // 7. Nút chia sẻ trang Bio
+    // 10. Nút chia sẻ trang Bio
     const shareBtn = document.getElementById("shareBtn");
     shareBtn.addEventListener("click", async () => {
-        const shareUrl = window.location.href;
+        const shareUrl = window.location.href.split("?")[0];
+        const dict = BIO_CONFIG.i18n[currentLang];
         if (navigator.share) {
             try {
                 await navigator.share({
                     title: `${BIO_CONFIG.name} - Bio Links`,
-                    text: BIO_CONFIG.bioLines[0],
+                    text: dict.bioLines[0],
                     url: shareUrl
                 });
             } catch {
-                copyToClipboard(shareUrl, "Đã sao chép link trang Bio! 🔗");
+                copyToClipboard(shareUrl, dict.toastCopiedBio);
             }
         } else {
-            copyToClipboard(shareUrl, "Đã sao chép link trang Bio! 🔗");
+            copyToClipboard(shareUrl, dict.toastCopiedBio);
         }
     });
 
-    // 8. Nút mở mã QR Code
+    // 11. Nút mở mã QR Code
     const qrBtn = document.getElementById("qrBtn");
     const miniQrCard = document.getElementById("miniQrCard");
     const qrModal = document.getElementById("qrModal");
@@ -152,6 +218,54 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+// Hàm cập nhật toàn bộ giao diện theo ngôn ngữ (VI / EN)
+function applyLanguage(lang, showNotification) {
+    const dict = BIO_CONFIG.i18n[lang] || BIO_CONFIG.i18n.vi;
+    document.documentElement.lang = lang;
+
+    // Cập nhật trạng thái nút VI / EN
+    document.querySelectorAll(".lang-opt").forEach((el) => {
+        el.classList.toggle("active", el.getAttribute("data-lang") === lang);
+    });
+
+    const setText = (id, text) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = text;
+    };
+
+    setText("status-text", dict.status);
+    setText("qr-btn-label", dict.qrBtn);
+    setText("share-btn-label", dict.shareBtn);
+    setText("stat-label-views", dict.statViews);
+    setText("stat-label-channels", dict.statChannels);
+    setText("stat-label-online", dict.statOnline);
+    setText("moment-tag", dict.momentTag);
+    setText("moment-caption", dict.momentCaption);
+    setText("section-title", dict.sectionTitle);
+    setText("section-sub", dict.sectionSub);
+    setText("mini-qr-title", dict.miniQrTitle);
+    setText("mini-qr-sub", dict.miniQrSub);
+    setText("footer-crafted", dict.footerCrafted);
+    setText("qr-modal-title", dict.qrModalTitle);
+    setText("qr-modal-sub", dict.qrModalSub);
+
+    // Cập nhật mô tả từng thẻ mạng xã hội
+    Object.keys(dict.subtitles).forEach((platform) => {
+        const card = document.querySelector(`.link-card[data-platform="${platform}"]`);
+        if (card) {
+            const subEl = card.querySelector(".link-sub");
+            if (subEl) subEl.textContent = dict.subtitles[platform];
+        }
+    });
+
+    // Khởi động lại hiệu ứng gõ chữ với ngôn ngữ mới
+    initTypewriter(dict.bioLines);
+
+    if (showNotification) {
+        showToast(dict.toastLangSwitched);
+    }
+}
+
 // Đồng hồ thời gian thực (Việt Nam GMT+7)
 function initLiveClock() {
     const clockEl = document.getElementById("live-clock");
@@ -170,10 +284,14 @@ function initLiveClock() {
     setInterval(updateClock, 1000);
 }
 
-// Hiệu ứng gõ chữ tự động
+// Hiệu ứng gõ chữ tự động (hỗ trợ reset khi đổi ngôn ngữ)
 function initTypewriter(lines) {
     const el = document.getElementById("typewriter-text");
     if (!el || !lines || !lines.length) return;
+
+    if (typewriterTimer) {
+        clearTimeout(typewriterTimer);
+    }
 
     let lineIndex = 0;
     let charIndex = 0;
@@ -189,18 +307,18 @@ function initTypewriter(lines) {
             el.textContent = currentLine.substring(0, charIndex);
         }
 
-        let speed = isDeleting ? 28 : 55;
+        let speed = isDeleting ? 26 : 50;
 
         if (!isDeleting && charIndex === currentLine.length) {
-            speed = 2400; // Dừng lại đọc khi gõ xong
+            speed = 2300;
             isDeleting = true;
         } else if (isDeleting && charIndex === 0) {
             isDeleting = false;
             lineIndex = (lineIndex + 1) % lines.length;
-            speed = 350;
+            speed = 320;
         }
 
-        setTimeout(tick, speed);
+        typewriterTimer = setTimeout(tick, speed);
     }
 
     tick();
@@ -222,8 +340,8 @@ function initCardInteractions() {
         if (window.innerWidth > 768) {
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
-            const rotateX = ((y - centerY) / centerY) * -3.5;
-            const rotateY = ((x - centerX) / centerX) * 3.5;
+            const rotateX = ((y - centerY) / centerY) * -2.5;
+            const rotateY = ((x - centerX) / centerX) * 2.5;
             card.style.transform = `rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg)`;
         }
     });
@@ -277,7 +395,7 @@ function initParticles() {
     draw();
 }
 
-// Bộ đếm lượt ghé thăm trực tiếp (tự động tăng thực tế + hiệu ứng đếm số mượt mà)
+// Bộ đếm lượt ghé thăm trực tiếp
 function initVisitorCounter() {
     const countEl = document.getElementById("visitor-count");
     if (!countEl) return;
@@ -290,7 +408,6 @@ function initVisitorCounter() {
     const targetCount = baseViews + localBonus;
     animateCount(countEl, targetCount);
 
-    // Kết nối API đếm lượt truy cập toàn cầu theo thời gian thực
     fetch("https://api.counterapi.dev/v1/ledinhhuymeme_bio/visits/up")
         .then((res) => res.json())
         .then((data) => {

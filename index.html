@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=5">
+    <link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
     <!-- Interactive Particle Canvas -->
@@ -51,6 +51,11 @@
                     </div>
 
                     <div class="top-actions">
+                        <button class="lang-toggle" id="langBtn" title="Switch Language / Đổi ngôn ngữ" aria-label="Đổi ngôn ngữ">
+                            <span class="lang-opt active" data-lang="vi">VI</span>
+                            <span class="lang-sep">/</span>
+                            <span class="lang-opt" data-lang="en">EN</span>
+                        </button>
                         <button class="icon-btn" id="qrBtn" title="Mã QR Bio" aria-label="Mã QR Bio">
                             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="3" y="3" width="7" height="7"></rect>
@@ -58,7 +63,7 @@
                                 <rect x="14" y="14" width="7" height="7"></rect>
                                 <rect x="3" y="14" width="7" height="7"></rect>
                             </svg>
-                            <span class="btn-label">QR Code</span>
+                            <span class="btn-label" id="qr-btn-label">QR Code</span>
                         </button>
                         <button class="icon-btn" id="shareBtn" title="Chia sẻ trang Bio" aria-label="Chia sẻ trang Bio">
                             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -68,7 +73,7 @@
                                 <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
                                 <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
                             </svg>
-                            <span class="btn-label">Chia sẻ</span>
+                            <span class="btn-label" id="share-btn-label">Chia sẻ</span>
                         </button>
                     </div>
                 </div>
@@ -115,17 +120,17 @@
                                     <span class="live-pulse"></span>
                                     <span id="visitor-count">1,284</span>
                                 </div>
-                                <span class="stat-label">Lượt ghé thăm</span>
+                                <span class="stat-label" id="stat-label-views">Lượt ghé thăm</span>
                             </div>
                             <div class="stat-divider"></div>
                             <div class="stat-item">
                                 <div class="stat-value">6</div>
-                                <span class="stat-label">Kênh kết nối</span>
+                                <span class="stat-label" id="stat-label-channels">Kênh kết nối</span>
                             </div>
                             <div class="stat-divider"></div>
                             <div class="stat-item">
                                 <div class="stat-value">24/7</div>
-                                <span class="stat-label">Trực tuyến</span>
+                                <span class="stat-label" id="stat-label-online">Trực tuyến</span>
                             </div>
                         </div>
 
@@ -133,8 +138,8 @@
                         <div class="featured-moment">
                             <img src="avatar.jpg" alt="Featured Moment" class="moment-img">
                             <div class="moment-overlay">
-                                <span class="moment-tag">📸 FEATURED MOMENT</span>
-                                <p class="moment-caption">"Giữa núi đồi bình yên & tự do ⛰️☁️"</p>
+                                <span class="moment-tag" id="moment-tag">📸 KHOẢNH KHẮC NỔI BẬT</span>
+                                <p class="moment-caption" id="moment-caption">"Giữa núi đồi bình yên & tự do ⛰️☁️"</p>
                             </div>
                         </div>
                     </header>
@@ -143,8 +148,8 @@
                 <!-- RIGHT COLUMN: Social Grid + Interactive Widgets -->
                 <div class="bento-right">
                     <div class="section-header">
-                        <span class="section-title">KẾT NỐI MẠNG XÃ HỘI</span>
-                        <span class="section-sub">Chạm để mở hoặc sao chép nhanh</span>
+                        <span class="section-title" id="section-title">KẾT NỐI MẠNG XÃ HỘI</span>
+                        <span class="section-sub" id="section-sub">Chạm để mở hoặc sao chép nhanh</span>
                     </div>
 
                     <!-- Social Links Stack / 2-Column Grid on Desktop -->
@@ -356,8 +361,8 @@
                         <div class="mini-qr-card" id="miniQrCard" title="Bấm để phóng to mã QR">
                             <img id="miniQrImg" src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=https%3A%2F%2Fledinhhuymeme.github.io%2Fbio%2F" alt="QR Bio">
                             <div class="mini-qr-info">
-                                <span class="mini-qr-title">Quét trên điện thoại</span>
-                                <span class="mini-qr-sub">Mở nhanh trang Bio</span>
+                                <span class="mini-qr-title" id="mini-qr-title">Quét trên điện thoại</span>
+                                <span class="mini-qr-sub" id="mini-qr-sub">Mở nhanh trang Bio</span>
                             </div>
                         </div>
                     </div>
@@ -366,7 +371,7 @@
 
             <!-- Footer -->
             <footer class="footer">
-                <p>© <span id="year"></span> <strong>Huy Đình</strong> • Crafted with ✨</p>
+                <p>© <span id="year"></span> <strong>Huy Đình</strong> • <span id="footer-crafted">Thiết kế với ✨</span></p>
             </footer>
         </div>
     </main>
@@ -375,8 +380,8 @@
     <div class="qr-modal" id="qrModal">
         <div class="qr-box">
             <button class="qr-close" id="qrClose" aria-label="Đóng">&times;</button>
-            <h3>Quét mã QR Bio</h3>
-            <p>Mở camera điện thoại để truy cập nhanh</p>
+            <h3 id="qr-modal-title">Quét mã QR Bio</h3>
+            <p id="qr-modal-sub">Mở camera điện thoại để truy cập nhanh</p>
             <div class="qr-frame">
                 <img id="qrImage" src="" alt="QR Code Bio">
             </div>
@@ -387,6 +392,6 @@
     <!-- Toast Notification -->
     <div class="toast" id="toast">Đã sao chép liên kết! ✨</div>
 
-    <script src="script.js?v=5"></script>
+    <script src="script.js?v=6"></script>
 </body>
 </html>
