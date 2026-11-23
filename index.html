@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=29">
+    <link rel="stylesheet" href="style.css?v=33">
 </head>
 <body data-theme="aurora">
     <!-- Glass Splash Screen (Rich Portal Card with Cover, Live Badges, Music Teaser & Social Icons) -->
@@ -606,8 +606,12 @@
                     <span class="inbox-wall-title">📬 HỘP THƯ RIÊNG CỦA HUY ĐÌNH</span>
                     <div class="inbox-header-right">
                         <span class="inbox-count-badge" id="inboxCountBadge">0 tin nhắn</span>
+                        <button type="button" class="inbox-refresh-btn" id="ownerRefreshBtn" title="Làm mới hộp thư">↻</button>
                         <button type="button" class="inbox-lock-btn" id="ownerLockBtn" title="Khóa hộp thư">Khóa 🔒</button>
                     </div>
+                </div>
+                <div class="inbox-push-tip">
+                    <span>📱 Mẹo cho Huy: Cài app <strong>ntfy</strong> trên điện thoại và đăng ký kênh <code>huydinh21_bio_inbox_956</code> để nhận thông báo đẩy mỗi khi có người nhắn!</span>
                 </div>
                 <div class="inbox-list" id="inboxList">
                     <p class="inbox-empty">Đang tải hộp thư...</p>
@@ -619,6 +623,6 @@
     <!-- Toast Notification -->
     <div class="toast" id="toast">Đã sao chép liên kết! ✨</div>
 
-    <script src="script.js?v=32"></script>
+    <script src="script.js?v=33"></script>
 </body>
 </html>

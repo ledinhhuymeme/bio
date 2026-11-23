@@ -132,7 +132,14 @@ let isMusicPlaying = false;
 
 document.addEventListener("DOMContentLoaded", () => {
     // 1. Gắn dữ liệu cá nhân cố định
-    document.title = `${BIO_CONFIG.name} | Official Bio ✨`;
+    const basePageTitle = `${BIO_CONFIG.name} | Official Bio ✨`;
+    document.title = basePageTitle;
+    window.addEventListener("blur", () => {
+        document.title = `⚡ Kết nối với ${BIO_CONFIG.name} nhé!`;
+    });
+    window.addEventListener("focus", () => {
+        document.title = basePageTitle;
+    });
     document.getElementById("profile-name").textContent = BIO_CONFIG.name;
     document.getElementById("profile-handle").textContent = BIO_CONFIG.username;
     document.getElementById("profile-avatar").src = BIO_CONFIG.avatar;
@@ -911,8 +918,16 @@ function initSecretMessageModal() {
     const ownerPinInput = document.getElementById("ownerPinInput");
     const ownerPinSubmit = document.getElementById("ownerPinSubmit");
     const ownerLockBtn = document.getElementById("ownerLockBtn");
+    const ownerRefreshBtn = document.getElementById("ownerRefreshBtn");
 
     if (!triggerBtn || !modal) return;
+
+    if (ownerRefreshBtn) {
+        ownerRefreshBtn.addEventListener("click", () => {
+            loadCloudMessages();
+            showToast("Đã làm mới hộp thư! 📬");
+        });
+    }
 
     // Mã PIN riêng của Huy Đình: "21" hoặc "9000" (băm kiểm tra để người lạ không nhìn thấy)
     let isOwnerUnlocked = sessionStorage.getItem("huydinh_owner_unlocked") === "1";
@@ -1174,8 +1189,29 @@ function initSecretMessageModal() {
             if (btnTextEl) btnTextEl.textContent = originalText;
             submitBtn.disabled = false;
 
+            const btnRect = submitBtn.getBoundingClientRect();
+            spawnConfettiBurst(btnRect.left + btnRect.width / 2, btnRect.top + btnRect.height / 2);
             showToast("Đã gửi tin nhắn thành công tới Huy Đình! ⚡");
         });
+    }
+}
+
+// Hiệu ứng pháo hoa Confetti khi gửi tin nhắn hoặc tương tác
+function spawnConfettiBurst(x, y) {
+    const colors = ["#38bdf8", "#8b5cf6", "#ec4899", "#fbbf24", "#34d399"];
+    for (let i = 0; i < 22; i++) {
+        const piece = document.createElement("span");
+        piece.className = "confetti-piece";
+        piece.style.left = `${x}px`;
+        piece.style.top = `${y}px`;
+        piece.style.background = colors[i % colors.length];
+        const angle = (Math.PI * 2 * i) / 22;
+        const dist = 45 + Math.random() * 65;
+        piece.style.setProperty("--tx", `${Math.cos(angle) * dist}px`);
+        piece.style.setProperty("--ty", `${Math.sin(angle) * dist - 20}px`);
+        piece.style.setProperty("--trot", `${(Math.random() - 0.5) * 520}deg`);
+        document.body.appendChild(piece);
+        setTimeout(() => piece.remove(), 950);
     }
 }
 
