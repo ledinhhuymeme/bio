@@ -214,23 +214,23 @@ document.addEventListener("DOMContentLoaded", () => {
     // 13. Đồng hồ thời gian thực (Live Clock trên Desktop)
     initLiveClock();
 
-    // 14. Nút chia sẻ trang Bio
+    // 14. Nút chia sẻ trang Bio (dùng luôn link ngắn https://is.gd/huydinh_bio)
+    const OFFICIAL_SHORT_URL = "https://is.gd/huydinh_bio";
     const shareBtn = document.getElementById("shareBtn");
     shareBtn.addEventListener("click", async () => {
-        const shareUrl = window.location.href.split("?")[0];
         const dict = BIO_CONFIG.i18n[currentLang];
         if (navigator.share) {
             try {
                 await navigator.share({
                     title: `${BIO_CONFIG.name} - Bio Links`,
                     text: dict.bioLines[0],
-                    url: shareUrl
+                    url: OFFICIAL_SHORT_URL
                 });
             } catch {
-                copyToClipboard(shareUrl, dict.toastCopiedBio);
+                copyToClipboard(OFFICIAL_SHORT_URL, dict.toastCopiedBio);
             }
         } else {
-            copyToClipboard(shareUrl, dict.toastCopiedBio);
+            copyToClipboard(OFFICIAL_SHORT_URL, dict.toastCopiedBio);
         }
     });
 
@@ -242,10 +242,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const qrImage = document.getElementById("qrImage");
 
     function openQrModal() {
-        const currentUrl = window.location.href.startsWith("http")
-            ? window.location.href.split("?")[0]
-            : "https://ledinhhuymeme.github.io/bio/";
-        qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(currentUrl)}`;
+        qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(OFFICIAL_SHORT_URL)}`;
         qrModal.classList.add("active");
     }
 
