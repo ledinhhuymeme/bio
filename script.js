@@ -1212,12 +1212,12 @@ function trigger3dSentAnimation() {
     if (sent3dTimer) clearTimeout(sent3dTimer);
     sent3dTimer = setTimeout(() => {
         overlay.classList.remove("active");
-    }, 2250);
+    }, 2450);
 }
 
-// Hiệu ứng pháo hoa Confetti khi gửi tin nhắn hoặc tương tác
+// Hiệu ứng pháo hoa Confetti (Tông màu Spider-Man Đỏ - Xanh Dương - Trắng Tơ Nhện)
 function spawnConfettiBurst(x, y) {
-    const colors = ["#38bdf8", "#8b5cf6", "#ec4899", "#fbbf24", "#34d399"];
+    const colors = ["#ef4444", "#3b82f6", "#ffffff", "#38bdf8", "#dc2626"];
     for (let i = 0; i < 22; i++) {
         const piece = document.createElement("span");
         piece.className = "confetti-piece";

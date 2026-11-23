@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=34">
+    <link rel="stylesheet" href="style.css?v=35">
 </head>
 <body data-theme="aurora">
     <!-- Glass Splash Screen (Rich Portal Card with Cover, Live Badges, Music Teaser & Social Icons) -->
@@ -620,24 +620,86 @@
         </div>
     </div>
 
-    <!-- 3D Message Sent Success Hologram Overlay -->
+    <!-- 3D Spider-Man Web-Shoot Message Sent Overlay -->
     <div class="sent-3d-overlay" id="sent3dOverlay">
         <div class="sent-3d-stage">
-            <div class="sent-3d-card">
+            <div class="sent-3d-card spidey-card">
+                <!-- Spider Web Background SVG -->
+                <svg class="spidey-bg-web" viewBox="0 0 200 200" fill="none">
+                    <circle cx="100" cy="100" r="25" stroke="rgba(239,68,68,0.28)" stroke-width="1.2"/>
+                    <circle cx="100" cy="100" r="50" stroke="rgba(59,130,246,0.25)" stroke-width="1.2"/>
+                    <circle cx="100" cy="100" r="75" stroke="rgba(239,68,68,0.22)" stroke-width="1.2"/>
+                    <circle cx="100" cy="100" r="96" stroke="rgba(59,130,246,0.18)" stroke-width="1.2"/>
+                    <line x1="100" y1="0" x2="100" y2="200" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+                    <line x1="0" y1="100" x2="200" y2="100" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+                    <line x1="29" y1="29" x2="171" y2="171" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+                    <line x1="171" y1="29" x2="29" y2="171" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+                </svg>
+
+                <!-- Hanging Web Thread from Top -->
+                <div class="spidey-hanging-thread"></div>
+
+                <!-- 3D Orbiting Rings (Crimson & Electric Blue) -->
                 <div class="sent-3d-ring ring-outer"></div>
                 <div class="sent-3d-ring ring-inner"></div>
-                <div class="sent-3d-orb">
-                    <svg class="sent-3d-plane" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="22" y1="2" x2="11" y2="13"></line>
-                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+
+                <!-- 3D Spider-Man Character Head & Web Shoot Effect -->
+                <div class="spidey-3d-wrap">
+                    <!-- Shooting Web Beam -->
+                    <svg class="spidey-web-shot" viewBox="0 0 140 140" fill="none">
+                        <line x1="70" y1="70" x2="135" y2="5" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+                        <line x1="70" y1="70" x2="5" y2="5" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+                        <path d="M95 30 Q105 40 112 28" stroke="#38bdf8" stroke-width="1.8" fill="none"/>
+                        <path d="M45 30 Q35 40 28 28" stroke="#ef4444" stroke-width="1.8" fill="none"/>
                     </svg>
-                    <svg class="sent-3d-check" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="20 6 9 17 4 12"></polyline>
+
+                    <!-- 3D Spider-Man Mask SVG -->
+                    <svg class="spidey-3d-head" viewBox="0 0 120 140" width="96" height="110">
+                        <defs>
+                            <radialGradient id="spideyRed" cx="38%" cy="32%" r="68%">
+                                <stop offset="0%" stop-color="#ff3b4b"/>
+                                <stop offset="55%" stop-color="#dc2626"/>
+                                <stop offset="100%" stop-color="#7f1d1d"/>
+                            </radialGradient>
+                            <linearGradient id="eyeRim" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#0f172a"/>
+                                <stop offset="100%" stop-color="#020617"/>
+                            </linearGradient>
+                            <radialGradient id="eyeLens" cx="40%" cy="40%" r="65%">
+                                <stop offset="0%" stop-color="#ffffff"/>
+                                <stop offset="75%" stop-color="#e2e8f0"/>
+                                <stop offset="100%" stop-color="#94a3b8"/>
+                            </radialGradient>
+                        </defs>
+                        <!-- Mask Head Shape with 3D Shading -->
+                        <path d="M60 10 C25 10, 12 42, 16 80 C19 108, 38 130, 60 132 C82 130, 101 108, 104 80 C108 42, 95 10, 60 10 Z" fill="url(#spideyRed)" stroke="#ef4444" stroke-width="2"/>
+                        <!-- Mask Web Lines -->
+                        <g stroke="rgba(15,23,42,0.72)" stroke-width="1.4" fill="none">
+                            <line x1="60" y1="10" x2="60" y2="132"/>
+                            <path d="M60 66 L22 28"/>
+                            <path d="M60 66 L98 28"/>
+                            <path d="M60 66 L15 68"/>
+                            <path d="M60 66 L105 68"/>
+                            <path d="M60 66 L26 108"/>
+                            <path d="M60 66 L94 108"/>
+                            <path d="M36 24 Q60 32 84 24"/>
+                            <path d="M24 44 Q60 54 96 44"/>
+                            <path d="M22 92 Q60 82 98 92"/>
+                            <path d="M36 114 Q60 105 84 114"/>
+                        </g>
+                        <!-- Left Spider-Man Expressive Eye -->
+                        <path class="spidey-eye-left" d="M23 56 C22 44, 38 44, 53 64 C55 68, 46 78, 34 74 C25 71, 23 63, 23 56 Z" fill="url(#eyeLens)" stroke="url(#eyeRim)" stroke-width="5.5" stroke-linejoin="round"/>
+                        <!-- Right Spider-Man Expressive Eye -->
+                        <path class="spidey-eye-right" d="M97 56 C98 44, 82 44, 67 64 C65 68, 74 78, 86 74 C95 71, 97 63, 97 56 Z" fill="url(#eyeLens)" stroke="url(#eyeRim)" stroke-width="5.5" stroke-linejoin="round"/>
+                        <!-- Specular 3D Highlight on Forehead -->
+                        <ellipse cx="46" cy="26" rx="14" ry="6" transform="rotate(-18 46 26)" fill="rgba(255,255,255,0.22)"/>
                     </svg>
                 </div>
-                <h3 class="sent-3d-title">ĐÃ GỬI THÀNH CÔNG!</h3>
-                <p class="sent-3d-sub">Tin nhắn của bạn đã chuyển tới <strong>Huy Đình</strong> ⚡</p>
-                <div class="sent-3d-glow-bar"></div>
+
+                <span class="spidey-badge">🕷️ SPIDEY EXPRESS DELIVERY</span>
+                <h3 class="sent-3d-title">BẮN TƠ GỬI TIN THÀNH CÔNG!</h3>
+                <p class="sent-3d-sub">Người Nhện đã phóng tin nhắn tới <strong>Huy Đình</strong> 🕸️⚡</p>
+                <div class="sent-3d-glow-bar spidey-bar"></div>
             </div>
         </div>
     </div>
@@ -645,6 +707,6 @@
     <!-- Toast Notification -->
     <div class="toast" id="toast">Đã sao chép liên kết! ✨</div>
 
-    <script src="script.js?v=34"></script>
+    <script src="script.js?v=35"></script>
 </body>
 </html>
