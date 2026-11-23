@@ -30,6 +30,11 @@ const BIO_CONFIG = {
         locket: {
             url: "https://locket.cam/huy_dinhhh",
             subtitle: "@huy_dinhhh • Add Locket xem ảnh 💛"
+        },
+        zalo: {
+            // Link được mã hóa Base64 để không hiển thị số điện thoại trên giao diện hay thanh xem trước URL
+            encodedUrl: "aHR0cHM6Ly96YWxvLm1lLzA3ODM1MzkwMDA=",
+            subtitle: "Nhắn tin trực tiếp cho mình 💬"
         }
     }
 };
@@ -48,10 +53,20 @@ document.addEventListener("DOMContentLoaded", () => {
         const card = document.querySelector(`.link-card[data-platform="${platform}"]`);
         const data = BIO_CONFIG.links[platform];
         if (card && data) {
-            card.href = data.url;
             const subEl = card.querySelector(".link-sub");
             if (subEl && data.subtitle) {
                 subEl.textContent = data.subtitle;
+            }
+            if (data.encodedUrl) {
+                // Giấu URL thật trên thẻ <a> để khi di chuột vào không lộ số điện thoại ở góc trình duyệt
+                card.removeAttribute("href");
+                card.style.cursor = "pointer";
+                card.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    window.open(atob(data.encodedUrl), "_blank", "noopener,noreferrer");
+                });
+            } else if (data.url) {
+                card.href = data.url;
             }
         }
     });

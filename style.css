@@ -488,6 +488,11 @@ body {
     box-shadow: 0 14px 32px -10px rgba(255, 184, 0, 0.38);
 }
 
+.zalo-card:hover {
+    border-color: rgba(0, 104, 255, 0.65);
+    box-shadow: 0 14px 32px -10px rgba(0, 104, 255, 0.42);
+}
+
 /* Ambient inner glow per platform */
 .card-inner-glow {
     position: absolute;
@@ -516,6 +521,11 @@ body {
 .locket-card:hover .card-inner-glow {
     opacity: 0.2;
     background: radial-gradient(circle at 15% 50%, #FFB800, transparent 70%);
+}
+
+.zalo-card:hover .card-inner-glow {
+    opacity: 0.2;
+    background: radial-gradient(circle at 15% 50%, #0068FF, transparent 70%);
 }
 
 /* Platform Icons */
@@ -558,6 +568,11 @@ body {
     background: linear-gradient(135deg, #FFD000 0%, #FF8800 100%);
     color: #1a1100;
     box-shadow: 0 8px 20px -4px rgba(255, 184, 0, 0.6);
+}
+
+.zalo-icon {
+    background: linear-gradient(135deg, #0084FF 0%, #0055E5 100%);
+    box-shadow: 0 8px 20px -4px rgba(0, 104, 255, 0.6);
 }
 
 /* Link Info */
@@ -610,6 +625,12 @@ body {
     background: rgba(6, 182, 212, 0.18);
     color: #22d3ee;
     border: 1px solid rgba(6, 182, 212, 0.35);
+}
+
+.zalo-tag {
+    background: rgba(0, 104, 255, 0.18);
+    color: #60a5fa;
+    border: 1px solid rgba(0, 104, 255, 0.4);
 }
 
 .hot-badge {
