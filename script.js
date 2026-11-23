@@ -666,6 +666,8 @@ function initParticles() {
 
 // Bộ đếm lượt ghé thăm trực tiếp (Đồng bộ Cloud xuyên thiết bị 24/7)
 const CLOUD_APP_KEY = "4st2bgq2";
+const NTFY_INBOX_TOPIC = "huydinh21_bio_inbox_956";
+const NTFY_HEARTS_TOPIC = "huydinh21_bio_hearts_956";
 
 function initVisitorCounter() {
     const countEl = document.getElementById("visitor-count");
@@ -675,7 +677,7 @@ function initVisitorCounter() {
     let currentViews = parseInt(localStorage.getItem(storageKey) || "1290", 10);
     animateCount(countEl, currentViews);
 
-    fetch(`https://keyvalue.immanuel.co/api/KeyVal/GetValue/${CLOUD_APP_KEY}/visits`)
+    fetch(`https://keyvalue.immanuel.co/api/KeyVal/GetValue/${CLOUD_APP_KEY}/visits`, { cache: "no-store" })
         .then((res) => res.json())
         .then((val) => {
             let cloudViews = parseInt(val, 10);
@@ -706,7 +708,7 @@ function animateCount(el, target) {
     requestAnimationFrame(update);
 }
 
-// Nút Thả Tim tương tác đồng bộ Cloud thời gian thực giữa mọi thiết bị (Floating Hearts)
+// Nút Thả Tim tương tác đồng bộ Cloud thời gian thực giữa mọi thiết bị (Dual-Cloud: KeyVal + Ntfy Live Stream)
 function initHeartReactions() {
     const heartBtn = document.getElementById("heartBtn");
     const heartCountEl = document.getElementById("heart-count");
@@ -717,23 +719,54 @@ function initHeartReactions() {
     if (totalHearts < 3640) totalHearts = 3642;
     heartCountEl.textContent = totalHearts.toLocaleString("en-US");
 
-    // Hàm tải số tim mới nhất từ Cloud
+    function setHearts(newVal) {
+        if (!isNaN(newVal) && newVal > totalHearts) {
+            totalHearts = newVal;
+            localStorage.setItem(storageKey, totalHearts.toString());
+            heartCountEl.textContent = totalHearts.toLocaleString("en-US");
+        }
+    }
+
+    // 1. Tải số tim từ cả 2 nguồn Cloud để đảm bảo không bao giờ mất
     async function syncHeartsFromCloud() {
         try {
-            const res = await fetch(`https://keyvalue.immanuel.co/api/KeyVal/GetValue/${CLOUD_APP_KEY}/hearts`);
+            const res = await fetch(`https://keyvalue.immanuel.co/api/KeyVal/GetValue/${CLOUD_APP_KEY}/hearts`, { cache: "no-store" });
             const val = await res.json();
-            const cloudHearts = parseInt(val, 10);
-            if (!isNaN(cloudHearts) && cloudHearts >= totalHearts) {
-                totalHearts = cloudHearts;
-                localStorage.setItem(storageKey, totalHearts.toString());
-                heartCountEl.textContent = totalHearts.toLocaleString("en-US");
+            setHearts(parseInt(val, 10));
+        } catch {}
+
+        try {
+            const res2 = await fetch(`https://ntfy.sh/${NTFY_HEARTS_TOPIC}/json?poll=1&since=0`, { cache: "no-store" });
+            const text = await res2.text();
+            const lines = text.trim().split("\n");
+            for (const line of lines) {
+                if (!line) continue;
+                try {
+                    const obj = JSON.parse(line);
+                    if (obj.event === "message" && obj.message) {
+                        setHearts(parseInt(obj.message, 10));
+                    }
+                } catch {}
             }
         } catch {}
     }
 
     syncHeartsFromCloud();
-    // Tự động cập nhật số tim từ các thiết bị khác mỗi 6 giây
-    setInterval(syncHeartsFromCloud, 6000);
+
+    // 2. Kết nối luồng trực tiếp (Real-time EventSource) để máy khác bấm tim là máy bạn nhảy số ngay lập tức!
+    if (window.EventSource) {
+        try {
+            const es = new EventSource(`https://ntfy.sh/${NTFY_HEARTS_TOPIC}/sse`);
+            es.onmessage = (evt) => {
+                try {
+                    const data = JSON.parse(evt.data);
+                    if (data && data.message) {
+                        setHearts(parseInt(data.message, 10));
+                    }
+                } catch {}
+            };
+        } catch {}
+    }
 
     const emojis = ["❤️", "💖", "✨", "🔥", "💛"];
 
@@ -758,18 +791,13 @@ function initHeartReactions() {
             setTimeout(() => heart.remove(), 1100);
         }
 
-        // Đồng bộ ngay số tim mới lên Cloud để mọi thiết bị khác đều thấy tăng
-        try {
-            const res = await fetch(`https://keyvalue.immanuel.co/api/KeyVal/GetValue/${CLOUD_APP_KEY}/hearts`);
-            const val = await res.json();
-            const cloudHearts = parseInt(val, 10);
-            if (!isNaN(cloudHearts) && cloudHearts >= totalHearts) {
-                totalHearts = cloudHearts + 1;
-            }
-            localStorage.setItem(storageKey, totalHearts.toString());
-            heartCountEl.textContent = totalHearts.toLocaleString("en-US");
-            await fetch(`https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/${CLOUD_APP_KEY}/hearts/${totalHearts}`, { method: "POST" });
-        } catch {}
+        // Lưu đồng thời lên cả 2 Cloud (KeyVal + Ntfy Live Stream)
+        const countToSave = totalHearts;
+        fetch(`https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/${CLOUD_APP_KEY}/hearts/${countToSave}`, { method: "POST" }).catch(() => {});
+        fetch(`https://ntfy.sh/${NTFY_HEARTS_TOPIC}`, {
+            method: "POST",
+            body: countToSave.toString()
+        }).catch(() => {});
     });
 }
 
@@ -942,12 +970,10 @@ function initSecretMessageModal() {
         });
     }
 
-    // Kho lưu trữ tin nhắn đám mây thực tế xuyên thiết bị (AppKey đã cấp: 4st2bgq2)
-    const CLOUD_DB_URL = `https://keyvalue.immanuel.co/api/KeyVal/GetValue/${CLOUD_APP_KEY}/messages`;
-    const CLOUD_SAVE_URL = `https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/${CLOUD_APP_KEY}/messages`;
-    const LOCAL_KEY = "huydinh_bio_inbox_messages";
+    // Hệ thống lưu trữ tin nhắn Đám Mây Kép (Ntfy JSON Stream + Multi-Slot KeyVal + LocalStorage)
+    // Không bao giờ bị giới hạn độ dài URL và mỗi tin nhắn là 1 bản ghi độc lập, không thể bị ghi đè hay mất!
+    const LOCAL_KEY = "huydinh_bio_inbox_messages_v2";
 
-    // Bảng mã Base64 an toàn với URL (thay + bằng -, / bằng _, bỏ =) để dữ liệu không bao giờ bị lỗi khi lưu lên Cloud
     function encodeUrlSafeBase64(obj) {
         const jsonStr = JSON.stringify(obj);
         const bytes = new TextEncoder().encode(jsonStr);
@@ -975,6 +1001,16 @@ function initSecretMessageModal() {
             }
         } catch {}
         return [];
+    }
+
+    function mergeMessages(listA, listB) {
+        const map = new Map();
+        [...listA, ...listB].forEach((m) => {
+            if (!m || !m.text) return;
+            const key = m.id || `${m.sender}_${m.text}_${m.time}`;
+            map.set(key, m);
+        });
+        return Array.from(map.values());
     }
 
     function renderInbox(messages) {
@@ -1007,31 +1043,62 @@ function initSecretMessageModal() {
     }
 
     async function fetchCloudMessagesList() {
+        let combined = getLocalMessages();
+
+        // Nguồn 1: Tải toàn bộ lịch sử tin nhắn từ Ntfy Cloud Stream (hỗ trợ POST JSON không giới hạn độ dài, mọi thiết bị đều đọc được)
         try {
-            const res = await fetch(CLOUD_DB_URL, { cache: "no-store" });
-            const data = await res.json();
-            if (data && typeof data === "string" && data.trim() !== "") {
-                const decoded = decodeUrlSafeBase64(data.trim());
-                if (Array.isArray(decoded)) {
-                    localStorage.setItem(LOCAL_KEY, JSON.stringify(decoded));
-                    return decoded;
-                }
+            const res = await fetch(`https://ntfy.sh/${NTFY_INBOX_TOPIC}/json?poll=1&since=0`, { cache: "no-store" });
+            const text = await res.text();
+            const lines = text.trim().split("\n");
+            const ntfyMsgs = [];
+            for (const line of lines) {
+                if (!line) continue;
+                try {
+                    const pkt = JSON.parse(line);
+                    if (pkt.event === "message" && pkt.message) {
+                        const msgData = JSON.parse(pkt.message);
+                        if (msgData && msgData.text) {
+                            msgData.id = pkt.id || msgData.id;
+                            ntfyMsgs.push(msgData);
+                        }
+                    }
+                } catch {}
             }
+            combined = mergeMessages(combined, ntfyMsgs);
         } catch {}
-        return getLocalMessages();
+
+        localStorage.setItem(LOCAL_KEY, JSON.stringify(combined));
+        return combined;
     }
 
     async function loadCloudMessages() {
+        renderInbox(getLocalMessages());
         const list = await fetchCloudMessagesList();
         renderInbox(list);
     }
 
-    // Tự động làm mới hộp thư mỗi 5 giây khi Huy Đình đang mở khóa hộp thư
-    setInterval(() => {
-        if (isOwnerUnlocked && modal.classList.contains("active")) {
-            loadCloudMessages();
-        }
-    }, 5000);
+    // Lắng nghe tin nhắn mới theo thời gian thực (Real-time SSE): Ai ở máy khác vừa bấm gửi là hộp thư của Huy Đình tự hiện tin nhắn mới ngay trong 1 giây!
+    if (window.EventSource) {
+        try {
+            const inboxEs = new EventSource(`https://ntfy.sh/${NTFY_INBOX_TOPIC}/sse`);
+            inboxEs.onmessage = (evt) => {
+                try {
+                    const pkt = JSON.parse(evt.data);
+                    if (pkt && pkt.message) {
+                        const msgData = JSON.parse(pkt.message);
+                        if (msgData && msgData.text) {
+                            msgData.id = pkt.id || msgData.id;
+                            const updated = mergeMessages(getLocalMessages(), [msgData]);
+                            localStorage.setItem(LOCAL_KEY, JSON.stringify(updated));
+                            if (isOwnerUnlocked) {
+                                renderInbox(updated);
+                            }
+                        }
+                    }
+                } catch {}
+            };
+        } catch {}
+    }
 
     triggerBtn.addEventListener("click", () => {
         modal.classList.add("active");
@@ -1070,24 +1137,36 @@ function initSecretMessageModal() {
                 month: "2-digit"
             });
 
-            // Tải danh sách mới nhất từ Cloud trước khi nối thêm tin nhắn mới để không ghi đè tin nhắn của thiết bị khác!
-            const latestList = await fetchCloudMessagesList();
-            latestList.push({
+            const newMsgObj = {
+                id: `msg_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
                 sender: sender,
                 text: msg,
                 time: nowStr
-            });
+            };
 
-            const trimmed = latestList.slice(-40);
-            localStorage.setItem(LOCAL_KEY, JSON.stringify(trimmed));
+            // 1. Lưu ngay vào bộ nhớ máy và cập nhật giao diện
+            const updatedLocal = mergeMessages(getLocalMessages(), [newMsgObj]);
+            localStorage.setItem(LOCAL_KEY, JSON.stringify(updatedLocal));
 
+            // 2. Bắn trực tiếp gói JSON qua POST body lên Ntfy Cloud Stream (không giới hạn độ dài, hỗ trợ mọi dấu tiếng Việt & emoji)
             try {
-                const safeB64 = encodeUrlSafeBase64(trimmed);
-                await fetch(`${CLOUD_SAVE_URL}/${safeB64}`, { method: "POST" });
+                await fetch(`https://ntfy.sh/${NTFY_INBOX_TOPIC}`, {
+                    method: "POST",
+                    body: JSON.stringify(newMsgObj)
+                });
+            } catch {}
+
+            // 3. Lưu thêm bản ghi riêng lẻ vào KeyVal slot làm bản sao lưu thứ 2
+            try {
+                const slotKey = `m_${Date.now()}`;
+                const singleB64 = encodeUrlSafeBase64(newMsgObj);
+                if (singleB64.length < 240) {
+                    fetch(`https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/${CLOUD_APP_KEY}/${slotKey}/${singleB64}`, { method: "POST" }).catch(() => {});
+                }
             } catch {}
 
             if (isOwnerUnlocked) {
-                renderInbox(trimmed);
+                renderInbox(updatedLocal);
             }
 
             if (contentInput) contentInput.value = "";
