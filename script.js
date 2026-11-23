@@ -241,6 +241,9 @@ document.addEventListener("DOMContentLoaded", () => {
     initSmartGreeting();
     initSecretMessageModal();
 
+    // 13g. Hiệu ứng trang trí & Mưa Banana 3D tương tác (Banana Vibe)
+    initBananaEffects();
+
     // 14. Nút chia sẻ trang Bio (dùng luôn link ngắn https://is.gd/huydinh_bio)
     const OFFICIAL_SHORT_URL = "https://is.gd/huydinh_bio";
     const shareBtn = document.getElementById("shareBtn");
@@ -835,7 +838,7 @@ function initHeartReactions() {
         } catch {}
     }
 
-    const emojis = ["❤️", "💖", "✨", "🔥", "💛"];
+    const emojis = ["❤️", "🍌", "💖", "✨", "🔥", "💛"];
 
     heartBtn.addEventListener("click", async (e) => {
         totalHearts++;
@@ -931,21 +934,74 @@ function initLiveWeather() {
         .catch(() => {});
 }
 
-// Hiệu ứng hạt sáng lấp lánh chạy theo chuột (Cursor Sparkle Trail)
+// Hiệu ứng hạt sáng & Banana mini lấp lánh chạy theo chuột (Cursor Sparkle & Banana Trail)
 function initCursorSparkles() {
     let lastSpawn = 0;
+    let count = 0;
     window.addEventListener("mousemove", (e) => {
         const now = performance.now();
-        if (now - lastSpawn < 45) return;
+        if (now - lastSpawn < 50) return;
         lastSpawn = now;
+        count++;
 
-        const sparkle = document.createElement("span");
-        sparkle.className = "cursor-sparkle";
-        sparkle.style.left = `${e.clientX}px`;
-        sparkle.style.top = `${e.clientY}px`;
-        document.body.appendChild(sparkle);
-        setTimeout(() => sparkle.remove(), 650);
+        if (count % 5 === 0) {
+            const miniBanana = document.createElement("span");
+            miniBanana.className = "floating-heart";
+            miniBanana.style.fontSize = "0.95rem";
+            miniBanana.textContent = "🍌";
+            miniBanana.style.left = `${e.clientX}px`;
+            miniBanana.style.top = `${e.clientY}px`;
+            miniBanana.style.setProperty("--dx", `${(Math.random() - 0.5) * 35}px`);
+            miniBanana.style.setProperty("--rot", `${(Math.random() - 0.5) * 90}deg`);
+            document.body.appendChild(miniBanana);
+            setTimeout(() => miniBanana.remove(), 900);
+        } else {
+            const sparkle = document.createElement("span");
+            sparkle.className = "cursor-sparkle";
+            sparkle.style.left = `${e.clientX}px`;
+            sparkle.style.top = `${e.clientY}px`;
+            document.body.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 650);
+        }
     }, { passive: true });
+}
+
+// Hiệu ứng Mưa Banana 3D khi bấm vào huy hiệu Banana
+function initBananaEffects() {
+    const bananaBtn = document.getElementById("bananaShowerBtn");
+    const bananaChip = document.getElementById("bananaVibeChip");
+
+    function triggerBananaBurst(originX, originY) {
+        const items = ["🍌", "🍌", "✨", "💛", "🍌"];
+        for (let i = 0; i < 16; i++) {
+            const b = document.createElement("span");
+            b.className = "banana-burst-particle";
+            b.textContent = items[i % items.length];
+            b.style.left = `${originX}px`;
+            b.style.top = `${originY}px`;
+            const angle = (Math.PI * 2 * i) / 16 + (Math.random() - 0.5) * 0.3;
+            const dist1 = 50 + Math.random() * 75;
+            const dist2 = dist1 + 35 + Math.random() * 55;
+            b.style.setProperty("--bx", `${Math.cos(angle) * dist1}px`);
+            b.style.setProperty("--by", `${Math.sin(angle) * dist1 - 45}px`);
+            b.style.setProperty("--bx2", `${Math.cos(angle) * dist2}px`);
+            b.style.setProperty("--by2", `${Math.sin(angle) * dist2 + 75}px`);
+            b.style.setProperty("--brot", `${(Math.random() - 0.5) * 240}deg`);
+            b.style.setProperty("--brot2", `${(Math.random() - 0.5) * 540}deg`);
+            document.body.appendChild(b);
+            setTimeout(() => b.remove(), 1150);
+        }
+        showToast("🍌 Banana Vibe Activated! ✨");
+    }
+
+    [bananaBtn, bananaChip].forEach((el) => {
+        if (!el) return;
+        el.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const r = el.getBoundingClientRect();
+            triggerBananaBurst(e.clientX || r.left + r.width / 2, e.clientY || r.top + r.height / 2);
+        });
+    });
 }
 
 // Lời chào thông minh theo khung giờ trong ngày

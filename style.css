@@ -420,6 +420,120 @@ body {
     }
 }
 
+/* ==========================================================
+   3D FLOATING BANANA DECORATIONS & INTERACTIVE EFFECTS
+   ========================================================== */
+.banana-decor-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.floating-banana {
+    position: absolute;
+    font-size: 1.85rem;
+    filter: drop-shadow(0 10px 18px rgba(250, 204, 21, 0.38));
+    opacity: 0.55;
+    animation: float3dBanana 11s ease-in-out infinite alternate;
+    user-select: none;
+}
+
+.b-1 { top: 8%; left: 7%; font-size: 2.1rem; animation-duration: 9s; }
+.b-2 { top: 16%; right: 8%; font-size: 1.7rem; animation-duration: 12s; animation-delay: -3s; }
+.b-3 { bottom: 14%; left: 9%; font-size: 1.9rem; animation-duration: 10.5s; animation-delay: -5s; }
+.b-4 { bottom: 10%; right: 7%; font-size: 2.2rem; animation-duration: 11.5s; animation-delay: -2s; }
+.b-5 { top: 48%; left: 3%; font-size: 1.45rem; animation-duration: 13s; animation-delay: -7s; opacity: 0.38; }
+.b-6 { top: 52%; right: 3.5%; font-size: 1.55rem; animation-duration: 10s; animation-delay: -4s; opacity: 0.42; }
+
+@keyframes float3dBanana {
+    0% {
+        transform: translateY(0) translateX(0) rotate(-18deg) scale(0.95);
+    }
+    50% {
+        transform: translateY(-24px) translateX(12px) rotate(14deg) scale(1.08);
+    }
+    100% {
+        transform: translateY(14px) translateX(-10px) rotate(-8deg) scale(1);
+    }
+}
+
+/* Interactive Banana Badge on Card & Banana Chip */
+.card-banana-badge {
+    position: absolute;
+    top: 72px;
+    right: 22px;
+    z-index: 15;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(250, 204, 21, 0.22), rgba(234, 179, 8, 0.35));
+    border: 1px solid rgba(250, 204, 21, 0.55);
+    box-shadow: 0 6px 18px rgba(250, 204, 21, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.28s ease;
+    animation: bananaWiggle 3s ease-in-out infinite;
+}
+
+.card-banana-badge:hover {
+    transform: scale(1.18) rotate(15deg);
+    box-shadow: 0 0 24px rgba(250, 204, 21, 0.75);
+}
+
+.cb-icon {
+    font-size: 1.15rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+}
+
+@keyframes bananaWiggle {
+    0%, 100% { transform: rotate(-10deg) translateY(0); }
+    50% { transform: rotate(12deg) translateY(-4px); }
+}
+
+.banana-chip {
+    background: linear-gradient(135deg, rgba(250, 204, 21, 0.16), rgba(245, 158, 11, 0.22)) !important;
+    border-color: rgba(250, 204, 21, 0.48) !important;
+    color: #fef08a !important;
+    cursor: pointer;
+    box-shadow: 0 4px 14px -3px rgba(250, 204, 21, 0.3);
+}
+
+.banana-chip:hover {
+    background: linear-gradient(135deg, rgba(250, 204, 21, 0.3), rgba(245, 158, 11, 0.35)) !important;
+    border-color: rgba(250, 204, 21, 0.85) !important;
+    transform: translateY(-2px) scale(1.05) !important;
+    box-shadow: 0 6px 18px -2px rgba(250, 204, 21, 0.55);
+}
+
+/* Banana Rain / Burst Particle */
+.banana-burst-particle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    font-size: 1.45rem;
+    filter: drop-shadow(0 6px 12px rgba(250, 204, 21, 0.5));
+    animation: bananaPopFly 1.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes bananaPopFly {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.4) rotate(0deg);
+    }
+    45% {
+        opacity: 1;
+        transform: translate(calc(-50% + var(--bx, 30px)), calc(-50% + var(--by, -70px))) scale(1.25) rotate(var(--brot, 140deg));
+    }
+    100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--bx2, 55px)), calc(-50% + var(--by2, 60px))) scale(0.75) rotate(var(--brot2, 320deg));
+    }
+}
+
 /* 3D Perspective Scene */
 .scene {
     width: 100%;

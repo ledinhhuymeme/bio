@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=41">
+    <link rel="stylesheet" href="style.css?v=42">
 </head>
 <body data-theme="aurora">
     <!-- Glass Splash Screen (Rich Portal Card with Cover, Live Badges, Music Teaser & Social Icons) -->
@@ -111,8 +111,23 @@
         <div class="noise-overlay"></div>
     </div>
 
+    <!-- Floating 3D Banana Decor Layer -->
+    <div class="banana-decor-layer" aria-hidden="true">
+        <span class="floating-banana b-1">🍌</span>
+        <span class="floating-banana b-2">🍌</span>
+        <span class="floating-banana b-3">🍌</span>
+        <span class="floating-banana b-4">🍌</span>
+        <span class="floating-banana b-5">🍌</span>
+        <span class="floating-banana b-6">🍌</span>
+    </div>
+
     <main class="scene">
         <div class="bento-card" id="main-card">
+            <!-- 3D Corner Banana Ornaments on Main Card -->
+            <div class="card-banana-badge cb-top-right" id="bananaShowerBtn" title="Bấm để tạo mưa Banana 🍌✨">
+                <span class="cb-icon">🍌</span>
+            </div>
+
             <!-- Dynamic Mouse Spotlight -->
             <div class="card-spotlight" id="card-spotlight"></div>
 
@@ -211,6 +226,7 @@
                             <span class="tag-chip">📍 Vietnam</span>
                             <span class="tag-chip">✨ Lifestyle</span>
                             <span class="tag-chip">🎧 Music & Chill</span>
+                            <span class="tag-chip banana-chip" id="bananaVibeChip" title="Bấm để tung Banana 🍌">🍌 Banana Vibe</span>
                         </div>
 
                         <!-- Live Stats Bar -->
@@ -708,6 +724,6 @@
     <!-- Toast Notification -->
     <div class="toast" id="toast">Đã sao chép liên kết! ✨</div>
 
-    <script src="script.js?v=41"></script>
+    <script src="script.js?v=42"></script>
 </body>
 </html>
