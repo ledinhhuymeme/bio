@@ -4,13 +4,12 @@
  * ==========================================================
  */
 const BIO_CONFIG = {
-    name: "Đình Huy",
+    name: "Huy Đình",
     username: "@huy_dinhhh",
     bioLines: [
         "✨ Kết nối với mình qua các mạng xã hội bên dưới nhé!",
         "📸 Chia sẻ khoảnh khắc mỗi ngày trên Locket & IG",
-        "🎵 Follow TikTok của mình để xem video mới nhất!",
-        "💬 Nhắn tin trực tiếp qua Zalo & Facebook 24/7"
+        "🎵 Follow TikTok của mình để xem video mới nhất!"
     ],
     status: "Online",
     avatar: "avatar.jpg",
@@ -18,11 +17,11 @@ const BIO_CONFIG = {
     links: {
         facebook: {
             url: "https://www.facebook.com/share/1FgFbPsM9g/?mibextid=wwXIfr",
-            subtitle: "Kết bạn & nhắn tin giao lưu"
+            subtitle: "Kết bạn & nhắn tin cho mình"
         },
         instagram: {
             url: "https://www.instagram.com/huy_chuis?lqvp=aTQwbm82bDJ4aTE0&utm_source=qr",
-            subtitle: "@huy_chuis • Khoảnh khắc thường ngày 📸"
+            subtitle: "@huy_chuis • Daily stories 📸"
         },
         tiktok: {
             url: "https://www.tiktok.com/@huy_cao_met8",
@@ -30,12 +29,17 @@ const BIO_CONFIG = {
         },
         locket: {
             url: "https://locket.cam/huy_dinhhh",
-            subtitle: "@huy_dinhhh • Add Locket xem ảnh trực tiếp 💛"
+            subtitle: "@huy_dinhhh • Add Locket xem ảnh 💛"
         },
         zalo: {
             // Link được mã hóa Base64 để không hiển thị số điện thoại trên giao diện hay thanh xem trước URL
             encodedUrl: "aHR0cHM6Ly96YWxvLm1lLzA3ODM1MzkwMDA=",
-            subtitle: "Nhắn tin riêng trực tiếp cho mình 💬"
+            subtitle: "Nhắn tin trực tiếp cho mình 💬"
+        },
+        gmail: {
+            url: "mailto:huyledinh21@gmail.com",
+            copyText: "huyledinh21@gmail.com",
+            subtitle: "huyledinh21@gmail.com"
         }
     }
 };
@@ -49,16 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("profile-avatar").src = BIO_CONFIG.avatar;
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // 2. Đồng hồ thời gian thực (Vietnam Time)
-    updateLiveClock();
-    setInterval(updateLiveClock, 15000);
-
-    // 3. Gắn link mạng xã hội (kèm cơ chế giấu số điện thoại cho Zalo)
-    const openZalo = (e) => {
-        if (e) e.preventDefault();
-        window.open(atob(BIO_CONFIG.links.zalo.encodedUrl), "_blank", "noopener,noreferrer");
-    };
-
+    // 2. Gắn link mạng xã hội
     Object.keys(BIO_CONFIG.links).forEach((platform) => {
         const card = document.querySelector(`.link-card[data-platform="${platform}"]`);
         const data = BIO_CONFIG.links[platform];
@@ -68,61 +63,48 @@ document.addEventListener("DOMContentLoaded", () => {
                 subEl.textContent = data.subtitle;
             }
             if (data.encodedUrl) {
+                // Giấu URL thật trên thẻ <a> để khi di chuột vào không lộ số điện thoại ở góc trình duyệt
                 card.removeAttribute("href");
                 card.style.cursor = "pointer";
-                card.addEventListener("click", openZalo);
+                card.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    window.open(atob(data.encodedUrl), "_blank", "noopener,noreferrer");
+                });
             } else if (data.url) {
                 card.href = data.url;
             }
         }
     });
 
-    const dockZaloBtn = document.getElementById("dock-zalo-btn");
-    if (dockZaloBtn) {
-        dockZaloBtn.addEventListener("click", openZalo);
-    }
-
-    // 4. Đổi bảng màu Theme (Cyber Blue -> Sunset Pink -> Emerald Neon)
-    const themes = ["cyber", "sunset", "emerald"];
-    const themeNames = {
-        cyber: "Giao diện Cyber Neon 💙",
-        sunset: "Giao diện Sunset Glow 🔥",
-        emerald: "Giao diện Emerald Aurora 💚"
-    };
-    let currentThemeIdx = 0;
-    const themeBtn = document.getElementById("themeBtn");
-    if (themeBtn) {
-        themeBtn.addEventListener("click", () => {
-            currentThemeIdx = (currentThemeIdx + 1) % themes.length;
-            const nextTheme = themes[currentThemeIdx];
-            document.body.setAttribute("data-theme", nextTheme);
-            showToast(themeNames[nextTheme]);
-        });
-    }
-
-    // 5. Hiệu ứng chữ chạy Typewriter
+    // 3. Hiệu ứng chữ chạy Typewriter
     initTypewriter(BIO_CONFIG.bioLines);
 
-    // 6. Hiệu ứng ánh sáng Spotlight & nghiêng 3D theo chuột
+    // 4. Hiệu ứng ánh sáng Spotlight & nghiêng 3D theo chuột
     initCardInteractions();
 
-    // 7. Hiệu ứng bầu trời sao & sao băng (Starfield + Shooting Stars)
-    initStarfield();
+    // 5. Hiệu ứng hạt sao lơ lửng (Canvas Particles)
+    initParticles();
 
-    // 8. Nút sao chép từng link
+    // 6. Nút sao chép từng link
     document.querySelectorAll(".copy-small-btn").forEach((btn) => {
         btn.addEventListener("click", (e) => {
             e.preventDefault();
             e.stopPropagation();
             const platform = btn.getAttribute("data-copy-target");
             const linkData = BIO_CONFIG.links[platform];
-            if (linkData && linkData.url) {
-                copyToClipboard(linkData.url, `Đã sao chép link ${platform.toUpperCase()}! ✨`);
+            if (linkData) {
+                const textToCopy = linkData.copyText || linkData.url;
+                if (textToCopy) {
+                    copyToClipboard(textToCopy, `Đã sao chép ${platform.toUpperCase()}! ✨`);
+                }
             }
         });
     });
 
-    // 9. Nút chia sẻ trang Bio
+    // 6b. Bộ đếm lượt ghé thăm trực tiếp (Live Visitor Counter)
+    initVisitorCounter();
+
+    // 7. Nút chia sẻ trang Bio
     const shareBtn = document.getElementById("shareBtn");
     shareBtn.addEventListener("click", async () => {
         const shareUrl = window.location.href;
@@ -141,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // 10. Nút mở mã QR Code
+    // 8. Nút mở mã QR Code
     const qrBtn = document.getElementById("qrBtn");
     const qrModal = document.getElementById("qrModal");
     const qrClose = document.getElementById("qrClose");
@@ -160,15 +142,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (e.target === qrModal) qrModal.classList.remove("active");
     });
 });
-
-function updateLiveClock() {
-    const clockEl = document.getElementById("live-clock");
-    if (!clockEl) return;
-    const now = new Date();
-    const hours = String(now.getHours()).padStart(2, "0");
-    const mins = String(now.getMinutes()).padStart(2, "0");
-    clockEl.textContent = `${hours}:${mins}`;
-}
 
 // Hiệu ứng gõ chữ tự động
 function initTypewriter(lines) {
@@ -189,10 +162,10 @@ function initTypewriter(lines) {
             el.textContent = currentLine.substring(0, charIndex);
         }
 
-        let speed = isDeleting ? 26 : 52;
+        let speed = isDeleting ? 28 : 55;
 
         if (!isDeleting && charIndex === currentLine.length) {
-            speed = 2400;
+            speed = 2400; // Dừng lại đọc khi gõ xong
             isDeleting = true;
         } else if (isDeleting && charIndex === 0) {
             isDeleting = false;
@@ -222,8 +195,8 @@ function initCardInteractions() {
         if (window.innerWidth > 768) {
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
-            const rotateX = ((y - centerY) / centerY) * -3;
-            const rotateY = ((x - centerX) / centerX) * 3;
+            const rotateX = ((y - centerY) / centerY) * -3.5;
+            const rotateY = ((x - centerX) / centerX) * 3.5;
             card.style.transform = `rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg)`;
         }
     });
@@ -233,8 +206,8 @@ function initCardInteractions() {
     });
 }
 
-// Hiệu ứng bầu trời sao & sao băng (Starfield + Shooting Stars)
-function initStarfield() {
+// Hiệu ứng hạt phát sáng lơ lửng (Fireflies / Stars)
+function initParticles() {
     const canvas = document.getElementById("bg-canvas");
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -247,77 +220,76 @@ function initStarfield() {
         height = canvas.height = window.innerHeight;
     });
 
-    const stars = Array.from({ length: 55 }, () => ({
+    const particles = Array.from({ length: 42 }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
-        r: Math.random() * 1.8 + 0.5,
-        vy: -Math.random() * 0.35 - 0.08,
-        alpha: Math.random() * 0.7 + 0.2,
-        twinkle: Math.random() * 0.02 + 0.005
+        r: Math.random() * 2 + 0.6,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: -Math.random() * 0.45 - 0.1,
+        alpha: Math.random() * 0.65 + 0.2
     }));
-
-    let shootingStar = null;
-
-    function spawnShootingStar() {
-        if (Math.random() < 0.012 && !shootingStar) {
-            shootingStar = {
-                x: Math.random() * width * 0.8,
-                y: Math.random() * height * 0.35,
-                len: Math.random() * 70 + 50,
-                speed: Math.random() * 9 + 8,
-                alpha: 1
-            };
-        }
-    }
 
     function draw() {
         ctx.clearRect(0, 0, width, height);
+        for (const p of particles) {
+            p.x += p.vx;
+            p.y += p.vy;
 
-        for (const s of stars) {
-            s.y += s.vy;
-            s.alpha += s.twinkle;
-            if (s.alpha > 0.9 || s.alpha < 0.2) s.twinkle = -s.twinkle;
-            if (s.y < -10) s.y = height + 10;
+            if (p.y < -10) p.y = height + 10;
+            if (p.x < -10) p.x = width + 10;
+            if (p.x > width + 10) p.x = -10;
 
             ctx.beginPath();
-            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(255, 255, 255, ${s.alpha})`;
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 255, 255, ${p.alpha})`;
             ctx.fill();
         }
-
-        spawnShootingStar();
-        if (shootingStar) {
-            ctx.save();
-            const grad = ctx.createLinearGradient(
-                shootingStar.x,
-                shootingStar.y,
-                shootingStar.x - shootingStar.len,
-                shootingStar.y - shootingStar.len * 0.6
-            );
-            grad.addColorStop(0, `rgba(255, 255, 255, ${shootingStar.alpha})`);
-            grad.addColorStop(1, "rgba(255, 255, 255, 0)");
-
-            ctx.strokeStyle = grad;
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.moveTo(shootingStar.x, shootingStar.y);
-            ctx.lineTo(shootingStar.x - shootingStar.len, shootingStar.y - shootingStar.len * 0.6);
-            ctx.stroke();
-            ctx.restore();
-
-            shootingStar.x += shootingStar.speed;
-            shootingStar.y += shootingStar.speed * 0.6;
-            shootingStar.alpha -= 0.022;
-
-            if (shootingStar.alpha <= 0) {
-                shootingStar = null;
-            }
-        }
-
         requestAnimationFrame(draw);
     }
 
     draw();
+}
+
+// Bộ đếm lượt ghé thăm trực tiếp (tự động tăng thực tế + hiệu ứng đếm số mượt mà)
+function initVisitorCounter() {
+    const countEl = document.getElementById("visitor-count");
+    if (!countEl) return;
+
+    const baseViews = 1280;
+    const storageKey = "huydinh_bio_views";
+    let localBonus = parseInt(localStorage.getItem(storageKey) || "4", 10) + 1;
+    localStorage.setItem(storageKey, localBonus.toString());
+
+    const targetCount = baseViews + localBonus;
+    animateCount(countEl, targetCount);
+
+    // Kết nối API đếm lượt truy cập toàn cầu theo thời gian thực
+    fetch("https://api.counterapi.dev/v1/ledinhhuymeme_bio/visits/up")
+        .then((res) => res.json())
+        .then((data) => {
+            if (data && typeof data.count === "number") {
+                animateCount(countEl, baseViews + data.count);
+            }
+        })
+        .catch(() => {});
+}
+
+function animateCount(el, target) {
+    const duration = 1200;
+    const start = Math.max(0, target - 45);
+    const startTime = performance.now();
+
+    function update(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = Math.floor(start + (target - start) * eased);
+        el.textContent = current.toLocaleString("en-US");
+        if (progress < 1) {
+            requestAnimationFrame(update);
+        }
+    }
+    requestAnimationFrame(update);
 }
 
 // Sao chép vào clipboard
