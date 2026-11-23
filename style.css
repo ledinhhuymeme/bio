@@ -513,10 +513,76 @@ body {
     inset: 0;
     background: linear-gradient(
         180deg,
-        rgba(5, 6, 10, 0.25) 0%,
-        rgba(14, 17, 26, 0.55) 55%,
+        rgba(5, 6, 10, 0.2) 0%,
+        rgba(14, 17, 26, 0.5) 55%,
         rgba(14, 17, 26, 0.98) 100%
     );
+}
+
+/* Floating Bokeh Light Orbs on Cover */
+.cover-bokeh {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.cover-bokeh span {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(8px);
+    opacity: 0.5;
+    animation: bokehFloat 8s infinite alternate ease-in-out;
+}
+
+.cover-bokeh span:nth-child(1) {
+    width: 45px;
+    height: 45px;
+    background: var(--accent-primary);
+    top: 20%;
+    left: 15%;
+}
+
+.cover-bokeh span:nth-child(2) {
+    width: 60px;
+    height: 60px;
+    background: var(--aurora-c2);
+    top: 30%;
+    left: 48%;
+    animation-delay: -2s;
+}
+
+.cover-bokeh span:nth-child(3) {
+    width: 38px;
+    height: 38px;
+    background: #fbbf24;
+    top: 15%;
+    right: 18%;
+    animation-delay: -4s;
+}
+
+.cover-bokeh span:nth-child(4) {
+    width: 50px;
+    height: 50px;
+    background: var(--aurora-c1);
+    bottom: 10%;
+    left: 30%;
+    animation-delay: -6s;
+}
+
+.cover-bokeh span:nth-child(5) {
+    width: 42px;
+    height: 42px;
+    background: #38bdf8;
+    bottom: 15%;
+    right: 28%;
+    animation-delay: -3s;
+}
+
+@keyframes bokehFloat {
+    0% { transform: translate(0, 0) scale(0.9); opacity: 0.35; }
+    100% { transform: translate(18px, -14px) scale(1.25); opacity: 0.7; }
 }
 
 /* Top Floating Bar */
@@ -886,12 +952,32 @@ body {
     100% { background-position: 220% center; }
 }
 
+.handle-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
 .profile-handle {
     font-size: 0.86rem;
     color: #38bdf8;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.01em;
-    margin-bottom: 10px;
+    margin-bottom: 0;
+}
+
+.vip-crown-pill {
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    padding: 2px 8px;
+    border-radius: 99px;
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.22), rgba(245, 158, 11, 0.12));
+    border: 1px solid rgba(251, 191, 36, 0.5);
+    color: #fcd34d;
+    box-shadow: 0 0 12px rgba(251, 191, 36, 0.25);
 }
 
 /* Typewriter Bio */
@@ -1401,34 +1487,65 @@ body {
     background: rgba(255, 255, 255, 0.075);
 }
 
+/* Platform-Colored Ambient Neon Backlight on Cards */
+.fb-card {
+    background: linear-gradient(135deg, rgba(24, 119, 242, 0.12) 0%, rgba(255, 255, 255, 0.025) 65%);
+    border-color: rgba(24, 119, 242, 0.26);
+}
+
+.ig-card {
+    background: linear-gradient(135deg, rgba(225, 48, 108, 0.12) 0%, rgba(255, 255, 255, 0.025) 65%);
+    border-color: rgba(225, 48, 108, 0.26);
+}
+
+.tiktok-card {
+    background: linear-gradient(135deg, rgba(0, 242, 254, 0.1) 0%, rgba(254, 9, 121, 0.08) 45%, rgba(255, 255, 255, 0.025) 85%);
+    border-color: rgba(0, 242, 254, 0.26);
+}
+
+.locket-card {
+    background: linear-gradient(135deg, rgba(255, 184, 0, 0.13) 0%, rgba(255, 255, 255, 0.025) 65%);
+    border-color: rgba(255, 184, 0, 0.3);
+}
+
+.zalo-card {
+    background: linear-gradient(135deg, rgba(0, 132, 255, 0.12) 0%, rgba(255, 255, 255, 0.025) 65%);
+    border-color: rgba(0, 132, 255, 0.26);
+}
+
+.gmail-card {
+    background: linear-gradient(135deg, rgba(234, 67, 53, 0.12) 0%, rgba(255, 255, 255, 0.025) 65%);
+    border-color: rgba(234, 67, 53, 0.26);
+}
+
 .fb-card:hover {
-    border-color: rgba(24, 119, 242, 0.55);
-    box-shadow: 0 14px 32px -10px rgba(24, 119, 242, 0.38);
+    border-color: rgba(24, 119, 242, 0.75);
+    box-shadow: 0 16px 36px -8px rgba(24, 119, 242, 0.45), inset 0 0 18px rgba(24, 119, 242, 0.15);
 }
 
 .ig-card:hover {
-    border-color: rgba(225, 48, 108, 0.55);
-    box-shadow: 0 14px 32px -10px rgba(225, 48, 108, 0.38);
+    border-color: rgba(225, 48, 108, 0.75);
+    box-shadow: 0 16px 36px -8px rgba(225, 48, 108, 0.45), inset 0 0 18px rgba(225, 48, 108, 0.15);
 }
 
 .tiktok-card:hover {
-    border-color: rgba(0, 242, 254, 0.55);
-    box-shadow: 0 14px 32px -10px rgba(0, 242, 254, 0.32);
+    border-color: rgba(0, 242, 254, 0.75);
+    box-shadow: 0 16px 36px -8px rgba(0, 242, 254, 0.4), inset 0 0 18px rgba(0, 242, 254, 0.14);
 }
 
 .locket-card:hover {
-    border-color: rgba(255, 184, 0, 0.65);
-    box-shadow: 0 14px 32px -10px rgba(255, 184, 0, 0.38);
+    border-color: rgba(255, 184, 0, 0.8);
+    box-shadow: 0 16px 36px -8px rgba(255, 184, 0, 0.48), inset 0 0 18px rgba(255, 184, 0, 0.16);
 }
 
 .zalo-card:hover {
-    border-color: rgba(0, 104, 255, 0.65);
-    box-shadow: 0 14px 32px -10px rgba(0, 104, 255, 0.42);
+    border-color: rgba(0, 132, 255, 0.75);
+    box-shadow: 0 16px 36px -8px rgba(0, 104, 255, 0.48), inset 0 0 18px rgba(0, 132, 255, 0.15);
 }
 
 .gmail-card:hover {
-    border-color: rgba(234, 67, 53, 0.65);
-    box-shadow: 0 14px 32px -10px rgba(234, 67, 53, 0.42);
+    border-color: rgba(234, 67, 53, 0.75);
+    box-shadow: 0 16px 36px -8px rgba(234, 67, 53, 0.48), inset 0 0 18px rgba(234, 67, 53, 0.15);
 }
 
 /* Ambient inner glow per platform */

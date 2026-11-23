@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=37">
+    <link rel="stylesheet" href="style.css?v=38">
 </head>
 <body data-theme="aurora">
     <!-- Glass Splash Screen (Rich Portal Card with Cover, Live Badges, Music Teaser & Social Icons) -->
@@ -120,6 +120,10 @@
             <div class="cover-banner">
                 <div class="cover-image" id="cover-image"></div>
                 <div class="cover-gradient"></div>
+                <!-- Floating Bokeh Light Orbs in Cover -->
+                <div class="cover-bokeh">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
 
                 <!-- Top Floating Bar -->
                 <div class="top-bar">
@@ -197,8 +201,13 @@
                         </div>
 
                         <div class="profile-meta">
-                            <h1 class="profile-name" id="profile-name">Huy Đình</h1>
-                            <p class="profile-handle" id="profile-handle">@huy_dinhhh</p>
+                            <div class="name-badge-row">
+                                <h1 class="profile-name" id="profile-name">Huy Đình</h1>
+                            </div>
+                            <div class="handle-row">
+                                <p class="profile-handle" id="profile-handle">@huy_dinhhh</p>
+                                <span class="vip-crown-pill">👑 VIP CREATOR</span>
+                            </div>
                         </div>
 
                         <!-- Dynamic Typewriter Bio -->
@@ -708,6 +717,6 @@
     <!-- Toast Notification -->
     <div class="toast" id="toast">Đã sao chép liên kết! ✨</div>
 
-    <script src="script.js?v=37"></script>
+    <script src="script.js?v=38"></script>
 </body>
 </html>
