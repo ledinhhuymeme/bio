@@ -461,52 +461,61 @@ function initChillMusicPlayer() {
         }
     }
 
-    // Tự động kích hoạt phát nhạc ngay khi tải trang; nếu trình duyệt đã cho phép thì ẩn luôn màn chào
+    // Tự động kích hoạt phát nhạc ngay lập tức khi vào trang Bio (không dùng màn chắn)
     function tryAutoPlay() {
-        audio.play().then(() => {
-            updatePlayerUI(true);
-            if (enterOverlay) enterOverlay.classList.add("hidden");
-            removeUnlockListeners();
-        }).catch(() => {
-            // Trình duyệt khóa autoplay cho tới khi người dùng chạm vào màn chào
-            updatePlayerUI(false);
-        });
+        audio.muted = false;
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                updatePlayerUI(true);
+                removeUnlockListeners();
+            }).catch(() => {
+                // Dự phòng khi trình duyệt chặn tiếng lúc đầu: chạy ngầm muted rồi tự bật tiếng ngay khi người dùng nhúc nhích chuột/chạm màn hình
+                audio.muted = true;
+                audio.play().then(() => {
+                    updatePlayerUI(true);
+                    if (volOnSvg && volOffSvg) {
+                        volOnSvg.style.display = "none";
+                        volOffSvg.style.display = "block";
+                    }
+                }).catch(() => {
+                    updatePlayerUI(false);
+                });
+            });
+        }
     }
 
     function unlockOnFirstInteraction() {
-        if (enterOverlay) enterOverlay.classList.add("hidden");
+        audio.muted = false;
+        if (volOnSvg && volOffSvg) {
+            volOnSvg.style.display = "block";
+            volOffSvg.style.display = "none";
+        }
         if (audio.paused) {
             audio.play().then(() => {
                 updatePlayerUI(true);
                 removeUnlockListeners();
             }).catch(() => {});
         } else {
+            updatePlayerUI(true);
             removeUnlockListeners();
         }
     }
 
     function removeUnlockListeners() {
-        document.removeEventListener("click", unlockOnFirstInteraction);
-        document.removeEventListener("touchstart", unlockOnFirstInteraction);
-        document.removeEventListener("keydown", unlockOnFirstInteraction);
-        window.removeEventListener("scroll", unlockOnFirstInteraction);
-        window.removeEventListener("wheel", unlockOnFirstInteraction);
-    }
-
-    if (enterOverlay) {
-        enterOverlay.addEventListener("click", (e) => {
-            e.stopPropagation();
-            unlockOnFirstInteraction();
+        ["click", "touchstart", "touchend", "mousedown", "mousemove", "pointerdown", "pointermove", "keydown", "wheel", "scroll"].forEach((evt) => {
+            window.removeEventListener(evt, unlockOnFirstInteraction);
         });
     }
 
-    document.addEventListener("click", unlockOnFirstInteraction, { passive: true });
-    document.addEventListener("touchstart", unlockOnFirstInteraction, { passive: true });
-    document.addEventListener("keydown", unlockOnFirstInteraction, { passive: true });
-    window.addEventListener("scroll", unlockOnFirstInteraction, { passive: true });
-    window.addEventListener("wheel", unlockOnFirstInteraction, { passive: true });
+    ["click", "touchstart", "touchend", "mousedown", "mousemove", "pointerdown", "pointermove", "keydown", "wheel", "scroll"].forEach((evt) => {
+        window.addEventListener(evt, unlockOnFirstInteraction, { passive: true });
+    });
 
     tryAutoPlay();
+    window.addEventListener("load", () => {
+        if (audio.paused || audio.muted) tryAutoPlay();
+    });
 
     // Bấm vào thanh nhạc để Bật / Tắt chủ động
     playerBar.addEventListener("click", (e) => {
