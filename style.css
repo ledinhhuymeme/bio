@@ -327,7 +327,8 @@ body {
 .top-left-pills {
     display: flex;
     align-items: center;
-    gap: 10px;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
 .status-pill {
@@ -380,7 +381,7 @@ body {
 }
 
 .weather-pill {
-    display: none;
+    display: inline-flex;
     align-items: center;
     gap: 5px;
     background: rgba(10, 14, 23, 0.68);
@@ -392,6 +393,7 @@ body {
     font-size: 0.75rem;
     font-weight: 700;
     color: #e2e8f0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .heart-pill {
