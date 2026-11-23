@@ -362,10 +362,11 @@ function initChillMusicPlayer() {
     const volOnSvg = document.getElementById("volOnSvg");
     const volOffSvg = document.getElementById("volOffSvg");
     const avatarContainer = document.querySelector(".avatar-container");
+    const enterOverlay = document.getElementById("enterOverlay");
 
     if (!playerBar || !audio) return;
 
-    audio.volume = 0.75;
+    audio.volume = 0.8;
 
     // Lời bài hát đồng bộ theo từng giây của file bgm.mp3 (We Don't Talk Anymore - Slowed & Reverb)
     const syncedLyrics = [
@@ -460,19 +461,21 @@ function initChillMusicPlayer() {
         }
     }
 
-    // Tự động kích hoạt phát nhạc ngay khi tải trang
+    // Tự động kích hoạt phát nhạc ngay khi tải trang; nếu trình duyệt đã cho phép thì ẩn luôn màn chào
     function tryAutoPlay() {
         audio.play().then(() => {
             updatePlayerUI(true);
+            if (enterOverlay) enterOverlay.classList.add("hidden");
             removeUnlockListeners();
         }).catch(() => {
-            // Nếu trình duyệt chặn autoplay trước khi chạm, tự động phát ngay ở cú chạm/di chuột đầu tiên
+            // Trình duyệt khóa autoplay cho tới khi người dùng chạm vào màn chào
             updatePlayerUI(false);
         });
     }
 
     function unlockOnFirstInteraction() {
-        if (!isMusicPlaying && audio.paused) {
+        if (enterOverlay) enterOverlay.classList.add("hidden");
+        if (audio.paused) {
             audio.play().then(() => {
                 updatePlayerUI(true);
                 removeUnlockListeners();
@@ -486,11 +489,22 @@ function initChillMusicPlayer() {
         document.removeEventListener("click", unlockOnFirstInteraction);
         document.removeEventListener("touchstart", unlockOnFirstInteraction);
         document.removeEventListener("keydown", unlockOnFirstInteraction);
+        window.removeEventListener("scroll", unlockOnFirstInteraction);
+        window.removeEventListener("wheel", unlockOnFirstInteraction);
+    }
+
+    if (enterOverlay) {
+        enterOverlay.addEventListener("click", (e) => {
+            e.stopPropagation();
+            unlockOnFirstInteraction();
+        });
     }
 
     document.addEventListener("click", unlockOnFirstInteraction, { passive: true });
     document.addEventListener("touchstart", unlockOnFirstInteraction, { passive: true });
     document.addEventListener("keydown", unlockOnFirstInteraction, { passive: true });
+    window.addEventListener("scroll", unlockOnFirstInteraction, { passive: true });
+    window.addEventListener("wheel", unlockOnFirstInteraction, { passive: true });
 
     tryAutoPlay();
 
