@@ -872,18 +872,9 @@ body {
     font-size: 1.72rem;
     font-weight: 800;
     letter-spacing: -0.02em;
-    background: linear-gradient(90deg, #ffffff 0%, #38bdf8 35%, #f472b6 70%, #ffffff 100%);
-    background-size: 220% auto;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: shimmerName 5s linear infinite;
+    color: #ffffff;
+    text-shadow: 0 2px 14px rgba(56, 189, 248, 0.35);
     margin-bottom: 2px;
-    filter: drop-shadow(0 4px 14px rgba(56, 189, 248, 0.25));
-}
-
-@keyframes shimmerName {
-    0% { background-position: 0% center; }
-    100% { background-position: 220% center; }
 }
 
 .profile-handle {
