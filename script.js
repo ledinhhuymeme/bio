@@ -517,17 +517,22 @@ function initChillMusicPlayer() {
         enterOverlay.addEventListener("click", enterBioAndPlayMusic);
     }
 
-    // Bấm vào thanh nhạc để Bật / Tắt chủ động
-    playerBar.addEventListener("click", (e) => {
-        e.stopPropagation();
-        removeUnlockListeners();
+    // Bấm vào nút Play/Pause hoặc thanh nhạc để Bật / Tắt chủ động
+    function togglePlayPause(e) {
+        if (e) e.stopPropagation();
         if (audio.paused) {
             audio.play().then(() => updatePlayerUI(true)).catch(() => {});
         } else {
             audio.pause();
             updatePlayerUI(false);
         }
-    });
+    }
+
+    const toggleIconBtn = document.getElementById("musicToggleIcon");
+    if (toggleIconBtn) {
+        toggleIconBtn.addEventListener("click", togglePlayPause);
+    }
+    playerBar.addEventListener("click", togglePlayPause);
 }
 
 // Đồng hồ thời gian thực (Việt Nam GMT+7)
