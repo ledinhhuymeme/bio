@@ -859,19 +859,53 @@ function initSecretMessageModal() {
     });
 
     if (submitBtn) {
-        submitBtn.addEventListener("click", () => {
+        submitBtn.addEventListener("click", async () => {
             const msg = (contentInput ? contentInput.value : "").trim();
             const sender = (senderInput ? senderInput.value : "").trim() || "Một người bạn ẩn danh";
             if (!msg) {
-                showToast("Hãy nhập nội dung lời nhắn trước nhé! ✍️");
+                showToast("Hãy nhập nội dung tin nhắn trước nhé! ✍️");
                 return;
             }
-            const subject = encodeURIComponent(`💌 Lời nhắn từ Bio (${sender})`);
-            const body = encodeURIComponent(`Người gửi: ${sender}\n\nLời nhắn:\n${msg}\n\n---\nGửi từ trang Bio: https://is.gd/huydinh_bio`);
-            window.location.href = `mailto:huyledinh21@gmail.com?subject=${subject}&body=${body}`;
-            modal.classList.remove("active");
-            if (contentInput) contentInput.value = "";
-            showToast("Đang chuyển lời nhắn tới Huy Đình! 💌✨");
+
+            const btnTextEl = document.getElementById("secret-submit-text");
+            const originalText = btnTextEl ? btnTextEl.textContent : "Gửi tin nhắn ⚡";
+            if (btnTextEl) btnTextEl.textContent = "Đang gửi... ⏳";
+            submitBtn.disabled = true;
+
+            try {
+                // Gửi trực tiếp qua API FormSubmit tới Gmail huyledinh21@gmail.com (không cần mở app Mail trên Windows)
+                const response = await fetch("https://formsubmit.co/ajax/huyledinh21@gmail.com", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({
+                        _subject: `⚡ Tin nhắn mới từ Bio (${sender})`,
+                        "Người gửi": sender,
+                        "Nội dung tin nhắn": msg,
+                        "Nguồn": "https://is.gd/huydinh_bio",
+                        _template: "table",
+                        _captcha: "false"
+                    })
+                });
+
+                const result = await response.json();
+                modal.classList.remove("active");
+                if (contentInput) contentInput.value = "";
+                if (senderInput) senderInput.value = "";
+
+                if (result.success === "true" || response.ok) {
+                    showToast("Đã gửi tin nhắn thành công tới Huy Đình! ⚡");
+                } else {
+                    showToast("Đã gửi! (Kiểm tra hộp thư Gmail để kích hoạt lần đầu) 📬");
+                }
+            } catch {
+                showToast("Lỗi kết nối mạng, vui lòng thử lại! ⚠️");
+            } finally {
+                if (btnTextEl) btnTextEl.textContent = originalText;
+                submitBtn.disabled = false;
+            }
         });
     }
 }
