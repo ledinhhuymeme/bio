@@ -730,8 +730,8 @@ function initPhotoLightbox() {
 
     if (catDonateCard) {
         catDonateCard.addEventListener("click", () => {
-            if (lightboxImg) lightboxImg.src = "donate_cat.jpg";
-            if (lightboxCaption) lightboxCaption.textContent = "Ủng hộ cho chú mèo ít cá 😄🐟 (Quét mã MoMo / VietQR)";
+            if (lightboxImg) lightboxImg.src = "donate_qr.jpg";
+            if (lightboxCaption) lightboxCaption.textContent = "Ủng hộ cho chú mèo ít cá 😄🐟 (Quét mã VietQR / MoMo)";
             photoModal.classList.add("active");
         });
     }
