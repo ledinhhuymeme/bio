@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=20">
+    <link rel="stylesheet" href="style.css?v=22">
 </head>
 <body data-theme="aurora">
     <!-- Glass Splash Screen (Rich Portal Card with Cover, Live Badges, Music Teaser & Social Icons) -->
@@ -253,8 +253,13 @@
                 <!-- RIGHT COLUMN: Social Grid + Interactive Widgets -->
                 <div class="bento-right">
                     <div class="section-header">
-                        <span class="section-title" id="section-title">KẾT NỐI MẠNG XÃ HỘI</span>
-                        <span class="section-sub" id="section-sub">Chạm để mở hoặc sao chép nhanh</span>
+                        <div class="section-title-group">
+                            <span class="section-title" id="section-title">KẾT NỐI MẠNG XÃ HỘI</span>
+                            <span class="greeting-badge" id="greeting-badge">✨ Chào ngày mới!</span>
+                        </div>
+                        <button class="secret-msg-trigger" id="secretMsgBtn" title="Gửi lời nhắn cho Huy Đình">
+                            <span>💌 Gửi lời nhắn</span>
+                        </button>
                     </div>
 
                     <!-- Social Links Stack / 2-Column Grid on Desktop -->
@@ -476,6 +481,7 @@
                                     <line x1="17" y1="9" x2="23" y2="15"></line>
                                 </svg>
                             </button>
+                            <input type="range" class="music-vol-slider" id="musicVolSlider" min="0" max="1" step="0.05" value="0.8" title="Chỉnh âm lượng">
                             <button class="music-play-btn" id="musicToggleIcon" aria-label="Phát nhạc">
                                 <svg id="playSvg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                                     <polygon points="6 3 20 12 6 21 6 3"></polygon>
@@ -522,18 +528,52 @@
         </div>
     </div>
 
-    <!-- Photo Lightbox Modal -->
+    <!-- Photo Lightbox Modal (With Quick Download QR Button) -->
     <div class="qr-modal" id="photoModal">
         <div class="photo-lightbox-box">
             <button class="qr-close" id="photoClose" aria-label="Đóng">&times;</button>
             <img src="donate_qr.jpg" alt="Mã QR ủng hộ chú mèo ít cá" class="lightbox-img" id="lightboxImg">
             <p class="lightbox-caption" id="lightbox-caption">Ủng hộ cho chú mèo ít cá 😄🐟</p>
+            <div class="lightbox-actions">
+                <a href="donate_qr.jpg" download="VietQR_HuyDinh.jpg" class="lightbox-download-btn" id="lightboxDownloadBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <span id="download-qr-text">Tải ảnh QR về máy</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Secret Message / Quick Feedback Modal -->
+    <div class="qr-modal" id="secretMsgModal">
+        <div class="secret-modal-box">
+            <button class="qr-close" id="secretMsgClose" aria-label="Đóng">&times;</button>
+            <div class="secret-modal-header">
+                <span class="secret-icon-badge">💌</span>
+                <h3 id="secret-modal-title">Gửi lời nhắn cho Huy Đình</h3>
+                <p id="secret-modal-sub">Để lại lời nhắn, câu hỏi hoặc lời chào của bạn nhé!</p>
+            </div>
+            <div class="secret-form">
+                <input type="text" id="secretSender" class="secret-input" placeholder="Tên hoặc biệt danh của bạn (có thể bỏ trống nếu muốn ẩn danh)">
+                <textarea id="secretContent" class="secret-textarea" rows="3" placeholder="Nhập nội dung lời nhắn gửi tới Huy Đình... ✨"></textarea>
+                <div class="secret-quick-chips">
+                    <button type="button" class="quick-msg-chip">Trang Bio xịn quá! 🔥</button>
+                    <button type="button" class="quick-msg-chip">Kết bạn Locket nhé 💛</button>
+                    <button type="button" class="quick-msg-chip">Đã gửi cá cho mèo 🐟</button>
+                </div>
+                <button type="button" class="secret-submit-btn" id="secretSubmitBtn">
+                    <span id="secret-submit-text">Gửi lời nhắn ngay 🚀</span>
+                </button>
+            </div>
         </div>
     </div>
 
     <!-- Toast Notification -->
     <div class="toast" id="toast">Đã sao chép liên kết! ✨</div>
 
-    <script src="script.js?v=21"></script>
+    <script src="script.js?v=22"></script>
 </body>
 </html>

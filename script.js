@@ -230,6 +230,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // 13e. Hiệu ứng vệt sáng lấp lánh theo con trỏ chuột (Cursor Sparkle Trail)
     initCursorSparkles();
 
+    // 13f. Lời chào thông minh theo khung giờ & Hộp thư gửi lời nhắn nhanh
+    initSmartGreeting();
+    initSecretMessageModal();
+
     // 14. Nút chia sẻ trang Bio (dùng luôn link ngắn https://is.gd/huydinh_bio)
     const OFFICIAL_SHORT_URL = "https://is.gd/huydinh_bio";
     const shareBtn = document.getElementById("shareBtn");
@@ -430,6 +434,21 @@ function initChillMusicPlayer() {
         muteBtn.addEventListener("click", (e) => {
             e.stopPropagation();
             audio.muted = !audio.muted;
+            if (volOnSvg && volOffSvg) {
+                volOnSvg.style.display = audio.muted ? "none" : "block";
+                volOffSvg.style.display = audio.muted ? "block" : "none";
+            }
+        });
+    }
+
+    const volSlider = document.getElementById("musicVolSlider");
+    if (volSlider) {
+        volSlider.addEventListener("click", (e) => e.stopPropagation());
+        volSlider.addEventListener("input", (e) => {
+            e.stopPropagation();
+            const val = parseFloat(e.target.value);
+            audio.volume = val;
+            audio.muted = val === 0;
             if (volOnSvg && volOffSvg) {
                 volOnSvg.style.display = audio.muted ? "none" : "block";
                 volOffSvg.style.display = audio.muted ? "block" : "none";
@@ -732,6 +751,11 @@ function initPhotoLightbox() {
         catDonateCard.addEventListener("click", () => {
             if (lightboxImg) lightboxImg.src = "donate_qr.jpg";
             if (lightboxCaption) lightboxCaption.textContent = "Ủng hộ cho chú mèo ít cá 😄🐟 (Quét mã VietQR / MoMo)";
+            const dlBtn = document.getElementById("lightboxDownloadBtn");
+            if (dlBtn) {
+                dlBtn.style.display = "inline-flex";
+                dlBtn.href = "donate_qr.jpg";
+            }
             photoModal.classList.add("active");
         });
     }
@@ -740,6 +764,8 @@ function initPhotoLightbox() {
         avatarContainer.addEventListener("click", () => {
             if (lightboxImg) lightboxImg.src = "avatar.jpg";
             if (lightboxCaption) lightboxCaption.textContent = "\"Giữa núi đồi bình yên & tự do ⛰️☁️\" — Huy Đình";
+            const dlBtn = document.getElementById("lightboxDownloadBtn");
+            if (dlBtn) dlBtn.style.display = "none";
             photoModal.classList.add("active");
         });
     }
@@ -788,6 +814,61 @@ function initCursorSparkles() {
         document.body.appendChild(sparkle);
         setTimeout(() => sparkle.remove(), 650);
     }, { passive: true });
+}
+
+// Lời chào thông minh theo khung giờ trong ngày
+function initSmartGreeting() {
+    const badge = document.getElementById("greeting-badge");
+    if (!badge) return;
+    const hour = new Date().getHours();
+    let text = "✨ Chúc một ngày tốt lành!";
+    if (hour >= 5 && hour < 11) text = "🌅 Chào buổi sáng năng lượng!";
+    else if (hour >= 11 && hour < 14) text = "☀️ Buổi trưa vui vẻ nhé!";
+    else if (hour >= 14 && hour < 18) text = "🌤️ Buổi chiều chill nhé!";
+    else if (hour >= 18 && hour < 23) text = "🌙 Buổi tối thư giãn nhé!";
+    else text = "🌌 Cú đêm nghe nhạc chill 🎧";
+    badge.textContent = text;
+}
+
+// Hộp thư gửi lời nhắn nhanh cho Huy Đình
+function initSecretMessageModal() {
+    const triggerBtn = document.getElementById("secretMsgBtn");
+    const modal = document.getElementById("secretMsgModal");
+    const closeBtn = document.getElementById("secretMsgClose");
+    const senderInput = document.getElementById("secretSender");
+    const contentInput = document.getElementById("secretContent");
+    const submitBtn = document.getElementById("secretSubmitBtn");
+
+    if (!triggerBtn || !modal) return;
+
+    triggerBtn.addEventListener("click", () => modal.classList.add("active"));
+    if (closeBtn) closeBtn.addEventListener("click", () => modal.classList.remove("active"));
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) modal.classList.remove("active");
+    });
+
+    document.querySelectorAll(".quick-msg-chip").forEach((chip) => {
+        chip.addEventListener("click", () => {
+            if (contentInput) contentInput.value = chip.textContent;
+        });
+    });
+
+    if (submitBtn) {
+        submitBtn.addEventListener("click", () => {
+            const msg = (contentInput ? contentInput.value : "").trim();
+            const sender = (senderInput ? senderInput.value : "").trim() || "Một người bạn ẩn danh";
+            if (!msg) {
+                showToast("Hãy nhập nội dung lời nhắn trước nhé! ✍️");
+                return;
+            }
+            const subject = encodeURIComponent(`💌 Lời nhắn từ Bio (${sender})`);
+            const body = encodeURIComponent(`Người gửi: ${sender}\n\nLời nhắn:\n${msg}\n\n---\nGửi từ trang Bio: https://is.gd/huydinh_bio`);
+            window.location.href = `mailto:huyledinh21@gmail.com?subject=${subject}&body=${body}`;
+            modal.classList.remove("active");
+            if (contentInput) contentInput.value = "";
+            showToast("Đang chuyển lời nhắn tới Huy Đình! 💌✨");
+        });
+    }
 }
 
 // Sao chép vào clipboard
