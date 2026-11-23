@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=23">
+    <link rel="stylesheet" href="style.css?v=24">
 </head>
 <body data-theme="aurora">
     <!-- Glass Splash Screen (Rich Portal Card with Cover, Live Badges, Music Teaser & Social Icons) -->
@@ -252,14 +252,24 @@
 
                 <!-- RIGHT COLUMN: Social Grid + Interactive Widgets -->
                 <div class="bento-right">
+                    <!-- Prominent Secret Message Banner Card (Easy to see on both Mobile & Desktop) -->
+                    <div class="secret-banner-card" id="secretMsgBtn" title="Gửi lời nhắn cho Huy Đình">
+                        <div class="secret-banner-icon">💌</div>
+                        <div class="secret-banner-info">
+                            <div class="secret-banner-top">
+                                <span class="secret-banner-title" id="secret-banner-title">Gửi lời nhắn cho Huy Đình</span>
+                                <span class="secret-banner-badge">ẨN DANH</span>
+                            </div>
+                            <span class="secret-banner-sub" id="secret-banner-sub">Để lại câu hỏi, lời chúc hoặc nhắn nhủ bí mật ✨</span>
+                        </div>
+                        <button type="button" class="secret-banner-cta" id="secret-banner-cta">Nhắn ngay</button>
+                    </div>
+
                     <div class="section-header">
                         <div class="section-title-group">
                             <span class="section-title" id="section-title">KẾT NỐI MẠNG XÃ HỘI</span>
                             <span class="greeting-badge" id="greeting-badge">✨ Chào ngày mới!</span>
                         </div>
-                        <button class="secret-msg-trigger" id="secretMsgBtn" title="Gửi lời nhắn cho Huy Đình">
-                            <span>💌 Gửi lời nhắn</span>
-                        </button>
                     </div>
 
                     <!-- Social Links Stack / 2-Column Grid on Desktop -->

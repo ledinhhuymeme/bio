@@ -1135,6 +1135,104 @@ body {
     transform: translateX(2px);
 }
 
+/* Prominent Secret Message Banner Card */
+.secret-banner-card {
+    position: relative;
+    z-index: 3;
+    margin: 0 22px 16px;
+    padding: 13px 15px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(236, 72, 153, 0.22) 100%);
+    border: 1px solid rgba(236, 72, 153, 0.5);
+    box-shadow: 0 12px 28px -8px rgba(236, 72, 153, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    cursor: pointer;
+    transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.secret-banner-card:hover {
+    transform: translateY(-3px) scale(1.01);
+    border-color: rgba(236, 72, 153, 0.85);
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.28) 0%, rgba(236, 72, 153, 0.3) 100%);
+    box-shadow: 0 16px 34px -8px rgba(236, 72, 153, 0.5);
+}
+
+.secret-banner-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    flex-shrink: 0;
+    box-shadow: 0 6px 16px -3px rgba(236, 72, 153, 0.6);
+    animation: pulseBtn 2.2s infinite;
+}
+
+.secret-banner-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    text-align: left;
+}
+
+.secret-banner-top {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-wrap: wrap;
+}
+
+.secret-banner-title {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.secret-banner-badge {
+    font-size: 0.58rem;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: 99px;
+    background: rgba(236, 72, 153, 0.25);
+    border: 1px solid rgba(236, 72, 153, 0.55);
+    color: #fbcfe8;
+    letter-spacing: 0.04em;
+}
+
+.secret-banner-sub {
+    font-size: 0.76rem;
+    color: #e2e8f0;
+    line-height: 1.35;
+}
+
+.secret-banner-cta {
+    background: #ffffff;
+    color: #0f172a;
+    border: none;
+    font-family: inherit;
+    font-size: 0.76rem;
+    font-weight: 800;
+    padding: 8px 14px;
+    border-radius: 99px;
+    cursor: pointer;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.secret-banner-card:hover .secret-banner-cta {
+    background: #fdf2f8;
+    transform: scale(1.05);
+}
+
 /* Section Header (Shown on both Mobile & Desktop) */
 .section-header {
     display: flex;
@@ -1895,6 +1993,10 @@ body {
         padding: 0 4px;
     }
 
+    .secret-banner-card {
+        margin: 0 0 14px;
+    }
+
     .music-vol-slider {
         display: block;
     }
@@ -2393,7 +2495,34 @@ body {
         white-space: normal;
     }
 
-    /* Section Header Mobile (Stack cleanly or space neatly without collision) */
+    /* Section Header & Prominent Secret Message Banner Mobile */
+    .secret-banner-card {
+        margin: 0 16px 14px;
+        padding: 12px 13px;
+        gap: 11px;
+        border-radius: 19px;
+    }
+
+    .secret-banner-icon {
+        width: 42px;
+        height: 42px;
+        font-size: 1.25rem;
+        border-radius: 13px;
+    }
+
+    .secret-banner-title {
+        font-size: 0.88rem;
+    }
+
+    .secret-banner-sub {
+        font-size: 0.72rem;
+    }
+
+    .secret-banner-cta {
+        padding: 7px 12px;
+        font-size: 0.72rem;
+    }
+
     .section-header {
         padding: 0 16px;
         margin-bottom: 10px;
