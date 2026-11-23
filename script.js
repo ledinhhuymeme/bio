@@ -626,12 +626,24 @@ function initCardInteractions() {
         card.style.transform = "rotateX(0deg) rotateY(0deg)";
     });
 
-    // Ánh sáng Spotlight 3D riêng trên từng thẻ mạng xã hội
+    // Ánh sáng Spotlight 3D & Nghiêng 3D riêng trên từng thẻ mạng xã hội
     document.querySelectorAll(".link-card").forEach((linkCard) => {
         linkCard.addEventListener("mousemove", (e) => {
             const r = linkCard.getBoundingClientRect();
-            linkCard.style.setProperty("--card-mx", `${e.clientX - r.left}px`);
-            linkCard.style.setProperty("--card-my", `${e.clientY - r.top}px`);
+            const x = e.clientX - r.left;
+            const y = e.clientY - r.top;
+            linkCard.style.setProperty("--card-mx", `${x}px`);
+            linkCard.style.setProperty("--card-my", `${y}px`);
+
+            if (window.innerWidth > 768) {
+                const rx = ((y - r.height / 2) / (r.height / 2)) * -6;
+                const ry = ((x - r.width / 2) / (r.width / 2)) * 6;
+                linkCard.style.transform = `translateY(-6px) scale(1.02) perspective(600px) rotateX(${rx.toFixed(1)}deg) rotateY(${ry.toFixed(1)}deg)`;
+            }
+        });
+
+        linkCard.addEventListener("mouseleave", () => {
+            linkCard.style.transform = "";
         });
     });
 }
