@@ -881,8 +881,8 @@ function initSecretMessageModal() {
 
     function checkOwnerPin() {
         const pin = (ownerPinInput ? ownerPinInput.value : "").trim();
-        // Chấp nhận mã PIN "21", "9000" hoặc "0783539000"
-        if (pin === "21" || pin === "9000" || pin === "0783539000") {
+        // Chỉ chấp nhận duy nhất mã PIN "956" (lưu dưới dạng mã hóa Base64 "OTU2" để ẩn trong code)
+        if (btoa(pin) === "OTU2") {
             isOwnerUnlocked = true;
             sessionStorage.setItem("huydinh_owner_unlocked", "1");
             if (ownerPinInput) ownerPinInput.value = "";
