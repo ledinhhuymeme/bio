@@ -461,14 +461,18 @@ function initChillMusicPlayer() {
         }
     }
 
-    // Luôn hiển thị màn kính mờ có Avatar của Huy Đình và nút "Vào Bio ✨" lúc mới vào;
-    // Khi bấm nút hoặc chạm vào màn kính mờ sẽ mở khóa vào Bio và phát nhạc nền ngay lập tức!
+    // Đảm bảo lúc đang ở màn kính mờ "Vào Bio ✨" nhạc tắt hoàn toàn (silent 100%).
+    // Chỉ khi người dùng bấm nút "Vào Bio ✨" mới bắt đầu phát nhạc từ giây 0:00!
+    audio.pause();
+    audio.currentTime = 0;
+
     function enterBioAndPlayMusic(e) {
         if (e) e.stopPropagation();
         if (enterOverlay && !enterOverlay.classList.contains("hidden")) {
             enterOverlay.classList.add("hidden");
         }
         audio.muted = false;
+        audio.currentTime = 0;
         if (volOnSvg && volOffSvg) {
             volOnSvg.style.display = "block";
             volOffSvg.style.display = "none";
