@@ -104,6 +104,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // 6b. Bộ đếm lượt ghé thăm trực tiếp (Live Visitor Counter)
     initVisitorCounter();
 
+    // 6c. Đồng hồ thời gian thực (Live Clock trên Desktop)
+    initLiveClock();
+
     // 7. Nút chia sẻ trang Bio
     const shareBtn = document.getElementById("shareBtn");
     shareBtn.addEventListener("click", async () => {
@@ -125,23 +128,47 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 8. Nút mở mã QR Code
     const qrBtn = document.getElementById("qrBtn");
+    const miniQrCard = document.getElementById("miniQrCard");
     const qrModal = document.getElementById("qrModal");
     const qrClose = document.getElementById("qrClose");
     const qrImage = document.getElementById("qrImage");
 
-    qrBtn.addEventListener("click", () => {
+    function openQrModal() {
         const currentUrl = window.location.href.startsWith("http")
-            ? window.location.href
+            ? window.location.href.split("?")[0]
             : "https://ledinhhuymeme.github.io/bio/";
         qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(currentUrl)}`;
         qrModal.classList.add("active");
-    });
+    }
+
+    qrBtn.addEventListener("click", openQrModal);
+    if (miniQrCard) {
+        miniQrCard.addEventListener("click", openQrModal);
+    }
 
     qrClose.addEventListener("click", () => qrModal.classList.remove("active"));
     qrModal.addEventListener("click", (e) => {
         if (e.target === qrModal) qrModal.classList.remove("active");
     });
 });
+
+// Đồng hồ thời gian thực (Việt Nam GMT+7)
+function initLiveClock() {
+    const clockEl = document.getElementById("live-clock");
+    if (!clockEl) return;
+
+    function updateClock() {
+        const now = new Date();
+        clockEl.textContent = now.toLocaleTimeString("vi-VN", {
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: false
+        });
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+}
 
 // Hiệu ứng gõ chữ tự động
 function initTypewriter(lines) {

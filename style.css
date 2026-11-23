@@ -1,7 +1,7 @@
 :root {
-    --bg-deep: #05060a;
-    --card-surface: rgba(14, 16, 24, 0.72);
-    --card-border: rgba(255, 255, 255, 0.09);
+    --bg-deep: #05060b;
+    --card-surface: rgba(14, 17, 26, 0.74);
+    --card-border: rgba(255, 255, 255, 0.11);
     --text-primary: #f8fafc;
     --text-secondary: #94a3b8;
     --accent-blue: #3b82f6;
@@ -38,7 +38,7 @@ body {
     pointer-events: none;
 }
 
-/* Aurora Borealis Lighting */
+/* Aurora Borealis Lighting & Cyber Grid */
 .aurora-bg {
     position: fixed;
     inset: 0;
@@ -50,38 +50,48 @@ body {
 .aurora {
     position: absolute;
     border-radius: 50%;
-    filter: blur(110px);
-    opacity: 0.42;
+    filter: blur(115px);
+    opacity: 0.48;
     mix-blend-mode: screen;
     animation: auroraFloat 16s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .aurora-1 {
-    width: 480px;
-    height: 480px;
+    width: 550px;
+    height: 550px;
     background: radial-gradient(circle, #4f46e5 0%, transparent 70%);
-    top: -140px;
-    left: -120px;
+    top: -150px;
+    left: -100px;
 }
 
 .aurora-2 {
-    width: 460px;
-    height: 460px;
+    width: 520px;
+    height: 520px;
     background: radial-gradient(circle, #ec4899 0%, transparent 70%);
-    bottom: -150px;
+    bottom: -160px;
     right: -100px;
     animation-delay: -6s;
 }
 
 .aurora-3 {
-    width: 380px;
-    height: 380px;
+    width: 450px;
+    height: 450px;
     background: radial-gradient(circle, #06b6d4 0%, transparent 70%);
-    top: 35%;
+    top: 40%;
     left: 55%;
     transform: translate(-50%, -50%);
-    opacity: 0.28;
+    opacity: 0.32;
     animation-delay: -11s;
+}
+
+.cyber-grid {
+    position: absolute;
+    inset: 0;
+    background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(circle at center, black 35%, transparent 88%);
 }
 
 .noise-overlay {
@@ -97,10 +107,10 @@ body {
         transform: translate(0, 0) scale(1) rotate(0deg);
     }
     50% {
-        transform: translate(40px, -30px) scale(1.12) rotate(12deg);
+        transform: translate(45px, -35px) scale(1.12) rotate(12deg);
     }
     100% {
-        transform: translate(-30px, 40px) scale(0.95) rotate(-10deg);
+        transform: translate(-35px, 45px) scale(0.95) rotate(-10deg);
     }
 }
 
@@ -108,8 +118,9 @@ body {
 .scene {
     width: 100%;
     max-width: 450px;
-    perspective: 1200px;
+    perspective: 1400px;
     z-index: 2;
+    transition: max-width 0.4s ease;
 }
 
 /* Main Bento Glass Card */
@@ -117,15 +128,15 @@ body {
     position: relative;
     width: 100%;
     background: var(--card-surface);
-    backdrop-filter: blur(28px) saturate(160%);
-    -webkit-backdrop-filter: blur(28px) saturate(160%);
+    backdrop-filter: blur(28px) saturate(165%);
+    -webkit-backdrop-filter: blur(28px) saturate(165%);
     border: 1px solid var(--card-border);
     border-radius: 34px;
     overflow: hidden;
     box-shadow: 
-        0 30px 70px -15px rgba(0, 0, 0, 0.85),
+        0 35px 80px -15px rgba(0, 0, 0, 0.85),
         0 0 0 1px rgba(255, 255, 255, 0.06) inset,
-        0 1px 0 0 rgba(255, 255, 255, 0.2) inset;
+        0 1px 0 0 rgba(255, 255, 255, 0.22) inset;
     transform-style: preserve-3d;
     transition: transform 0.2s ease-out, box-shadow 0.3s ease;
     animation: cardEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -149,8 +160,8 @@ body {
     pointer-events: none;
     z-index: 1;
     background: radial-gradient(
-        500px circle at var(--mouse-x, 50%) var(--mouse-y, 0%),
-        rgba(255, 255, 255, 0.07),
+        600px circle at var(--mouse-x, 50%) var(--mouse-y, 0%),
+        rgba(255, 255, 255, 0.075),
         transparent 45%
     );
     opacity: 0;
@@ -181,7 +192,7 @@ body {
 }
 
 .bento-card:hover .cover-image {
-    transform: scale(1.12);
+    transform: scale(1.11);
 }
 
 .cover-gradient {
@@ -190,8 +201,8 @@ body {
     background: linear-gradient(
         180deg,
         rgba(5, 6, 10, 0.25) 0%,
-        rgba(14, 16, 24, 0.5) 55%,
-        rgba(14, 16, 24, 0.98) 100%
+        rgba(14, 17, 26, 0.55) 55%,
+        rgba(14, 17, 26, 0.98) 100%
     );
 }
 
@@ -202,17 +213,23 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 18px 20px;
+    padding: 18px 22px;
+}
+
+.top-left-pills {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .status-pill {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: rgba(10, 14, 23, 0.65);
+    background: rgba(10, 14, 23, 0.68);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(16, 185, 129, 0.35);
+    border: 1px solid rgba(16, 185, 129, 0.38);
     padding: 6px 13px;
     border-radius: 999px;
     font-size: 0.76rem;
@@ -230,6 +247,30 @@ body {
     animation: pulseDot 2s infinite;
 }
 
+.clock-pill {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    background: rgba(10, 14, 23, 0.68);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    padding: 6px 13px;
+    border-radius: 999px;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: #e2e8f0;
+}
+
+.tz-badge {
+    font-size: 0.64rem;
+    font-weight: 800;
+    color: #38bdf8;
+    background: rgba(56, 189, 248, 0.15);
+    padding: 1px 6px;
+    border-radius: 6px;
+}
+
 @keyframes pulseDot {
     0%, 100% { transform: scale(1); opacity: 1; }
     50% { transform: scale(1.3); opacity: 0.6; }
@@ -241,24 +282,32 @@ body {
 }
 
 .icon-btn {
-    width: 36px;
     height: 36px;
-    border-radius: 50%;
+    padding: 0 11px;
+    border-radius: 999px;
     border: 1px solid rgba(255, 255, 255, 0.16);
-    background: rgba(10, 14, 23, 0.6);
+    background: rgba(10, 14, 23, 0.65);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     color: var(--text-primary);
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 6px;
     cursor: pointer;
+    font-family: inherit;
+    font-size: 0.76rem;
+    font-weight: 600;
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-label {
+    display: none;
 }
 
 .icon-btn:hover {
     background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px) scale(1.05);
+    transform: translateY(-2px);
     border-color: rgba(255, 255, 255, 0.35);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
 }
@@ -453,6 +502,83 @@ body {
     background: rgba(255, 255, 255, 0.1);
 }
 
+/* Featured Moment Card (Hidden on compact mobile, shown on Desktop) */
+.featured-moment {
+    display: none;
+    position: relative;
+    margin-top: 16px;
+    height: 158px;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+}
+
+.moment-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.featured-moment:hover .moment-img {
+    transform: scale(1.08);
+}
+
+.moment-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.05) 0%, rgba(5, 6, 11, 0.85) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding: 14px 16px;
+    text-align: left;
+}
+
+.moment-tag {
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: #38bdf8;
+    background: rgba(14, 17, 26, 0.75);
+    backdrop-filter: blur(8px);
+    padding: 3px 9px;
+    border-radius: 99px;
+    margin-bottom: 5px;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.moment-caption {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #f8fafc;
+}
+
+/* Section Header (Desktop) */
+.section-header {
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding: 0 4px;
+}
+
+.section-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.09em;
+    color: #94a3b8;
+}
+
+.section-sub {
+    font-size: 0.74rem;
+    color: #64748b;
+}
+
 /* Social Links List */
 .links-list {
     position: relative;
@@ -469,8 +595,8 @@ body {
     align-items: center;
     gap: 15px;
     padding: 14px 16px;
-    background: rgba(255, 255, 255, 0.035);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.038);
+    border: 1px solid rgba(255, 255, 255, 0.085);
     border-radius: 22px;
     text-decoration: none;
     color: var(--text-primary);
@@ -661,14 +787,14 @@ body {
 
 .link-title {
     font-family: 'Outfit', sans-serif;
-    font-size: 1.05rem;
+    font-size: 1.04rem;
     font-weight: 700;
     color: #ffffff;
     letter-spacing: -0.01em;
 }
 
 .platform-tag {
-    font-size: 0.64rem;
+    font-size: 0.62rem;
     font-weight: 700;
     padding: 2px 8px;
     border-radius: 99px;
@@ -707,7 +833,7 @@ body {
 }
 
 .hot-badge {
-    font-size: 0.64rem;
+    font-size: 0.62rem;
     font-weight: 800;
     padding: 2px 8px;
     border-radius: 99px;
@@ -718,7 +844,7 @@ body {
 }
 
 .link-sub {
-    font-size: 0.81rem;
+    font-size: 0.8rem;
     color: var(--text-secondary);
     white-space: nowrap;
     overflow: hidden;
@@ -731,13 +857,13 @@ body {
     z-index: 1;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 7px;
 }
 
 .copy-small-btn {
-    width: 34px;
-    height: 34px;
-    border-radius: 11px;
+    width: 33px;
+    height: 33px;
+    border-radius: 10px;
     border: 1px solid rgba(255, 255, 255, 0.08);
     background: rgba(255, 255, 255, 0.04);
     color: var(--text-secondary);
@@ -756,8 +882,8 @@ body {
 }
 
 .arrow-circle {
-    width: 32px;
-    height: 32px;
+    width: 31px;
+    height: 31px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.05);
     color: var(--text-secondary);
@@ -773,23 +899,30 @@ body {
     transform: translate(2px, -2px);
 }
 
-/* Music / Vibe Widget Bar */
-.music-bar {
+/* Bottom Widgets Container */
+.bottom-widgets {
     position: relative;
     z-index: 3;
-    margin: 20px 22px 0;
-    padding: 11px 15px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    border-radius: 18px;
+    margin: 18px 22px 0;
+    display: flex;
+    gap: 14px;
+}
+
+/* Music / Vibe Widget Bar */
+.music-bar {
+    flex: 1;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
     display: flex;
     align-items: center;
     gap: 12px;
 }
 
 .vinyl-disc {
-    width: 36px;
-    height: 36px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     background: conic-gradient(from 0deg, #1e293b, #475569, #0f172a, #475569, #1e293b);
     border: 2px solid rgba(255, 255, 255, 0.18);
@@ -813,7 +946,7 @@ body {
     min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 1px;
+    gap: 2px;
 }
 
 .music-label {
@@ -824,7 +957,7 @@ body {
 }
 
 .music-track {
-    font-size: 0.78rem;
+    font-size: 0.8rem;
     font-weight: 600;
     color: #e2e8f0;
     white-space: nowrap;
@@ -856,11 +989,55 @@ body {
     50% { transform: scaleY(1); }
 }
 
+/* Mini QR Card (Desktop only) */
+.mini-qr-card {
+    display: none;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.085);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.mini-qr-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(56, 189, 248, 0.4);
+    transform: translateY(-2px);
+}
+
+.mini-qr-card img {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: #fff;
+    padding: 3px;
+}
+
+.mini-qr-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.mini-qr-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #f8fafc;
+}
+
+.mini-qr-sub {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+}
+
 /* Footer */
 .footer {
     position: relative;
     z-index: 3;
-    padding: 22px 0 24px;
+    padding: 20px 0 22px;
     text-align: center;
     font-size: 0.76rem;
     color: rgba(148, 163, 184, 0.75);
@@ -868,6 +1045,112 @@ body {
 
 .footer strong {
     color: #e2e8f0;
+}
+
+/* ==========================================================
+   DESKTOP BENTO DASHBOARD LAYOUT (>= 920px)
+   Biến giao diện trên máy tính thành bảng Bento 2 khu vực rộng rãi,
+   sang trọng, trong khi điện thoại vẫn giữ nguyên khung dọc gọn đẹp!
+   ========================================================== */
+@media (min-width: 920px) {
+    .scene {
+        max-width: 1040px;
+    }
+
+    .cover-banner {
+        height: 195px;
+    }
+
+    .top-bar {
+        padding: 22px 32px;
+    }
+
+    .clock-pill {
+        display: inline-flex;
+    }
+
+    .btn-label {
+        display: inline;
+    }
+
+    .icon-btn {
+        padding: 0 15px;
+        height: 38px;
+    }
+
+    .bento-body {
+        display: grid;
+        grid-template-columns: 340px 1fr;
+        gap: 28px;
+        padding: 0 32px 10px;
+        align-items: start;
+    }
+
+    .bento-left {
+        background: rgba(255, 255, 255, 0.025);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 28px;
+        padding: 0 20px 22px;
+        margin-top: -75px;
+        position: relative;
+        z-index: 4;
+        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+    }
+
+    .profile {
+        padding: 0;
+        margin-top: -48px;
+        margin-bottom: 0;
+    }
+
+    .avatar-container {
+        width: 124px;
+        height: 124px;
+    }
+
+    .profile-name {
+        font-size: 1.85rem;
+    }
+
+    .featured-moment {
+        display: block;
+    }
+
+    .bento-right {
+        padding-top: 18px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .section-header {
+        display: flex;
+    }
+
+    .links-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        padding: 0;
+    }
+
+    .link-card {
+        padding: 16px 18px;
+    }
+
+    .bottom-widgets {
+        margin: 18px 0 0;
+    }
+
+    .mini-qr-card {
+        display: flex;
+    }
+
+    .footer {
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        margin: 18px 32px 0;
+        padding: 16px 0 20px;
+    }
 }
 
 /* QR Modal */
@@ -992,7 +1275,7 @@ body {
     .links-list {
         padding: 0 16px;
     }
-    .music-bar {
+    .bottom-widgets {
         margin: 18px 16px 0;
     }
 }
