@@ -703,6 +703,24 @@ function initParticles() {
             ctx.fill();
         }
 
+        // Vẽ mạng tinh vân (Constellation Lines) nối các hạt sao gần nhau tạo chiều sâu 3D
+        for (let i = 0; i < particles.length; i++) {
+            for (let j = i + 1; j < particles.length; j++) {
+                const dx = particles[i].x - particles[j].x;
+                const dy = particles[i].y - particles[j].y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 115) {
+                    const lineAlpha = (1 - dist / 115) * 0.16;
+                    ctx.beginPath();
+                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(particles[j].x, particles[j].y);
+                    ctx.strokeStyle = `rgba(56, 189, 248, ${lineAlpha})`;
+                    ctx.lineWidth = 0.8;
+                    ctx.stroke();
+                }
+            }
+        }
+
         spawnMeteor();
         for (let i = meteors.length - 1; i >= 0; i--) {
             const m = meteors[i];

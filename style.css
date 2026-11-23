@@ -927,6 +927,43 @@ body {
     width: 112px;
     height: 112px;
     margin: 0 auto 14px;
+    transform-style: preserve-3d;
+}
+
+.avatar-orbit-ring {
+    position: absolute;
+    inset: -11px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.orbit-1 {
+    border: 1.5px dashed rgba(56, 189, 248, 0.55);
+    animation: spinRing 10s linear infinite;
+}
+
+.orbit-2 {
+    inset: -16px;
+    border: 1px dotted rgba(250, 204, 21, 0.45);
+    animation: spinRing 15s linear infinite reverse;
+}
+
+.avatar-crown {
+    position: absolute;
+    top: -22px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-6deg);
+    font-size: 1.35rem;
+    z-index: 5;
+    filter: drop-shadow(0 4px 10px rgba(250, 204, 21, 0.7));
+    animation: crownFloat 2.4s ease-in-out infinite alternate;
+    pointer-events: none;
+}
+
+@keyframes crownFloat {
+    0% { transform: translateX(-50%) translateY(0) rotate(-8deg) scale(0.96); }
+    100% { transform: translateX(-50%) translateY(-4px) rotate(6deg) scale(1.08); }
 }
 
 .avatar-glow {
@@ -1609,34 +1646,64 @@ body {
     transform: translateY(-3px) scale(1.12) rotate(-6deg);
 }
 
+.fb-card {
+    background: linear-gradient(135deg, rgba(24, 119, 242, 0.14) 0%, rgba(15, 23, 42, 0.78) 65%) !important;
+    border-color: rgba(24, 119, 242, 0.32) !important;
+}
+
 .fb-card:hover {
-    border-color: rgba(24, 119, 242, 0.55);
-    box-shadow: 0 14px 32px -10px rgba(24, 119, 242, 0.38);
+    border-color: rgba(59, 130, 246, 0.85) !important;
+    box-shadow: 0 18px 36px -8px rgba(24, 119, 242, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.3) !important;
+}
+
+.ig-card {
+    background: linear-gradient(135deg, rgba(225, 48, 108, 0.14) 0%, rgba(15, 23, 42, 0.78) 65%) !important;
+    border-color: rgba(225, 48, 108, 0.32) !important;
 }
 
 .ig-card:hover {
-    border-color: rgba(225, 48, 108, 0.55);
-    box-shadow: 0 14px 32px -10px rgba(225, 48, 108, 0.38);
+    border-color: rgba(244, 114, 182, 0.85) !important;
+    box-shadow: 0 18px 36px -8px rgba(225, 48, 108, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.3) !important;
+}
+
+.tiktok-card {
+    background: linear-gradient(135deg, rgba(0, 242, 254, 0.12) 0%, rgba(15, 23, 42, 0.8) 55%, rgba(254, 9, 121, 0.12) 100%) !important;
+    border-color: rgba(0, 242, 254, 0.32) !important;
 }
 
 .tiktok-card:hover {
-    border-color: rgba(0, 242, 254, 0.55);
-    box-shadow: 0 14px 32px -10px rgba(0, 242, 254, 0.32);
+    border-color: rgba(0, 242, 254, 0.85) !important;
+    box-shadow: -8px 14px 32px -10px rgba(0, 242, 254, 0.45), 8px 14px 32px -10px rgba(254, 9, 121, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.3) !important;
+}
+
+.locket-card {
+    background: linear-gradient(135deg, rgba(255, 184, 0, 0.15) 0%, rgba(15, 23, 42, 0.78) 65%) !important;
+    border-color: rgba(255, 184, 0, 0.36) !important;
 }
 
 .locket-card:hover {
-    border-color: rgba(255, 184, 0, 0.65);
-    box-shadow: 0 14px 32px -10px rgba(255, 184, 0, 0.38);
+    border-color: rgba(250, 204, 21, 0.9) !important;
+    box-shadow: 0 18px 36px -8px rgba(255, 184, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.3) !important;
+}
+
+.zalo-card {
+    background: linear-gradient(135deg, rgba(0, 104, 255, 0.14) 0%, rgba(15, 23, 42, 0.78) 65%) !important;
+    border-color: rgba(0, 104, 255, 0.32) !important;
 }
 
 .zalo-card:hover {
-    border-color: rgba(0, 104, 255, 0.65);
-    box-shadow: 0 14px 32px -10px rgba(0, 104, 255, 0.42);
+    border-color: rgba(56, 189, 248, 0.85) !important;
+    box-shadow: 0 18px 36px -8px rgba(0, 104, 255, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.3) !important;
+}
+
+.gmail-card {
+    background: linear-gradient(135deg, rgba(234, 67, 53, 0.14) 0%, rgba(15, 23, 42, 0.78) 65%) !important;
+    border-color: rgba(234, 67, 53, 0.32) !important;
 }
 
 .gmail-card:hover {
-    border-color: rgba(234, 67, 53, 0.65);
-    box-shadow: 0 14px 32px -10px rgba(234, 67, 53, 0.42);
+    border-color: rgba(248, 113, 113, 0.85) !important;
+    box-shadow: 0 18px 36px -8px rgba(234, 67, 53, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.3) !important;
 }
 
 /* Ambient inner glow per platform */
@@ -1882,12 +1949,13 @@ body {
     gap: 14px;
 }
 
-/* Music / Vibe Widget Bar */
+/* Music / Vibe Widget Bar with Glowing Equalizer Aura */
 .music-bar {
     flex: 1;
     padding: 12px 16px;
-    background: rgba(255, 255, 255, 0.035);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: linear-gradient(135deg, rgba(14, 165, 233, 0.12) 0%, rgba(139, 92, 246, 0.12) 50%, rgba(15, 23, 42, 0.8) 100%);
+    border: 1px solid rgba(56, 189, 248, 0.32);
+    box-shadow: 0 12px 28px -8px rgba(14, 165, 233, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.16);
     border-radius: 20px;
     display: flex;
     align-items: center;
