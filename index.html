@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=8">
+    <link rel="stylesheet" href="style.css?v=9">
 </head>
 <body data-theme="aurora">
     <!-- Interactive Particle Canvas -->
@@ -364,14 +364,15 @@
 
                     <!-- Bottom Interactive Bento Widgets (Music Player + Quick QR Card) -->
                     <div class="bottom-widgets">
-                        <!-- Interactive Music / Vibe Bar (Click to Play/Pause Real Lo-Fi Chill Audio) -->
-                        <div class="music-bar" id="musicPlayerBtn" title="Bấm để Bật / Tắt nhạc nền Chill">
+                        <!-- Interactive Music / Vibe Bar (Click to Play/Pause Real Audio) -->
+                        <div class="music-bar" id="musicPlayerBtn" title="Bấm để Bật / Tắt nhạc nền">
+                            <audio id="bgmAudio" src="bgm.mp3" loop preload="auto" autoplay></audio>
                             <div class="vinyl-disc paused" id="vinyl-disc">
                                 <div class="vinyl-inner"></div>
                             </div>
                             <div class="music-meta">
                                 <span class="music-label" id="music-status-label">CHẠM ĐỂ PHÁT NHẠC 🎧</span>
-                                <span class="music-track">Mountain Breeze • Lo-Fi Chill</span>
+                                <span class="music-track">We Don't Talk Anymore • Slowed & Reverb</span>
                             </div>
                             <button class="music-play-btn" id="musicToggleIcon" aria-label="Phát nhạc">
                                 <svg id="playSvg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
@@ -422,6 +423,6 @@
     <!-- Toast Notification -->
     <div class="toast" id="toast">Đã sao chép liên kết! ✨</div>
 
-    <script src="script.js?v=8"></script>
+    <script src="script.js?v=9"></script>
 </body>
 </html>

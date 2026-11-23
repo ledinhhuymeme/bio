@@ -59,8 +59,8 @@ const BIO_CONFIG = {
                 zalo: "Nhắn tin trực tiếp cho mình 💬",
                 gmail: "huyledinh21@gmail.com"
             },
-            musicPaused: "CHẠM ĐỂ PHÁT NHẠC 🎧",
-            musicPlaying: "ĐANG PHÁT • LO-FI CHILL 🎵",
+            musicPaused: "TẠM DỪNG • CHẠM ĐỂ BẬT NHẠC 🎧",
+            musicPlaying: "ĐANG PHÁT NHẠC NỀN 🎵",
             miniQrTitle: "Quét trên điện thoại",
             miniQrSub: "Mở nhanh trang Bio",
             footerCrafted: "Thiết kế với ✨",
@@ -99,8 +99,8 @@ const BIO_CONFIG = {
                 zalo: "Direct message me on Zalo 💬",
                 gmail: "huyledinh21@gmail.com"
             },
-            musicPaused: "TAP TO PLAY CHILL MUSIC 🎧",
-            musicPlaying: "NOW PLAYING • LO-FI CHILL 🎵",
+            musicPaused: "PAUSED • TAP TO PLAY MUSIC 🎧",
+            musicPlaying: "NOW PLAYING BGM 🎵",
             miniQrTitle: "Scan on mobile",
             miniQrSub: "Quickly open Bio page",
             footerCrafted: "Crafted with ✨",
@@ -336,88 +336,81 @@ function downloadVCard() {
     showToast(dict.toastContactSaved);
 }
 
-// Trình phát nhạc nền Ambient Lo-Fi Chill bằng Web Audio API
+// Trình phát nhạc nền MP3 tự động phát khi vào trang Bio
 function initChillMusicPlayer() {
     const playerBar = document.getElementById("musicPlayerBtn");
+    const audio = document.getElementById("bgmAudio");
     const vinyl = document.getElementById("vinyl-disc");
     const eq = document.getElementById("equalizer");
     const playSvg = document.getElementById("playSvg");
     const pauseSvg = document.getElementById("pauseSvg");
     const statusLabel = document.getElementById("music-status-label");
 
-    if (!playerBar) return;
+    if (!playerBar || !audio) return;
 
-    let audioCtx = null;
-    let chordTimer = null;
+    audio.volume = 0.75;
 
-    // Hợp âm Lo-Fi Chill ấm áp (Fmaj7 - Em7 - Dm7 - Cmaj7)
-    const chords = [
-        [174.61, 220.00, 261.63, 329.63],
-        [164.81, 196.00, 246.94, 293.66],
-        [146.83, 174.61, 220.00, 261.63],
-        [130.81, 164.81, 196.00, 246.94]
-    ];
-    let chordIdx = 0;
-
-    function playChillChord() {
-        if (!isMusicPlaying || !audioCtx) return;
-        const now = audioCtx.currentTime;
-        const notes = chords[chordIdx];
-        chordIdx = (chordIdx + 1) % chords.length;
-
-        notes.forEach((freq, i) => {
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            const filter = audioCtx.createBiquadFilter();
-
-            osc.type = "sine";
-            osc.frequency.setValueAtTime(freq, now);
-
-            // Giai điệu arpeggio nhẹ
-            const noteStart = now + i * 0.12;
-            filter.type = "lowpass";
-            filter.frequency.setValueAtTime(650, noteStart);
-
-            gain.gain.setValueAtTime(0.0001, noteStart);
-            gain.gain.linearRampToValueAtTime(0.032, noteStart + 0.45);
-            gain.gain.exponentialRampToValueAtTime(0.0008, noteStart + 3.1);
-
-            osc.connect(filter);
-            filter.connect(gain);
-            gain.connect(audioCtx.destination);
-
-            osc.start(noteStart);
-            osc.stop(noteStart + 3.2);
-        });
-    }
-
-    playerBar.addEventListener("click", () => {
-        isMusicPlaying = !isMusicPlaying;
+    function updatePlayerUI(playing) {
+        isMusicPlaying = playing;
         const dict = BIO_CONFIG.i18n[currentLang];
-
-        if (isMusicPlaying) {
-            if (!audioCtx) {
-                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-                audioCtx = new AudioContextClass();
-            }
-            if (audioCtx.state === "suspended") {
-                audioCtx.resume();
-            }
-            playChillChord();
-            chordTimer = setInterval(playChillChord, 3000);
-
+        if (playing) {
             vinyl.classList.remove("paused");
             eq.classList.remove("paused");
             playSvg.style.display = "none";
             pauseSvg.style.display = "block";
             statusLabel.textContent = dict.musicPlaying;
         } else {
-            if (chordTimer) clearInterval(chordTimer);
             vinyl.classList.add("paused");
             eq.classList.add("paused");
             playSvg.style.display = "block";
             pauseSvg.style.display = "none";
             statusLabel.textContent = dict.musicPaused;
+        }
+    }
+
+    // Tự động kích hoạt phát nhạc ngay khi tải trang
+    function tryAutoPlay() {
+        audio.play().then(() => {
+            updatePlayerUI(true);
+            removeUnlockListeners();
+        }).catch(() => {
+            // Nếu trình duyệt chặn autoplay trước khi chạm, tự động phát ngay ở cú chạm/di chuột đầu tiên
+            updatePlayerUI(false);
+        });
+    }
+
+    function unlockOnFirstInteraction() {
+        if (!isMusicPlaying && audio.paused) {
+            audio.play().then(() => {
+                updatePlayerUI(true);
+                removeUnlockListeners();
+            }).catch(() => {});
+        } else {
+            removeUnlockListeners();
+        }
+    }
+
+    function removeUnlockListeners() {
+        document.removeEventListener("click", unlockOnFirstInteraction);
+        document.removeEventListener("touchstart", unlockOnFirstInteraction);
+        document.removeEventListener("keydown", unlockOnFirstInteraction);
+    }
+
+    document.addEventListener("click", unlockOnFirstInteraction, { passive: true });
+    document.addEventListener("touchstart", unlockOnFirstInteraction, { passive: true });
+    document.addEventListener("keydown", unlockOnFirstInteraction, { passive: true });
+
+    tryAutoPlay();
+
+    // Bấm vào thanh nhạc để Bật / Tắt chủ động
+    playerBar.addEventListener("click", (e) => {
+        e.stopPropagation();
+        removeUnlockListeners();
+        if (audio.paused) {
+            audio.play().then(() => updatePlayerUI(true)).catch(() => {});
+        } else {
+            audio.pause();
+            updatePlayerUI(false);
         }
     });
 }
