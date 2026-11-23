@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=28">
+    <link rel="stylesheet" href="style.css?v=29">
 </head>
 <body data-theme="aurora">
     <!-- Glass Splash Screen (Rich Portal Card with Cover, Live Badges, Music Teaser & Social Icons) -->
@@ -573,12 +573,12 @@
                         <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                     </svg>
                 </span>
-                <h3 id="secret-modal-title">Hộp thư & Lời nhắn cho Huy Đình</h3>
-                <p id="secret-modal-sub">Gửi tin nhắn trực tiếp và xem bảng lời nhắn ngay tại đây ⚡</p>
+                <h3 id="secret-modal-title">Gửi tin nhắn cho Huy Đình</h3>
+                <p id="secret-modal-sub">Tin nhắn của bạn được bảo mật, chỉ mình Huy Đình đọc được 🔒</p>
             </div>
             <div class="secret-form">
                 <input type="text" id="secretSender" class="secret-input" placeholder="Tên của bạn (để trống nếu muốn ẩn danh)">
-                <textarea id="secretContent" class="secret-textarea" rows="2" placeholder="Nhập nội dung tin nhắn..."></textarea>
+                <textarea id="secretContent" class="secret-textarea" rows="3" placeholder="Nhập nội dung tin nhắn riêng tư..."></textarea>
                 <div class="secret-quick-chips">
                     <button type="button" class="quick-msg-chip">Giao diện Bio chất quá! 🔥</button>
                     <button type="button" class="quick-msg-chip">Add Locket giao lưu nhé 🤝</button>
@@ -589,11 +589,25 @@
                 </button>
             </div>
 
-            <!-- Live Inbox / Message Wall right inside the Bio page -->
-            <div class="inbox-wall">
+            <!-- Owner-Only Private Inbox Trigger & Password Gate -->
+            <div class="owner-gate-wrap">
+                <button type="button" class="owner-unlock-link" id="ownerUnlockToggle">
+                    🔒 Dành riêng cho Huy Đình: Mở hộp thư
+                </button>
+                <div class="owner-pin-box" id="ownerPinBox" style="display:none;">
+                    <input type="password" id="ownerPinInput" class="owner-pin-input" placeholder="Nhập mã PIN của bạn...">
+                    <button type="button" class="owner-pin-btn" id="ownerPinSubmit">Mở</button>
+                </div>
+            </div>
+
+            <!-- Private Inbox (Hidden from everyone, only visible after Huy Đình enters PIN) -->
+            <div class="inbox-wall" id="privateInboxWall" style="display:none;">
                 <div class="inbox-wall-header">
-                    <span class="inbox-wall-title">📬 HỘP THƯ ĐÃ NHẬN</span>
-                    <span class="inbox-count-badge" id="inboxCountBadge">0 tin nhắn</span>
+                    <span class="inbox-wall-title">📬 HỘP THƯ RIÊNG CỦA HUY ĐÌNH</span>
+                    <div class="inbox-header-right">
+                        <span class="inbox-count-badge" id="inboxCountBadge">0 tin nhắn</span>
+                        <button type="button" class="inbox-lock-btn" id="ownerLockBtn" title="Khóa hộp thư">Khóa 🔒</button>
+                    </div>
                 </div>
                 <div class="inbox-list" id="inboxList">
                     <p class="inbox-empty">Đang tải hộp thư...</p>
@@ -605,6 +619,6 @@
     <!-- Toast Notification -->
     <div class="toast" id="toast">Đã sao chép liên kết! ✨</div>
 
-    <script src="script.js?v=28"></script>
+    <script src="script.js?v=29"></script>
 </body>
 </html>

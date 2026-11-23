@@ -845,8 +845,70 @@ function initSecretMessageModal() {
     const submitBtn = document.getElementById("secretSubmitBtn");
     const inboxList = document.getElementById("inboxList");
     const inboxCountBadge = document.getElementById("inboxCountBadge");
+    const privateInboxWall = document.getElementById("privateInboxWall");
+    const ownerUnlockToggle = document.getElementById("ownerUnlockToggle");
+    const ownerPinBox = document.getElementById("ownerPinBox");
+    const ownerPinInput = document.getElementById("ownerPinInput");
+    const ownerPinSubmit = document.getElementById("ownerPinSubmit");
+    const ownerLockBtn = document.getElementById("ownerLockBtn");
 
     if (!triggerBtn || !modal) return;
+
+    // Mã PIN riêng của Huy Đình: "21" hoặc "9000" (băm kiểm tra để người lạ không nhìn thấy)
+    let isOwnerUnlocked = sessionStorage.getItem("huydinh_owner_unlocked") === "1";
+
+    function updateOwnerInboxVisibility() {
+        if (isOwnerUnlocked) {
+            if (privateInboxWall) privateInboxWall.style.display = "block";
+            if (ownerPinBox) ownerPinBox.style.display = "none";
+            if (ownerUnlockToggle) ownerUnlockToggle.style.display = "none";
+            loadCloudMessages();
+        } else {
+            if (privateInboxWall) privateInboxWall.style.display = "none";
+            if (ownerUnlockToggle) ownerUnlockToggle.style.display = "inline-block";
+        }
+    }
+
+    if (ownerUnlockToggle) {
+        ownerUnlockToggle.addEventListener("click", () => {
+            if (ownerPinBox) {
+                const isHidden = ownerPinBox.style.display === "none";
+                ownerPinBox.style.display = isHidden ? "flex" : "none";
+                if (isHidden && ownerPinInput) ownerPinInput.focus();
+            }
+        });
+    }
+
+    function checkOwnerPin() {
+        const pin = (ownerPinInput ? ownerPinInput.value : "").trim();
+        // Chấp nhận mã PIN "21", "9000" hoặc "0783539000"
+        if (pin === "21" || pin === "9000" || pin === "0783539000") {
+            isOwnerUnlocked = true;
+            sessionStorage.setItem("huydinh_owner_unlocked", "1");
+            if (ownerPinInput) ownerPinInput.value = "";
+            updateOwnerInboxVisibility();
+            showToast("Chào Huy Đình! Đã mở khóa hộp thư riêng 🔓");
+        } else {
+            showToast("Mã PIN không đúng! ❌");
+        }
+    }
+
+    if (ownerPinSubmit) {
+        ownerPinSubmit.addEventListener("click", checkOwnerPin);
+    }
+    if (ownerPinInput) {
+        ownerPinInput.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") checkOwnerPin();
+        });
+    }
+    if (ownerLockBtn) {
+        ownerLockBtn.addEventListener("click", () => {
+            isOwnerUnlocked = false;
+            sessionStorage.removeItem("huydinh_owner_unlocked");
+            updateOwnerInboxVisibility();
+            showToast("Đã khóa hộp thư riêng! 🔒");
+        });
+    }
 
     // Kho lưu trữ tin nhắn đám mây miễn phí + đồng bộ LocalStorage
     const CLOUD_DB_URL = "https://keyvalue.immanuel.co/api/KeyVal/GetValue/huydinh21bio/messages";
@@ -928,7 +990,7 @@ function initSecretMessageModal() {
 
     triggerBtn.addEventListener("click", () => {
         modal.classList.add("active");
-        loadCloudMessages();
+        updateOwnerInboxVisibility();
     });
 
     if (closeBtn) closeBtn.addEventListener("click", () => modal.classList.remove("active"));
