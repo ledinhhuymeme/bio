@@ -220,6 +220,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // 13c. Xem ảnh phóng to (Photo Lightbox khi bấm vào Avatar hoặc Featured Moment)
     initPhotoLightbox();
 
+    // 13d. Cập nhật thời tiết thực tế (Live Weather Pill)
+    initLiveWeather();
+
+    // 13e. Hiệu ứng vệt sáng lấp lánh theo con trỏ chuột (Cursor Sparkle Trail)
+    initCursorSparkles();
+
     // 14. Nút chia sẻ trang Bio (dùng luôn link ngắn https://is.gd/huydinh_bio)
     const OFFICIAL_SHORT_URL = "https://is.gd/huydinh_bio";
     const shareBtn = document.getElementById("shareBtn");
@@ -351,11 +357,34 @@ function initChillMusicPlayer() {
     const progressFill = document.getElementById("musicProgressFill");
     const progressWrap = document.getElementById("musicProgressWrap");
     const timeEl = document.getElementById("music-time");
+    const lyricEl = document.getElementById("music-lyric");
+    const muteBtn = document.getElementById("musicMuteBtn");
+    const volOnSvg = document.getElementById("volOnSvg");
+    const volOffSvg = document.getElementById("volOffSvg");
     const avatarContainer = document.querySelector(".avatar-container");
 
     if (!playerBar || !audio) return;
 
     audio.volume = 0.75;
+
+    // Lời bài hát đồng bộ theo từng giây của file bgm.mp3 (We Don't Talk Anymore - Slowed & Reverb)
+    const syncedLyrics = [
+        { time: 0, text: "♪ We don't talk anymore... (Slowed & Reverb)" },
+        { time: 11, text: "♪ Like we used to do..." },
+        { time: 16, text: "♪ We don't love anymore..." },
+        { time: 21, text: "♪ What was all of it for?" },
+        { time: 24, text: "♪ I just heard you found the one you've been looking..." },
+        { time: 29, text: "♪ I wish I would have known that wasn't me..." },
+        { time: 33, text: "♪ 'Cause even after all this time I still wonder..." },
+        { time: 36, text: "♪ Why I can't move on, just the way you did so easily..." },
+        { time: 40, text: "♪ Don't wanna know, kind of dress you're wearing tonight..." },
+        { time: 44, text: "♪ If he's holding onto you so tight, the way I did before..." },
+        { time: 48, text: "♪ I overdosed, should've known your love was a game..." },
+        { time: 52, text: "♪ Now I can't get you out of my brain..." },
+        { time: 55, text: "♪ Oh, it's such a shame... that we don't talk anymore ✨" }
+    ];
+
+    let currentLyricText = "";
 
     function formatTime(sec) {
         if (!sec || isNaN(sec)) return "0:00";
@@ -369,8 +398,37 @@ function initChillMusicPlayer() {
             const pct = (audio.currentTime / audio.duration) * 100;
             if (progressFill) progressFill.style.width = `${pct}%`;
             if (timeEl) timeEl.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+
+            // Cập nhật câu hát theo giây hiện tại
+            if (lyricEl) {
+                let activeLine = syncedLyrics[0].text;
+                for (let i = 0; i < syncedLyrics.length; i++) {
+                    if (audio.currentTime >= syncedLyrics[i].time) {
+                        activeLine = syncedLyrics[i].text;
+                    }
+                }
+                if (activeLine !== currentLyricText) {
+                    currentLyricText = activeLine;
+                    lyricEl.style.opacity = "0";
+                    setTimeout(() => {
+                        lyricEl.textContent = activeLine;
+                        lyricEl.style.opacity = "1";
+                    }, 140);
+                }
+            }
         }
     });
+
+    if (muteBtn) {
+        muteBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            audio.muted = !audio.muted;
+            if (volOnSvg && volOffSvg) {
+                volOnSvg.style.display = audio.muted ? "none" : "block";
+                volOffSvg.style.display = audio.muted ? "block" : "none";
+            }
+        });
+    }
 
     if (progressWrap) {
         progressWrap.addEventListener("click", (e) => {
@@ -672,6 +730,45 @@ function initPhotoLightbox() {
     photoModal.addEventListener("click", (e) => {
         if (e.target === photoModal) photoModal.classList.remove("active");
     });
+}
+
+// Thời tiết thực tế theo thời gian thực (Open-Meteo API - Hà Nội / Việt Nam)
+function initLiveWeather() {
+    const tempEl = document.getElementById("weather-temp");
+    const iconEl = document.getElementById("weather-icon");
+    if (!tempEl || !iconEl) return;
+
+    fetch("https://api.open-meteo.com/v1/forecast?latitude=21.0285&longitude=105.8542&current_weather=true")
+        .then((res) => res.json())
+        .then((data) => {
+            if (data && data.current_weather) {
+                const temp = Math.round(data.current_weather.temperature);
+                const code = data.current_weather.weathercode;
+                tempEl.textContent = `${temp}°C`;
+                if (code === 0) iconEl.textContent = "☀️";
+                else if (code <= 3) iconEl.textContent = "⛅";
+                else if (code <= 67) iconEl.textContent = "🌧️";
+                else iconEl.textContent = "⛈️";
+            }
+        })
+        .catch(() => {});
+}
+
+// Hiệu ứng hạt sáng lấp lánh chạy theo chuột (Cursor Sparkle Trail)
+function initCursorSparkles() {
+    let lastSpawn = 0;
+    window.addEventListener("mousemove", (e) => {
+        const now = performance.now();
+        if (now - lastSpawn < 45) return;
+        lastSpawn = now;
+
+        const sparkle = document.createElement("span");
+        sparkle.className = "cursor-sparkle";
+        sparkle.style.left = `${e.clientX}px`;
+        sparkle.style.top = `${e.clientY}px`;
+        document.body.appendChild(sparkle);
+        setTimeout(() => sparkle.remove(), 650);
+    }, { passive: true });
 }
 
 // Sao chép vào clipboard

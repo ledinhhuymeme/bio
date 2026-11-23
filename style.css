@@ -291,6 +291,21 @@ body {
     border-radius: 6px;
 }
 
+.weather-pill {
+    display: none;
+    align-items: center;
+    gap: 5px;
+    background: rgba(10, 14, 23, 0.68);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    padding: 5px 11px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #e2e8f0;
+}
+
 .heart-pill {
     display: inline-flex;
     align-items: center;
@@ -1270,11 +1285,43 @@ body {
 
 .music-track {
     font-size: 0.8rem;
-    font-weight: 600;
-    color: #e2e8f0;
+    font-weight: 700;
+    color: #f8fafc;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.music-lyric-line {
+    font-size: 0.73rem;
+    font-weight: 600;
+    color: #38bdf8;
+    font-style: italic;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 17px;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.music-mute-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.music-mute-btn:hover {
+    background: rgba(255, 255, 255, 0.16);
+    color: #fff;
 }
 
 .music-progress-wrap {
@@ -1313,6 +1360,31 @@ body {
 .equalizer span:nth-child(2) { height: 15px; animation-delay: 0.2s; }
 .equalizer span:nth-child(3) { height: 10px; animation-delay: 0.4s; }
 .equalizer span:nth-child(4) { height: 14px; animation-delay: 0.1s; }
+.equalizer span:nth-child(5) { height: 11px; animation-delay: 0.3s; }
+
+/* Cursor Sparkle Trail */
+.cursor-sparkle {
+    position: fixed;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    background: var(--accent-primary);
+    box-shadow: 0 0 10px var(--accent-primary), 0 0 20px var(--aurora-c2);
+    animation: sparkleFade 0.65s ease-out forwards;
+}
+
+@keyframes sparkleFade {
+    0% {
+        opacity: 0.95;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, calc(-50% + 18px)) scale(0.1);
+    }
+}
 
 @keyframes eqBounce {
     0%, 100% { transform: scaleY(0.45); }
@@ -1395,7 +1467,8 @@ body {
         padding: 18px 32px;
     }
 
-    .clock-pill {
+    .clock-pill,
+    .weather-pill {
         display: inline-flex;
     }
 

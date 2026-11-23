@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=11">
+    <link rel="stylesheet" href="style.css?v=12">
 </head>
 <body data-theme="aurora">
     <!-- Interactive Particle Canvas -->
@@ -64,6 +64,10 @@
                             </svg>
                             <span id="live-clock">--:--:--</span>
                             <span class="tz-badge">VN</span>
+                        </div>
+                        <div class="weather-pill" id="weather-pill" title="Thời tiết hiện tại">
+                            <span id="weather-icon">☁️</span>
+                            <span id="weather-temp">23°C</span>
                         </div>
                         <button class="heart-pill" id="heartBtn" title="Thả tim cho Huy Đình 💖">
                             <span class="heart-icon">❤️</span>
@@ -371,7 +375,7 @@
 
                     <!-- Bottom Interactive Bento Widgets (Music Player + Quick QR Card) -->
                     <div class="bottom-widgets">
-                        <!-- Interactive Music / Vibe Bar (Click to Play/Pause Real Audio) -->
+                        <!-- Interactive Music / Vibe Bar (Click to Play/Pause Real Audio + Synced Lyrics) -->
                         <div class="music-bar" id="musicPlayerBtn" title="Bấm để Bật / Tắt nhạc nền">
                             <audio id="bgmAudio" src="bgm.mp3" loop preload="auto" autoplay></audio>
                             <div class="vinyl-disc paused" id="vinyl-disc">
@@ -383,10 +387,22 @@
                                     <span class="music-time" id="music-time">0:00 / 1:00</span>
                                 </div>
                                 <span class="music-track">We Don't Talk Anymore • Slowed & Reverb</span>
+                                <div class="music-lyric-line" id="music-lyric">♪ We don't talk anymore, like we used to do...</div>
                                 <div class="music-progress-wrap" id="musicProgressWrap">
                                     <div class="music-progress-fill" id="musicProgressFill"></div>
                                 </div>
                             </div>
+                            <button class="music-mute-btn" id="musicMuteBtn" title="Bật / Tắt tiếng" aria-label="Bật tắt tiếng">
+                                <svg id="volOnSvg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                                </svg>
+                                <svg id="volOffSvg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                    <line x1="23" y1="9" x2="17" y2="15"></line>
+                                    <line x1="17" y1="9" x2="23" y2="15"></line>
+                                </svg>
+                            </button>
                             <button class="music-play-btn" id="musicToggleIcon" aria-label="Phát nhạc">
                                 <svg id="playSvg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                                     <polygon points="6 3 20 12 6 21 6 3"></polygon>
@@ -397,7 +413,7 @@
                                 </svg>
                             </button>
                             <div class="equalizer paused" id="equalizer">
-                                <span></span><span></span><span></span><span></span>
+                                <span></span><span></span><span></span><span></span><span></span>
                             </div>
                         </div>
 
@@ -445,6 +461,6 @@
     <!-- Toast Notification -->
     <div class="toast" id="toast">Đã sao chép liên kết! ✨</div>
 
-    <script src="script.js?v=11"></script>
+    <script src="script.js?v=12"></script>
 </body>
 </html>
