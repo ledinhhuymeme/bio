@@ -2223,17 +2223,301 @@ body {
     opacity: 1;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
     body {
-        padding: 14px 12px;
+        padding: 10px 10px 24px;
+        align-items: flex-start;
     }
+
+    /* Splash Screen Mobile Polish */
+    .enter-overlay {
+        padding: 14px;
+    }
+
+    .enter-card {
+        border-radius: 26px;
+    }
+
+    .enter-cover {
+        height: 118px;
+    }
+
+    .enter-avatar-wrap {
+        width: 98px;
+        height: 98px;
+        margin-top: -50px;
+    }
+
+    .enter-body {
+        padding: 0 18px 20px;
+    }
+
+    .enter-title {
+        font-size: 1.5rem;
+    }
+
+    .enter-social-dock {
+        gap: 8px;
+        margin-bottom: 14px;
+    }
+
+    .dock-item {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+    }
+
+    .enter-btn {
+        padding: 13px 22px;
+        font-size: 0.92rem;
+    }
+
+    /* Main Bento Card Mobile Polish */
     .bento-card {
-        border-radius: 28px;
+        border-radius: 26px;
     }
+
+    .cover-banner {
+        height: 160px;
+    }
+
+    /* Top Bar: Prevent Left & Right Pills from colliding */
+    .top-bar {
+        padding: 12px 14px;
+        gap: 6px;
+        align-items: flex-start;
+    }
+
+    .top-left-pills {
+        gap: 5px;
+        flex-wrap: nowrap;
+    }
+
+    .status-pill,
+    .weather-pill,
+    .heart-pill {
+        padding: 4px 9px;
+        font-size: 0.7rem;
+        height: 30px;
+        gap: 4px;
+        white-space: nowrap;
+    }
+
+    .top-actions {
+        gap: 5px;
+        flex-shrink: 0;
+    }
+
+    .theme-btn,
+    .icon-btn {
+        height: 30px;
+        width: 30px;
+        padding: 0;
+        justify-content: center;
+    }
+
+    .lang-toggle {
+        height: 30px;
+        padding: 0 8px;
+        font-size: 0.68rem;
+        gap: 3px;
+    }
+
+    /* Profile Header Mobile */
+    .profile {
+        padding: 0 16px;
+        margin-top: -54px;
+        margin-bottom: 18px;
+    }
+
+    .avatar-container {
+        width: 102px;
+        height: 102px;
+        margin-bottom: 10px;
+    }
+
+    .profile-name {
+        font-size: 1.5rem;
+    }
+
+    .typewriter-box {
+        min-height: 42px;
+        font-size: 0.84rem;
+        padding: 0 4px;
+    }
+
+    .tags-row {
+        gap: 6px;
+    }
+
+    .tag-chip {
+        font-size: 0.7rem;
+        padding: 4px 10px;
+    }
+
+    /* Stats Bar Mobile */
+    .stats-bar {
+        margin-top: 14px;
+        padding: 10px 8px;
+        border-radius: 16px;
+    }
+
+    .stat-value {
+        font-size: 0.96rem;
+    }
+
+    .stat-label {
+        font-size: 0.66rem;
+    }
+
+    /* Cute Cat Donate Card Mobile */
+    .cat-donate-card {
+        margin-top: 14px;
+        padding: 10px 12px;
+        gap: 12px;
+        border-radius: 18px;
+    }
+
+    .cat-img-wrap {
+        width: 92px;
+        height: 110px;
+        border-radius: 14px;
+    }
+
+    .cat-donate-title {
+        font-size: 0.88rem;
+    }
+
+    .cat-donate-sub {
+        font-size: 0.7rem;
+        white-space: normal;
+    }
+
+    /* Section Header Mobile (Stack cleanly or space neatly without collision) */
+    .section-header {
+        padding: 0 16px;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .section-title-group {
+        gap: 6px;
+    }
+
+    .section-title {
+        font-size: 0.72rem;
+    }
+
+    .greeting-badge {
+        font-size: 0.66rem;
+        padding: 2px 8px;
+    }
+
+    .secret-msg-trigger {
+        font-size: 0.7rem;
+        padding: 4px 11px;
+    }
+
+    /* Social Link Cards Mobile */
     .links-list {
         padding: 0 16px;
+        gap: 11px;
     }
+
+    .link-card {
+        padding: 12px 13px;
+        gap: 12px;
+        border-radius: 18px;
+    }
+
+    .link-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 13px;
+    }
+
+    .link-title {
+        font-size: 0.96rem;
+    }
+
+    .platform-tag,
+    .hot-badge {
+        font-size: 0.56rem;
+        padding: 2px 6px;
+    }
+
+    .link-sub {
+        font-size: 0.76rem;
+    }
+
+    .copy-small-btn {
+        width: 30px;
+        height: 30px;
+    }
+
+    .arrow-circle {
+        width: 28px;
+        height: 28px;
+    }
+
+    /* Music Bar Mobile */
     .bottom-widgets {
-        margin: 18px 16px 0;
+        margin: 14px 16px 0;
+    }
+
+    .music-bar {
+        padding: 10px 12px;
+        gap: 9px;
+        border-radius: 18px;
+    }
+
+    .vinyl-disc {
+        width: 34px;
+        height: 34px;
+    }
+
+    .music-label {
+        font-size: 0.58rem;
+    }
+
+    .music-time {
+        font-size: 0.58rem;
+    }
+
+    .music-track {
+        font-size: 0.75rem;
+    }
+
+    .music-lyric-line {
+        font-size: 0.68rem;
+    }
+
+    .music-mute-btn,
+    .music-play-btn {
+        width: 28px;
+        height: 28px;
+    }
+
+    .equalizer {
+        display: none;
+    }
+
+    /* Modals Mobile */
+    .photo-lightbox-box,
+    .secret-modal-box,
+    .qr-box {
+        padding: 20px 16px;
+        border-radius: 24px;
+    }
+}
+
+@media (max-width: 375px) {
+    .weather-pill {
+        display: none;
+    }
+    .cat-img-wrap {
+        width: 82px;
+        height: 100px;
     }
 }
