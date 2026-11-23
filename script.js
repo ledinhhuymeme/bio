@@ -919,6 +919,7 @@ function initSecretMessageModal() {
     const ownerPinSubmit = document.getElementById("ownerPinSubmit");
     const ownerLockBtn = document.getElementById("ownerLockBtn");
     const ownerRefreshBtn = document.getElementById("ownerRefreshBtn");
+    const ownerClearAllBtn = document.getElementById("ownerClearAllBtn");
 
     if (!triggerBtn || !modal) return;
 
@@ -986,8 +987,9 @@ function initSecretMessageModal() {
     }
 
     // Hệ thống lưu trữ tin nhắn Đám Mây Kép (Ntfy JSON Stream + Multi-Slot KeyVal + LocalStorage)
-    // Không bao giờ bị giới hạn độ dài URL và mỗi tin nhắn là 1 bản ghi độc lập, không thể bị ghi đè hay mất!
+    // Hỗ trợ XÓA từng tin nhắn hoặc XÓA TẤT CẢ đồng bộ trên mọi thiết bị!
     const LOCAL_KEY = "huydinh_bio_inbox_messages_v2";
+    const DELETED_KEY = "huydinh_bio_deleted_msg_ids";
 
     function encodeUrlSafeBase64(obj) {
         const jsonStr = JSON.stringify(obj);
@@ -997,14 +999,25 @@ function initSecretMessageModal() {
         return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
     }
 
-    function decodeUrlSafeBase64(safeB64) {
-        let b64 = safeB64.replace(/-/g, "+").replace(/_/g, "/");
-        while (b64.length % 4 !== 0) b64 += "=";
-        const binary = atob(b64);
-        const bytes = new Uint8Array(binary.length);
-        for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-        const jsonStr = new TextDecoder().decode(bytes);
-        return JSON.parse(jsonStr);
+    function getDeletedIds() {
+        try {
+            const raw = localStorage.getItem(DELETED_KEY);
+            if (raw) {
+                const arr = JSON.parse(raw);
+                if (Array.isArray(arr)) return new Set(arr);
+            }
+        } catch {}
+        return new Set();
+    }
+
+    function saveDeletedIds(setObj) {
+        try {
+            localStorage.setItem(DELETED_KEY, JSON.stringify(Array.from(setObj)));
+        } catch {}
+    }
+
+    function getMsgKey(m) {
+        return m.id || `${m.sender}_${m.text}_${m.time}`;
     }
 
     function getLocalMessages() {
@@ -1012,35 +1025,46 @@ function initSecretMessageModal() {
             const raw = localStorage.getItem(LOCAL_KEY);
             if (raw) {
                 const parsed = JSON.parse(raw);
-                if (Array.isArray(parsed)) return parsed;
+                if (Array.isArray(parsed)) {
+                    const deleted = getDeletedIds();
+                    return parsed.filter((m) => m && !deleted.has(getMsgKey(m)));
+                }
             }
         } catch {}
         return [];
     }
 
-    function mergeMessages(listA, listB) {
+    function mergeMessages(listA, listB, deletedSet) {
+        const deleted = deletedSet || getDeletedIds();
         const map = new Map();
         [...listA, ...listB].forEach((m) => {
             if (!m || !m.text) return;
-            const key = m.id || `${m.sender}_${m.text}_${m.time}`;
-            map.set(key, m);
+            const key = getMsgKey(m);
+            m.id = key;
+            if (!deleted.has(key)) {
+                map.set(key, m);
+            }
         });
         return Array.from(map.values());
     }
 
     function renderInbox(messages) {
         if (!inboxList) return;
-        if (!messages || messages.length === 0) {
-            inboxList.innerHTML = `<p class="inbox-empty">Chưa có tin nhắn nào. Hãy là người đầu tiên nhắn nhé!</p>`;
+        const deleted = getDeletedIds();
+        const visibleMsgs = (messages || []).filter((m) => m && !deleted.has(getMsgKey(m)));
+
+        if (visibleMsgs.length === 0) {
+            inboxList.innerHTML = `<p class="inbox-empty">Chưa có tin nhắn nào.</p>`;
             if (inboxCountBadge) inboxCountBadge.textContent = "0 tin nhắn";
             return;
         }
-        if (inboxCountBadge) inboxCountBadge.textContent = `${messages.length} tin nhắn`;
+        if (inboxCountBadge) inboxCountBadge.textContent = `${visibleMsgs.length} tin nhắn`;
 
-        inboxList.innerHTML = messages
+        inboxList.innerHTML = visibleMsgs
             .slice()
             .reverse()
             .map((m) => {
+                const key = getMsgKey(m).replace(/"/g, "&quot;");
                 const safeSender = (m.sender || "Ẩn danh").replace(/</g, "&lt;").replace(/>/g, "&gt;");
                 const safeText = (m.text || "").replace(/</g, "&lt;").replace(/>/g, "&gt;");
                 const safeTime = (m.time || "").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -1048,40 +1072,103 @@ function initSecretMessageModal() {
                     <div class="inbox-item">
                         <div class="inbox-item-top">
                             <span class="inbox-sender">⚡ ${safeSender}</span>
-                            <span class="inbox-time">${safeTime}</span>
+                            <div class="inbox-item-actions">
+                                <span class="inbox-time">${safeTime}</span>
+                                <button type="button" class="inbox-del-btn" data-del-id="${key}" title="Xóa tin nhắn này">&times;</button>
+                            </div>
                         </div>
                         <p class="inbox-text">${safeText}</p>
                     </div>
                 `;
             })
             .join("");
+
+        // Gắn sự kiện xóa từng tin nhắn
+        inboxList.querySelectorAll(".inbox-del-btn").forEach((btn) => {
+            btn.addEventListener("click", async (e) => {
+                e.stopPropagation();
+                const targetId = btn.getAttribute("data-del-id");
+                if (targetId) {
+                    await deleteMessageById(targetId);
+                }
+            });
+        });
+    }
+
+    // Xóa 1 tin nhắn & đồng bộ lệnh xóa lên Cloud để mọi thiết bị khác cũng xóa theo
+    async function deleteMessageById(targetId) {
+        const deleted = getDeletedIds();
+        deleted.add(targetId);
+        saveDeletedIds(deleted);
+
+        const remaining = getLocalMessages().filter((m) => getMsgKey(m) !== targetId);
+        localStorage.setItem(LOCAL_KEY, JSON.stringify(remaining));
+        renderInbox(remaining);
+        showToast("Đã xóa tin nhắn! 🗑️");
+
+        try {
+            await fetch(`https://ntfy.sh/${NTFY_INBOX_TOPIC}`, {
+                method: "POST",
+                body: JSON.stringify({ action: "delete", targetId: targetId })
+            });
+        } catch {}
+    }
+
+    // Xóa tất cả tin nhắn & đồng bộ lệnh xóa lên Cloud
+    if (ownerClearAllBtn) {
+        ownerClearAllBtn.addEventListener("click", async () => {
+            const current = getLocalMessages();
+            if (current.length === 0) {
+                showToast("Hộp thư đang trống rồi! ✨");
+                return;
+            }
+            const deleted = getDeletedIds();
+            const allIds = current.map((m) => getMsgKey(m));
+            allIds.forEach((id) => deleted.add(id));
+            saveDeletedIds(deleted);
+
+            localStorage.setItem(LOCAL_KEY, JSON.stringify([]));
+            renderInbox([]);
+            showToast("Đã xóa toàn bộ tin nhắn trong hộp thư! 🗑️");
+
+            try {
+                await fetch(`https://ntfy.sh/${NTFY_INBOX_TOPIC}`, {
+                    method: "POST",
+                    body: JSON.stringify({ action: "clear_all", targetIds: allIds })
+                });
+            } catch {}
+        });
     }
 
     async function fetchCloudMessagesList() {
-        let combined = getLocalMessages();
+        const deleted = getDeletedIds();
+        let rawMsgs = [];
 
-        // Nguồn 1: Tải toàn bộ lịch sử tin nhắn từ Ntfy Cloud Stream (hỗ trợ POST JSON không giới hạn độ dài, mọi thiết bị đều đọc được)
         try {
             const res = await fetch(`https://ntfy.sh/${NTFY_INBOX_TOPIC}/json?poll=1&since=0`, { cache: "no-store" });
             const text = await res.text();
             const lines = text.trim().split("\n");
-            const ntfyMsgs = [];
             for (const line of lines) {
                 if (!line) continue;
                 try {
                     const pkt = JSON.parse(line);
                     if (pkt.event === "message" && pkt.message) {
                         const msgData = JSON.parse(pkt.message);
-                        if (msgData && msgData.text) {
-                            msgData.id = pkt.id || msgData.id;
-                            ntfyMsgs.push(msgData);
+                        if (msgData.action === "delete" && msgData.targetId) {
+                            deleted.add(msgData.targetId);
+                        } else if (msgData.action === "clear_all" && Array.isArray(msgData.targetIds)) {
+                            msgData.targetIds.forEach((id) => deleted.add(id));
+                        } else if (msgData && msgData.text) {
+                            msgData.id = msgData.id || pkt.id || `${msgData.sender}_${msgData.text}_${msgData.time}`;
+                            rawMsgs.push(msgData);
                         }
                     }
                 } catch {}
             }
-            combined = mergeMessages(combined, ntfyMsgs);
         } catch {}
 
+        saveDeletedIds(deleted);
+        const combined = mergeMessages(getLocalMessages(), rawMsgs, deleted);
         localStorage.setItem(LOCAL_KEY, JSON.stringify(combined));
         return combined;
     }
@@ -1092,7 +1179,7 @@ function initSecretMessageModal() {
         renderInbox(list);
     }
 
-    // Lắng nghe tin nhắn mới theo thời gian thực (Real-time SSE): Ai ở máy khác vừa bấm gửi là hộp thư của Huy Đình tự hiện tin nhắn mới ngay trong 1 giây!
+    // Lắng nghe cả tin nhắn mới VÀ lệnh xóa tin nhắn theo thời gian thực (Real-time SSE)
     if (window.EventSource) {
         try {
             const inboxEs = new EventSource(`https://ntfy.sh/${NTFY_INBOX_TOPIC}/sse`);
@@ -1101,9 +1188,22 @@ function initSecretMessageModal() {
                     const pkt = JSON.parse(evt.data);
                     if (pkt && pkt.message) {
                         const msgData = JSON.parse(pkt.message);
-                        if (msgData && msgData.text) {
-                            msgData.id = pkt.id || msgData.id;
-                            const updated = mergeMessages(getLocalMessages(), [msgData]);
+                        const deleted = getDeletedIds();
+                        if (msgData.action === "delete" && msgData.targetId) {
+                            deleted.add(msgData.targetId);
+                            saveDeletedIds(deleted);
+                            const remaining = getLocalMessages();
+                            localStorage.setItem(LOCAL_KEY, JSON.stringify(remaining));
+                            if (isOwnerUnlocked) renderInbox(remaining);
+                        } else if (msgData.action === "clear_all" && Array.isArray(msgData.targetIds)) {
+                            msgData.targetIds.forEach((id) => deleted.add(id));
+                            saveDeletedIds(deleted);
+                            const remaining = getLocalMessages();
+                            localStorage.setItem(LOCAL_KEY, JSON.stringify(remaining));
+                            if (isOwnerUnlocked) renderInbox(remaining);
+                        } else if (msgData && msgData.text) {
+                            msgData.id = msgData.id || pkt.id || `${msgData.sender}_${msgData.text}_${msgData.time}`;
+                            const updated = mergeMessages(getLocalMessages(), [msgData], deleted);
                             localStorage.setItem(LOCAL_KEY, JSON.stringify(updated));
                             if (isOwnerUnlocked) {
                                 renderInbox(updated);
