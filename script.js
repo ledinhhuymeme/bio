@@ -9,7 +9,8 @@ const BIO_CONFIG = {
     bioLines: [
         "✨ Kết nối với mình qua các mạng xã hội bên dưới nhé!",
         "📸 Chia sẻ khoảnh khắc mỗi ngày trên Locket & IG",
-        "🎵 Follow TikTok của mình để xem video mới nhất!"
+        "🎵 Follow TikTok của mình để xem video mới nhất!",
+        "💬 Nhắn tin trực tiếp qua Zalo & Facebook 24/7"
     ],
     status: "Online",
     avatar: "avatar.jpg",
@@ -17,11 +18,11 @@ const BIO_CONFIG = {
     links: {
         facebook: {
             url: "https://www.facebook.com/share/1FgFbPsM9g/?mibextid=wwXIfr",
-            subtitle: "Kết bạn & nhắn tin cho mình"
+            subtitle: "Kết bạn & nhắn tin giao lưu"
         },
         instagram: {
             url: "https://www.instagram.com/huy_chuis?lqvp=aTQwbm82bDJ4aTE0&utm_source=qr",
-            subtitle: "@huy_chuis • Daily stories 📸"
+            subtitle: "@huy_chuis • Khoảnh khắc thường ngày 📸"
         },
         tiktok: {
             url: "https://www.tiktok.com/@huy_cao_met8",
@@ -29,12 +30,12 @@ const BIO_CONFIG = {
         },
         locket: {
             url: "https://locket.cam/huy_dinhhh",
-            subtitle: "@huy_dinhhh • Add Locket xem ảnh 💛"
+            subtitle: "@huy_dinhhh • Add Locket xem ảnh trực tiếp 💛"
         },
         zalo: {
             // Link được mã hóa Base64 để không hiển thị số điện thoại trên giao diện hay thanh xem trước URL
             encodedUrl: "aHR0cHM6Ly96YWxvLm1lLzA3ODM1MzkwMDA=",
-            subtitle: "Nhắn tin trực tiếp cho mình 💬"
+            subtitle: "Nhắn tin riêng trực tiếp cho mình 💬"
         }
     }
 };
@@ -48,7 +49,16 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("profile-avatar").src = BIO_CONFIG.avatar;
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // 2. Gắn link mạng xã hội
+    // 2. Đồng hồ thời gian thực (Vietnam Time)
+    updateLiveClock();
+    setInterval(updateLiveClock, 15000);
+
+    // 3. Gắn link mạng xã hội (kèm cơ chế giấu số điện thoại cho Zalo)
+    const openZalo = (e) => {
+        if (e) e.preventDefault();
+        window.open(atob(BIO_CONFIG.links.zalo.encodedUrl), "_blank", "noopener,noreferrer");
+    };
+
     Object.keys(BIO_CONFIG.links).forEach((platform) => {
         const card = document.querySelector(`.link-card[data-platform="${platform}"]`);
         const data = BIO_CONFIG.links[platform];
@@ -58,29 +68,48 @@ document.addEventListener("DOMContentLoaded", () => {
                 subEl.textContent = data.subtitle;
             }
             if (data.encodedUrl) {
-                // Giấu URL thật trên thẻ <a> để khi di chuột vào không lộ số điện thoại ở góc trình duyệt
                 card.removeAttribute("href");
                 card.style.cursor = "pointer";
-                card.addEventListener("click", (e) => {
-                    e.preventDefault();
-                    window.open(atob(data.encodedUrl), "_blank", "noopener,noreferrer");
-                });
+                card.addEventListener("click", openZalo);
             } else if (data.url) {
                 card.href = data.url;
             }
         }
     });
 
-    // 3. Hiệu ứng chữ chạy Typewriter
+    const dockZaloBtn = document.getElementById("dock-zalo-btn");
+    if (dockZaloBtn) {
+        dockZaloBtn.addEventListener("click", openZalo);
+    }
+
+    // 4. Đổi bảng màu Theme (Cyber Blue -> Sunset Pink -> Emerald Neon)
+    const themes = ["cyber", "sunset", "emerald"];
+    const themeNames = {
+        cyber: "Giao diện Cyber Neon 💙",
+        sunset: "Giao diện Sunset Glow 🔥",
+        emerald: "Giao diện Emerald Aurora 💚"
+    };
+    let currentThemeIdx = 0;
+    const themeBtn = document.getElementById("themeBtn");
+    if (themeBtn) {
+        themeBtn.addEventListener("click", () => {
+            currentThemeIdx = (currentThemeIdx + 1) % themes.length;
+            const nextTheme = themes[currentThemeIdx];
+            document.body.setAttribute("data-theme", nextTheme);
+            showToast(themeNames[nextTheme]);
+        });
+    }
+
+    // 5. Hiệu ứng chữ chạy Typewriter
     initTypewriter(BIO_CONFIG.bioLines);
 
-    // 4. Hiệu ứng ánh sáng Spotlight & nghiêng 3D theo chuột
+    // 6. Hiệu ứng ánh sáng Spotlight & nghiêng 3D theo chuột
     initCardInteractions();
 
-    // 5. Hiệu ứng hạt sao lơ lửng (Canvas Particles)
-    initParticles();
+    // 7. Hiệu ứng bầu trời sao & sao băng (Starfield + Shooting Stars)
+    initStarfield();
 
-    // 6. Nút sao chép từng link
+    // 8. Nút sao chép từng link
     document.querySelectorAll(".copy-small-btn").forEach((btn) => {
         btn.addEventListener("click", (e) => {
             e.preventDefault();
@@ -93,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // 7. Nút chia sẻ trang Bio
+    // 9. Nút chia sẻ trang Bio
     const shareBtn = document.getElementById("shareBtn");
     shareBtn.addEventListener("click", async () => {
         const shareUrl = window.location.href;
@@ -112,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // 8. Nút mở mã QR Code
+    // 10. Nút mở mã QR Code
     const qrBtn = document.getElementById("qrBtn");
     const qrModal = document.getElementById("qrModal");
     const qrClose = document.getElementById("qrClose");
@@ -131,6 +160,15 @@ document.addEventListener("DOMContentLoaded", () => {
         if (e.target === qrModal) qrModal.classList.remove("active");
     });
 });
+
+function updateLiveClock() {
+    const clockEl = document.getElementById("live-clock");
+    if (!clockEl) return;
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, "0");
+    const mins = String(now.getMinutes()).padStart(2, "0");
+    clockEl.textContent = `${hours}:${mins}`;
+}
 
 // Hiệu ứng gõ chữ tự động
 function initTypewriter(lines) {
@@ -151,10 +189,10 @@ function initTypewriter(lines) {
             el.textContent = currentLine.substring(0, charIndex);
         }
 
-        let speed = isDeleting ? 28 : 55;
+        let speed = isDeleting ? 26 : 52;
 
         if (!isDeleting && charIndex === currentLine.length) {
-            speed = 2400; // Dừng lại đọc khi gõ xong
+            speed = 2400;
             isDeleting = true;
         } else if (isDeleting && charIndex === 0) {
             isDeleting = false;
@@ -184,8 +222,8 @@ function initCardInteractions() {
         if (window.innerWidth > 768) {
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
-            const rotateX = ((y - centerY) / centerY) * -3.5;
-            const rotateY = ((x - centerX) / centerX) * 3.5;
+            const rotateX = ((y - centerY) / centerY) * -3;
+            const rotateY = ((x - centerX) / centerX) * 3;
             card.style.transform = `rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg)`;
         }
     });
@@ -195,8 +233,8 @@ function initCardInteractions() {
     });
 }
 
-// Hiệu ứng hạt phát sáng lơ lửng (Fireflies / Stars)
-function initParticles() {
+// Hiệu ứng bầu trời sao & sao băng (Starfield + Shooting Stars)
+function initStarfield() {
     const canvas = document.getElementById("bg-canvas");
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -209,30 +247,73 @@ function initParticles() {
         height = canvas.height = window.innerHeight;
     });
 
-    const particles = Array.from({ length: 42 }, () => ({
+    const stars = Array.from({ length: 55 }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
-        r: Math.random() * 2 + 0.6,
-        vx: (Math.random() - 0.5) * 0.35,
-        vy: -Math.random() * 0.45 - 0.1,
-        alpha: Math.random() * 0.65 + 0.2
+        r: Math.random() * 1.8 + 0.5,
+        vy: -Math.random() * 0.35 - 0.08,
+        alpha: Math.random() * 0.7 + 0.2,
+        twinkle: Math.random() * 0.02 + 0.005
     }));
+
+    let shootingStar = null;
+
+    function spawnShootingStar() {
+        if (Math.random() < 0.012 && !shootingStar) {
+            shootingStar = {
+                x: Math.random() * width * 0.8,
+                y: Math.random() * height * 0.35,
+                len: Math.random() * 70 + 50,
+                speed: Math.random() * 9 + 8,
+                alpha: 1
+            };
+        }
+    }
 
     function draw() {
         ctx.clearRect(0, 0, width, height);
-        for (const p of particles) {
-            p.x += p.vx;
-            p.y += p.vy;
 
-            if (p.y < -10) p.y = height + 10;
-            if (p.x < -10) p.x = width + 10;
-            if (p.x > width + 10) p.x = -10;
+        for (const s of stars) {
+            s.y += s.vy;
+            s.alpha += s.twinkle;
+            if (s.alpha > 0.9 || s.alpha < 0.2) s.twinkle = -s.twinkle;
+            if (s.y < -10) s.y = height + 10;
 
             ctx.beginPath();
-            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(255, 255, 255, ${p.alpha})`;
+            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 255, 255, ${s.alpha})`;
             ctx.fill();
         }
+
+        spawnShootingStar();
+        if (shootingStar) {
+            ctx.save();
+            const grad = ctx.createLinearGradient(
+                shootingStar.x,
+                shootingStar.y,
+                shootingStar.x - shootingStar.len,
+                shootingStar.y - shootingStar.len * 0.6
+            );
+            grad.addColorStop(0, `rgba(255, 255, 255, ${shootingStar.alpha})`);
+            grad.addColorStop(1, "rgba(255, 255, 255, 0)");
+
+            ctx.strokeStyle = grad;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(shootingStar.x, shootingStar.y);
+            ctx.lineTo(shootingStar.x - shootingStar.len, shootingStar.y - shootingStar.len * 0.6);
+            ctx.stroke();
+            ctx.restore();
+
+            shootingStar.x += shootingStar.speed;
+            shootingStar.y += shootingStar.speed * 0.6;
+            shootingStar.alpha -= 0.022;
+
+            if (shootingStar.alpha <= 0) {
+                shootingStar = null;
+            }
+        }
+
         requestAnimationFrame(draw);
     }
 

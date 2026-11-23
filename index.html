@@ -4,269 +4,311 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đình Huy | Official Bio ✨</title>
-    <meta name="description" content="Kết nối với Đình Huy qua Facebook, Instagram, TikTok và Locket Widget.">
+    <meta name="description" content="Kết nối với Đình Huy qua Facebook, Instagram, TikTok, Locket và Zalo.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <!-- Interactive Particle Canvas -->
+<body data-theme="cyber">
+    <!-- Interactive Starfield & Shooting Stars Canvas -->
     <canvas id="bg-canvas"></canvas>
 
-    <!-- Ambient Aurora Background -->
-    <div class="aurora-bg">
-        <div class="aurora aurora-1"></div>
-        <div class="aurora aurora-2"></div>
-        <div class="aurora aurora-3"></div>
-        <div class="noise-overlay"></div>
+    <!-- Multi-Layer Ambient Mesh Glow -->
+    <div class="ambient-mesh">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="grid-backdrop"></div>
     </div>
 
     <main class="scene">
-        <div class="bento-card" id="main-card">
-            <!-- Dynamic Mouse Spotlight -->
-            <div class="card-spotlight" id="card-spotlight"></div>
+        <!-- Outer Animated Conic Border Wrapper -->
+        <div class="master-card-wrap" id="main-card">
+            <div class="animated-border-beam"></div>
 
-            <!-- Cover Banner -->
-            <div class="cover-banner">
-                <div class="cover-image" id="cover-image"></div>
-                <div class="cover-gradient"></div>
+            <div class="bento-card">
+                <!-- Mouse Reactive Spotlight -->
+                <div class="card-spotlight" id="card-spotlight"></div>
 
-                <!-- Top Floating Bar -->
-                <div class="top-bar">
-                    <div class="status-pill">
-                        <span class="status-dot"></span>
-                        <span id="status-text">Online</span>
-                    </div>
-                    <div class="top-actions">
-                        <button class="icon-btn" id="qrBtn" title="Mã QR Bio" aria-label="Mã QR Bio">
-                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="3" width="7" height="7"></rect>
-                                <rect x="14" y="3" width="7" height="7"></rect>
-                                <rect x="14" y="14" width="7" height="7"></rect>
-                                <rect x="3" y="14" width="7" height="7"></rect>
-                            </svg>
-                        </button>
-                        <button class="icon-btn" id="shareBtn" title="Chia sẻ trang Bio" aria-label="Chia sẻ trang Bio">
-                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="18" cy="5" r="3"></circle>
-                                <circle cx="6" cy="12" r="3"></circle>
-                                <circle cx="18" cy="19" r="3"></circle>
-                                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-                            </svg>
-                        </button>
+                <!-- Hero Cover Banner -->
+                <div class="cover-banner">
+                    <div class="cover-image"></div>
+                    <div class="cover-overlay"></div>
+
+                    <!-- Top Floating Action Bar -->
+                    <div class="top-bar">
+                        <div class="status-pill">
+                            <span class="status-dot"></span>
+                            <span id="status-text">Online</span>
+                            <span class="divider">•</span>
+                            <span id="live-clock" class="live-clock">--:--</span>
+                        </div>
+
+                        <div class="top-actions">
+                            <button class="icon-btn" id="themeBtn" title="Đổi hiệu ứng màu (Theme)" aria-label="Đổi màu">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle>
+                                    <circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle>
+                                    <circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle>
+                                    <circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle>
+                                    <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path>
+                                </svg>
+                            </button>
+                            <button class="icon-btn" id="qrBtn" title="Mã QR Bio" aria-label="Mã QR Bio">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                                    <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                                    <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+                                    <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                                </svg>
+                            </button>
+                            <button class="icon-btn" id="shareBtn" title="Chia sẻ trang Bio" aria-label="Chia sẻ trang Bio">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="18" cy="5" r="3"></circle>
+                                    <circle cx="6" cy="12" r="3"></circle>
+                                    <circle cx="18" cy="19" r="3"></circle>
+                                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Profile Section -->
+                <header class="profile">
+                    <div class="avatar-stage">
+                        <div class="avatar-halo"></div>
+                        <div class="avatar-orbit"></div>
+                        <div class="avatar-ring"></div>
+                        <img src="avatar.jpg" alt="Đình Huy" class="avatar" id="profile-avatar">
+                        <span class="verified-badge" title="Verified Profile">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 1.8L14.9 4.4L18.8 4.1L19.8 7.8L22.9 10.1L21.3 13.6L22.9 17.1L19.8 19.4L18.8 23.1L14.9 22.8L12 25.4L9.1 22.8L5.2 23.1L4.2 19.4L1.1 17.1L2.7 13.6L1.1 10.1L4.2 7.8L5.2 4.1L9.1 4.4L12 1.8Z" fill="url(#verifyGrad)"/>
+                                <path d="M8.5 13L10.8 15.3L15.8 10.3" stroke="white" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
+                                <defs>
+                                    <linearGradient id="verifyGrad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+                                        <stop stop-color="#38BDF8"/>
+                                        <stop offset="1" stop-color="#6366F1"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </span>
+                    </div>
+
+                    <div class="profile-identity">
+                        <h1 class="profile-name" id="profile-name">Đình Huy</h1>
+                        <span class="profile-handle" id="profile-handle">@huy_dinhhh</span>
+                    </div>
+
+                    <!-- Dynamic Typewriter Bio -->
+                    <div class="typewriter-box">
+                        <span id="typewriter-text"></span><span class="cursor">_</span>
+                    </div>
+
+                    <!-- Quick Mini Action Bar (Quick Icons) -->
+                    <div class="quick-dock">
+                        <a href="https://www.facebook.com/share/1FgFbPsM9g/?mibextid=wwXIfr" target="_blank" rel="noopener" class="dock-item dock-fb" title="Facebook">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        </a>
+                        <a href="https://www.instagram.com/huy_chuis?lqvp=aTQwbm82bDJ4aTE0&utm_source=qr" target="_blank" rel="noopener" class="dock-item dock-ig" title="Instagram">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        </a>
+                        <a href="https://www.tiktok.com/@huy_cao_met8" target="_blank" rel="noopener" class="dock-item dock-tt" title="TikTok">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+                        </a>
+                        <a href="https://locket.cam/huy_dinhhh" target="_blank" rel="noopener" class="dock-item dock-lk" title="Locket">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                        </a>
+                        <button type="button" class="dock-item dock-zl" id="dock-zalo-btn" title="Zalo Chat">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2C6.477 2 2 6.145 2 11.259c0 2.915 1.454 5.515 3.727 7.213-.164 1.24-.673 2.536-1.482 3.32.982.182 2.682-.245 3.927-1.155C9.382 21.028 10.664 21.518 12 21.518c5.523 0 10-4.145 10-9.259S17.523 2 12 2zm3.89 12.63h-7.4c-.45 0-.73-.48-.47-.85l4.94-6.91H8.85c-.38 0-.68-.31-.68-.68s.31-.68.68-.68h6.78c.45 0 .73.48.47.85l-4.94 6.91h4.73c.38 0 .68.31.68.68s-.31.68-.68.68z"/></svg>
+                        </button>
+                    </div>
+                </header>
+
+                <!-- Section Label -->
+                <div class="section-divider">
+                    <span class="line"></span>
+                    <span class="label">SOCIAL CHANNELS</span>
+                    <span class="line"></span>
+                </div>
+
+                <!-- Social Links Stack -->
+                <section class="links-list" id="links-container">
+                    <!-- Facebook -->
+                    <a href="https://www.facebook.com/share/1FgFbPsM9g/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" class="link-card fb-card" data-platform="facebook" style="--delay: 0.08s">
+                        <div class="card-inner-glow"></div>
+                        <div class="link-icon fb-icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </div>
+                        <div class="link-info">
+                            <div class="badge-row">
+                                <span class="link-title">Facebook</span>
+                                <span class="platform-tag fb-tag">Profile</span>
+                            </div>
+                            <span class="link-sub" id="fb-sub">Kết bạn & nhắn tin giao lưu</span>
+                        </div>
+                        <div class="link-action">
+                            <button class="copy-small-btn" data-copy-target="facebook" title="Sao chép link">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                            </button>
+                            <div class="arrow-circle">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                                    <polyline points="7 7 17 7 17 17"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Instagram -->
+                    <a href="https://www.instagram.com/huy_chuis?lqvp=aTQwbm82bDJ4aTE0&utm_source=qr" target="_blank" rel="noopener noreferrer" class="link-card ig-card" data-platform="instagram" style="--delay: 0.16s">
+                        <div class="card-inner-glow"></div>
+                        <div class="link-icon ig-icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </div>
+                        <div class="link-info">
+                            <div class="badge-row">
+                                <span class="link-title">Instagram</span>
+                                <span class="platform-tag ig-tag">Stories</span>
+                            </div>
+                            <span class="link-sub" id="ig-sub">@huy_chuis • Khoảnh khắc thường ngày 📸</span>
+                        </div>
+                        <div class="link-action">
+                            <button class="copy-small-btn" data-copy-target="instagram" title="Sao chép link">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                            </button>
+                            <div class="arrow-circle">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                                    <polyline points="7 7 17 7 17 17"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- TikTok -->
+                    <a href="https://www.tiktok.com/@huy_cao_met8" target="_blank" rel="noopener noreferrer" class="link-card tiktok-card" data-platform="tiktok" style="--delay: 0.24s">
+                        <div class="card-inner-glow"></div>
+                        <div class="link-icon tiktok-icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                            </svg>
+                        </div>
+                        <div class="link-info">
+                            <div class="badge-row">
+                                <span class="link-title">TikTok</span>
+                                <span class="platform-tag tiktok-tag">Creator</span>
+                            </div>
+                            <span class="link-sub" id="tiktok-sub">@huy_cao_met8 • Follow kênh mình 🎵</span>
+                        </div>
+                        <div class="link-action">
+                            <button class="copy-small-btn" data-copy-target="tiktok" title="Sao chép link">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                            </button>
+                            <div class="arrow-circle">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                                    <polyline points="7 7 17 7 17 17"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Locket -->
+                    <a href="https://locket.cam/huy_dinhhh" target="_blank" rel="noopener noreferrer" class="link-card locket-card" data-platform="locket" style="--delay: 0.32s">
+                        <div class="card-inner-glow"></div>
+                        <div class="link-icon locket-icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                            </svg>
+                        </div>
+                        <div class="link-info">
+                            <div class="badge-row">
+                                <span class="link-title">Locket Widget</span>
+                                <span class="hot-badge">HOT 🔥</span>
+                            </div>
+                            <span class="link-sub" id="locket-sub">@huy_dinhhh • Add Locket xem ảnh trực tiếp 💛</span>
+                        </div>
+                        <div class="link-action">
+                            <button class="copy-small-btn" data-copy-target="locket" title="Sao chép link">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                            </button>
+                            <div class="arrow-circle">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                                    <polyline points="7 7 17 7 17 17"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Zalo (Hidden Phone Number) -->
+                    <a href="#" class="link-card zalo-card" data-platform="zalo" style="--delay: 0.4s">
+                        <div class="card-inner-glow"></div>
+                        <div class="link-icon zalo-icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                                <path d="M12 2C6.477 2 2 6.145 2 11.259c0 2.915 1.454 5.515 3.727 7.213-.164 1.24-.673 2.536-1.482 3.32.982.182 2.682-.245 3.927-1.155C9.382 21.028 10.664 21.518 12 21.518c5.523 0 10-4.145 10-9.259S17.523 2 12 2zm3.89 12.63h-7.4c-.45 0-.73-.48-.47-.85l4.94-6.91H8.85c-.38 0-.68-.31-.68-.68s.31-.68.68-.68h6.78c.45 0 .73.48.47.85l-4.94 6.91h4.73c.38 0 .68.31.68.68s-.31.68-.68.68z"/>
+                            </svg>
+                        </div>
+                        <div class="link-info">
+                            <div class="badge-row">
+                                <span class="link-title">Zalo</span>
+                                <span class="platform-tag zalo-tag">Direct Chat</span>
+                            </div>
+                            <span class="link-sub" id="zalo-sub">Nhắn tin riêng trực tiếp cho mình 💬</span>
+                        </div>
+                        <div class="link-action">
+                            <div class="arrow-circle">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                                    <polyline points="7 7 17 7 17 17"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+                    </a>
+                </section>
+
+                <!-- Interactive Music / Vibe Player Widget -->
+                <div class="music-bar" id="music-widget">
+                    <div class="vinyl-disc" id="vinyl-disc">
+                        <img src="avatar.jpg" alt="Disc Cover" class="vinyl-cover">
+                        <div class="vinyl-hole"></div>
+                    </div>
+                    <div class="music-meta">
+                        <div class="music-top-row">
+                            <span class="music-label">NOW PLAYING</span>
+                            <span class="music-live-pill">CHILL VIBE</span>
+                        </div>
+                        <span class="music-track">Mountain Breeze • Lo-Fi Chill Session</span>
+                    </div>
+                    <div class="equalizer" id="equalizer">
+                        <span></span><span></span><span></span><span></span><span></span>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <footer class="footer">
+                    <p>© <span id="year"></span> <strong>Đình Huy</strong> • All Rights Reserved ✨</p>
+                </footer>
             </div>
-
-            <!-- Profile Header -->
-            <header class="profile">
-                <div class="avatar-container">
-                    <div class="avatar-glow"></div>
-                    <div class="avatar-ring"></div>
-                    <img src="avatar.jpg" alt="Đình Huy" class="avatar" id="profile-avatar">
-                    <span class="verified-badge" title="Verified Creator">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                            <path d="M12 2L14.8 4.5L18.5 4.2L19.5 7.8L22.5 10L21 13.4L22.5 16.8L19.5 19L18.5 22.6L14.8 22.3L12 24.8L9.2 22.3L5.5 22.6L4.5 19L1.5 16.8L3 13.4L1.5 10L4.5 7.8L5.5 4.2L9.2 4.5L12 2Z" fill="#3B82F6"/>
-                            <path d="M8.5 12.8L10.8 15.1L15.8 10.1" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </span>
-                </div>
-
-                <div class="profile-meta">
-                    <h1 class="profile-name" id="profile-name">Đình Huy</h1>
-                    <p class="profile-handle" id="profile-handle">@huy_dinhhh</p>
-                </div>
-
-                <!-- Dynamic Typewriter Bio -->
-                <div class="typewriter-box">
-                    <span id="typewriter-text"></span><span class="cursor">|</span>
-                </div>
-
-                <!-- Tags / Vibe Chips -->
-                <div class="tags-row">
-                    <span class="tag-chip">📍 Vietnam</span>
-                    <span class="tag-chip">✨ Lifestyle</span>
-                    <span class="tag-chip">🎧 Music & Chill</span>
-                </div>
-            </header>
-
-            <!-- Social Links Stack -->
-            <section class="links-list" id="links-container">
-                <!-- Facebook -->
-                <a href="https://www.facebook.com/share/1FgFbPsM9g/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" class="link-card fb-card" data-platform="facebook" style="--delay: 0.1s">
-                    <div class="card-border-glow"></div>
-                    <div class="card-inner-glow"></div>
-                    <div class="link-icon fb-icon">
-                        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                        </svg>
-                    </div>
-                    <div class="link-info">
-                        <div class="badge-row">
-                            <span class="link-title">Facebook</span>
-                            <span class="platform-tag fb-tag">Personal</span>
-                        </div>
-                        <span class="link-sub" id="fb-sub">Kết bạn & nhắn tin cho mình</span>
-                    </div>
-                    <div class="link-action">
-                        <button class="copy-small-btn" data-copy-target="facebook" title="Sao chép link">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                            </svg>
-                        </button>
-                        <div class="arrow-circle">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="7" y1="17" x2="17" y2="7"></line>
-                                <polyline points="7 7 17 7 17 17"></polyline>
-                            </svg>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Instagram -->
-                <a href="https://www.instagram.com/huy_chuis?lqvp=aTQwbm82bDJ4aTE0&utm_source=qr" target="_blank" rel="noopener noreferrer" class="link-card ig-card" data-platform="instagram" style="--delay: 0.2s">
-                    <div class="card-border-glow"></div>
-                    <div class="card-inner-glow"></div>
-                    <div class="link-icon ig-icon">
-                        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                        </svg>
-                    </div>
-                    <div class="link-info">
-                        <div class="badge-row">
-                            <span class="link-title">Instagram</span>
-                            <span class="platform-tag ig-tag">Photos</span>
-                        </div>
-                        <span class="link-sub" id="ig-sub">@huy_chuis • Daily stories 📸</span>
-                    </div>
-                    <div class="link-action">
-                        <button class="copy-small-btn" data-copy-target="instagram" title="Sao chép link">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                            </svg>
-                        </button>
-                        <div class="arrow-circle">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="7" y1="17" x2="17" y2="7"></line>
-                                <polyline points="7 7 17 7 17 17"></polyline>
-                            </svg>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- TikTok -->
-                <a href="https://www.tiktok.com/@huy_cao_met8" target="_blank" rel="noopener noreferrer" class="link-card tiktok-card" data-platform="tiktok" style="--delay: 0.3s">
-                    <div class="card-border-glow"></div>
-                    <div class="card-inner-glow"></div>
-                    <div class="link-icon tiktok-icon">
-                        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-                            <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
-                        </svg>
-                    </div>
-                    <div class="link-info">
-                        <div class="badge-row">
-                            <span class="link-title">TikTok</span>
-                            <span class="platform-tag tiktok-tag">Videos</span>
-                        </div>
-                        <span class="link-sub" id="tiktok-sub">@huy_cao_met8 • Follow kênh mình 🎵</span>
-                    </div>
-                    <div class="link-action">
-                        <button class="copy-small-btn" data-copy-target="tiktok" title="Sao chép link">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                            </svg>
-                        </button>
-                        <div class="arrow-circle">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="7" y1="17" x2="17" y2="7"></line>
-                                <polyline points="7 7 17 7 17 17"></polyline>
-                            </svg>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Locket -->
-                <a href="https://locket.cam/huy_dinhhh" target="_blank" rel="noopener noreferrer" class="link-card locket-card" data-platform="locket" style="--delay: 0.4s">
-                    <div class="card-border-glow"></div>
-                    <div class="card-inner-glow"></div>
-                    <div class="link-icon locket-icon">
-                        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                        </svg>
-                    </div>
-                    <div class="link-info">
-                        <div class="badge-row">
-                            <span class="link-title">Locket Widget</span>
-                            <span class="hot-badge">HOT 🔥</span>
-                        </div>
-                        <span class="link-sub" id="locket-sub">@huy_dinhhh • Add Locket xem ảnh 💛</span>
-                    </div>
-                    <div class="link-action">
-                        <button class="copy-small-btn" data-copy-target="locket" title="Sao chép link">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                            </svg>
-                        </button>
-                        <div class="arrow-circle">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="7" y1="17" x2="17" y2="7"></line>
-                                <polyline points="7 7 17 7 17 17"></polyline>
-                            </svg>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Zalo -->
-                <a href="#" class="link-card zalo-card" data-platform="zalo" style="--delay: 0.5s">
-                    <div class="card-border-glow"></div>
-                    <div class="card-inner-glow"></div>
-                    <div class="link-icon zalo-icon">
-                        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-                            <path d="M12 2C6.477 2 2 6.145 2 11.259c0 2.915 1.454 5.515 3.727 7.213-.164 1.24-.673 2.536-1.482 3.32.982.182 2.682-.245 3.927-1.155C9.382 21.028 10.664 21.518 12 21.518c5.523 0 10-4.145 10-9.259S17.523 2 12 2zm3.89 12.63h-7.4c-.45 0-.73-.48-.47-.85l4.94-6.91H8.85c-.38 0-.68-.31-.68-.68s.31-.68.68-.68h6.78c.45 0 .73.48.47.85l-4.94 6.91h4.73c.38 0 .68.31.68.68s-.31.68-.68.68z"/>
-                        </svg>
-                    </div>
-                    <div class="link-info">
-                        <div class="badge-row">
-                            <span class="link-title">Zalo</span>
-                            <span class="platform-tag zalo-tag">Chat 24/7</span>
-                        </div>
-                        <span class="link-sub" id="zalo-sub">Nhắn tin trực tiếp cho mình 💬</span>
-                    </div>
-                    <div class="link-action">
-                        <div class="arrow-circle">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="7" y1="17" x2="17" y2="7"></line>
-                                <polyline points="7 7 17 7 17 17"></polyline>
-                            </svg>
-                        </div>
-                    </div>
-                </a>
-            </section>
-
-            <!-- Interactive Music / Vibe Bar -->
-            <div class="music-bar">
-                <div class="vinyl-disc" id="vinyl-disc">
-                    <div class="vinyl-inner"></div>
-                </div>
-                <div class="music-meta">
-                    <span class="music-label">CURRENT VIBE</span>
-                    <span class="music-track">Chill Mountain Breeze • Lo-Fi Beats</span>
-                </div>
-                <div class="equalizer">
-                    <span></span><span></span><span></span><span></span>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <footer class="footer">
-                <p>© <span id="year"></span> <strong>Đình Huy</strong> • Crafted with ✨</p>
-            </footer>
         </div>
     </main>
 
@@ -275,7 +317,7 @@
         <div class="qr-box">
             <button class="qr-close" id="qrClose" aria-label="Đóng">&times;</button>
             <h3>Quét mã QR Bio</h3>
-            <p>Mở camera điện thoại để truy cập nhanh</p>
+            <p>Đưa camera điện thoại vào mã bên dưới</p>
             <div class="qr-frame">
                 <img id="qrImage" src="" alt="QR Code Bio">
             </div>
