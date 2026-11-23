@@ -34,8 +34,11 @@ const BIO_CONFIG = {
     i18n: {
         vi: {
             status: "Trực tuyến",
+            themeBtn: "Đổi màu",
             shareBtn: "Chia sẻ",
             qrBtn: "Mã QR",
+            ctaSaveContact: "Lưu Danh Bạ",
+            ctaSendMail: "Gửi Email",
             bioLines: [
                 "✨ Kết nối với mình qua các mạng xã hội bên dưới nhé!",
                 "📸 Chia sẻ khoảnh khắc mỗi ngày trên Locket & IG",
@@ -56,6 +59,8 @@ const BIO_CONFIG = {
                 zalo: "Nhắn tin trực tiếp cho mình 💬",
                 gmail: "huyledinh21@gmail.com"
             },
+            musicPaused: "CHẠM ĐỂ PHÁT NHẠC 🎧",
+            musicPlaying: "ĐANG PHÁT • LO-FI CHILL 🎵",
             miniQrTitle: "Quét trên điện thoại",
             miniQrSub: "Mở nhanh trang Bio",
             footerCrafted: "Thiết kế với ✨",
@@ -63,12 +68,17 @@ const BIO_CONFIG = {
             qrModalSub: "Mở camera điện thoại để truy cập nhanh",
             toastCopiedPlatform: (p) => `Đã sao chép ${p.toUpperCase()}! ✨`,
             toastCopiedBio: "Đã sao chép link trang Bio! 🔗",
-            toastLangSwitched: "Đã chuyển sang Tiếng Việt 🇻🇳"
+            toastLangSwitched: "Đã chuyển sang Tiếng Việt 🇻🇳",
+            toastContactSaved: "Đã tải danh bạ của Huy Đình! 📇",
+            toastThemeChanged: (name) => `Đã đổi giao diện: ${name} 🎨`
         },
         en: {
             status: "Online",
+            themeBtn: "Theme",
             shareBtn: "Share",
             qrBtn: "QR Code",
+            ctaSaveContact: "Save Contact",
+            ctaSendMail: "Send Email",
             bioLines: [
                 "✨ Connect with me on my social channels below!",
                 "📸 Sharing daily moments on Locket & Instagram",
@@ -89,6 +99,8 @@ const BIO_CONFIG = {
                 zalo: "Direct message me on Zalo 💬",
                 gmail: "huyledinh21@gmail.com"
             },
+            musicPaused: "TAP TO PLAY CHILL MUSIC 🎧",
+            musicPlaying: "NOW PLAYING • LO-FI CHILL 🎵",
             miniQrTitle: "Scan on mobile",
             miniQrSub: "Quickly open Bio page",
             footerCrafted: "Crafted with ✨",
@@ -96,13 +108,23 @@ const BIO_CONFIG = {
             qrModalSub: "Open your phone camera to access quickly",
             toastCopiedPlatform: (p) => `Copied ${p.toUpperCase()} link! ✨`,
             toastCopiedBio: "Copied Bio page link! 🔗",
-            toastLangSwitched: "Switched to English 🇬🇧"
+            toastLangSwitched: "Switched to English 🇬🇧",
+            toastContactSaved: "Downloaded Huy Đình's Contact Card! 📇",
+            toastThemeChanged: (name) => `Switched theme: ${name} 🎨`
         }
     }
 };
 
+const THEMES = [
+    { id: "aurora", vi: "Tím Cực Quang", en: "Cyber Aurora" },
+    { id: "emerald", vi: "Xanh Ngọc Lục", en: "Emerald Neon" },
+    { id: "sunset", vi: "Hoàng Hôn Vàng", en: "Sunset Gold" }
+];
+
 let currentLang = localStorage.getItem("huydinh_bio_lang") || "vi";
+let currentThemeIndex = parseInt(localStorage.getItem("huydinh_bio_theme_idx") || "0", 10);
 let typewriterTimer = null;
+let isMusicPlaying = false;
 
 document.addEventListener("DOMContentLoaded", () => {
     // 1. Gắn dữ liệu cá nhân cố định
@@ -112,7 +134,24 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("profile-avatar").src = BIO_CONFIG.avatar;
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // 2. Gắn link mạng xã hội
+    // 2. Áp dụng Theme đã lưu
+    if (isNaN(currentThemeIndex) || currentThemeIndex >= THEMES.length) currentThemeIndex = 0;
+    document.body.setAttribute("data-theme", THEMES[currentThemeIndex].id);
+
+    // 3. Sự kiện đổi màu giao diện (Theme Switcher)
+    const themeBtn = document.getElementById("themeBtn");
+    if (themeBtn) {
+        themeBtn.addEventListener("click", () => {
+            currentThemeIndex = (currentThemeIndex + 1) % THEMES.length;
+            const themeObj = THEMES[currentThemeIndex];
+            document.body.setAttribute("data-theme", themeObj.id);
+            localStorage.setItem("huydinh_bio_theme_idx", currentThemeIndex.toString());
+            const dict = BIO_CONFIG.i18n[currentLang];
+            showToast(dict.toastThemeChanged(themeObj[currentLang]));
+        });
+    }
+
+    // 4. Gắn link mạng xã hội
     Object.keys(BIO_CONFIG.links).forEach((platform) => {
         const card = document.querySelector(`.link-card[data-platform="${platform}"]`);
         const data = BIO_CONFIG.links[platform];
@@ -130,10 +169,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // 3. Áp dụng ngôn ngữ ban đầu (VI hoặc EN)
+    // 5. Áp dụng ngôn ngữ ban đầu (VI hoặc EN)
     applyLanguage(currentLang, false);
 
-    // 4. Sự kiện nút chuyển đổi ngôn ngữ VI / EN
+    // 6. Sự kiện nút chuyển đổi ngôn ngữ VI / EN
     const langBtn = document.getElementById("langBtn");
     if (langBtn) {
         langBtn.addEventListener("click", () => {
@@ -143,13 +182,22 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 5. Hiệu ứng ánh sáng Spotlight & nghiêng 3D theo chuột
+    // 7. Sự kiện nút Lưu Danh Bạ (.vcf vCard)
+    const saveContactBtn = document.getElementById("saveContactBtn");
+    if (saveContactBtn) {
+        saveContactBtn.addEventListener("click", downloadVCard);
+    }
+
+    // 8. Trình phát nhạc nền Lo-Fi Chill (Web Audio Synthesizer - không lo lỗi bản quyền hay mất mạng)
+    initChillMusicPlayer();
+
+    // 9. Hiệu ứng ánh sáng Spotlight & nghiêng 3D theo chuột
     initCardInteractions();
 
-    // 6. Hiệu ứng hạt sao lơ lửng (Canvas Particles)
+    // 10. Hiệu ứng hạt sao lơ lửng (Canvas Particles)
     initParticles();
 
-    // 7. Nút sao chép từng link
+    // 11. Nút sao chép từng link
     document.querySelectorAll(".copy-small-btn").forEach((btn) => {
         btn.addEventListener("click", (e) => {
             e.preventDefault();
@@ -166,13 +214,13 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // 8. Bộ đếm lượt ghé thăm trực tiếp (Live Visitor Counter)
+    // 12. Bộ đếm lượt ghé thăm trực tiếp (Live Visitor Counter)
     initVisitorCounter();
 
-    // 9. Đồng hồ thời gian thực (Live Clock trên Desktop)
+    // 13. Đồng hồ thời gian thực (Live Clock trên Desktop)
     initLiveClock();
 
-    // 10. Nút chia sẻ trang Bio
+    // 14. Nút chia sẻ trang Bio
     const shareBtn = document.getElementById("shareBtn");
     shareBtn.addEventListener("click", async () => {
         const shareUrl = window.location.href.split("?")[0];
@@ -192,7 +240,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // 11. Nút mở mã QR Code
+    // 15. Nút mở mã QR Code
     const qrBtn = document.getElementById("qrBtn");
     const miniQrCard = document.getElementById("miniQrCard");
     const qrModal = document.getElementById("qrModal");
@@ -223,7 +271,6 @@ function applyLanguage(lang, showNotification) {
     const dict = BIO_CONFIG.i18n[lang] || BIO_CONFIG.i18n.vi;
     document.documentElement.lang = lang;
 
-    // Cập nhật trạng thái nút VI / EN
     document.querySelectorAll(".lang-opt").forEach((el) => {
         el.classList.toggle("active", el.getAttribute("data-lang") === lang);
     });
@@ -234,8 +281,11 @@ function applyLanguage(lang, showNotification) {
     };
 
     setText("status-text", dict.status);
+    setText("theme-btn-label", dict.themeBtn);
     setText("qr-btn-label", dict.qrBtn);
     setText("share-btn-label", dict.shareBtn);
+    setText("cta-save-contact", dict.ctaSaveContact);
+    setText("cta-send-mail", dict.ctaSendMail);
     setText("stat-label-views", dict.statViews);
     setText("stat-label-channels", dict.statChannels);
     setText("stat-label-online", dict.statOnline);
@@ -243,13 +293,13 @@ function applyLanguage(lang, showNotification) {
     setText("moment-caption", dict.momentCaption);
     setText("section-title", dict.sectionTitle);
     setText("section-sub", dict.sectionSub);
+    setText("music-status-label", isMusicPlaying ? dict.musicPlaying : dict.musicPaused);
     setText("mini-qr-title", dict.miniQrTitle);
     setText("mini-qr-sub", dict.miniQrSub);
     setText("footer-crafted", dict.footerCrafted);
     setText("qr-modal-title", dict.qrModalTitle);
     setText("qr-modal-sub", dict.qrModalSub);
 
-    // Cập nhật mô tả từng thẻ mạng xã hội
     Object.keys(dict.subtitles).forEach((platform) => {
         const card = document.querySelector(`.link-card[data-platform="${platform}"]`);
         if (card) {
@@ -258,12 +308,124 @@ function applyLanguage(lang, showNotification) {
         }
     });
 
-    // Khởi động lại hiệu ứng gõ chữ với ngôn ngữ mới
     initTypewriter(dict.bioLines);
 
     if (showNotification) {
         showToast(dict.toastLangSwitched);
     }
+}
+
+// Tải file danh bạ vCard (.vcf) 1 chạm (không lộ số điện thoại)
+function downloadVCard() {
+    const vcard = [
+        "BEGIN:VCARD",
+        "VERSION:3.0",
+        "FN:Huy Đình",
+        "N:Đình;Huy;;;",
+        "EMAIL;TYPE=INTERNET:huyledinh21@gmail.com",
+        "URL:https://ledinhhuymeme.github.io/bio/",
+        "NOTE:Official Bio Links - Facebook, Instagram (@huy_chuis), TikTok (@huy_cao_met8), Locket (@huy_dinhhh)",
+        "END:VCARD"
+    ].join("\r\n");
+
+    const blob = new Blob([vcard], { type: "text/vcard;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Huy_Dinh_Contact.vcf";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    const dict = BIO_CONFIG.i18n[currentLang];
+    showToast(dict.toastContactSaved);
+}
+
+// Trình phát nhạc nền Ambient Lo-Fi Chill bằng Web Audio API
+function initChillMusicPlayer() {
+    const playerBar = document.getElementById("musicPlayerBtn");
+    const vinyl = document.getElementById("vinyl-disc");
+    const eq = document.getElementById("equalizer");
+    const playSvg = document.getElementById("playSvg");
+    const pauseSvg = document.getElementById("pauseSvg");
+    const statusLabel = document.getElementById("music-status-label");
+
+    if (!playerBar) return;
+
+    let audioCtx = null;
+    let chordTimer = null;
+
+    // Hợp âm Lo-Fi Chill ấm áp (Fmaj7 - Em7 - Dm7 - Cmaj7)
+    const chords = [
+        [174.61, 220.00, 261.63, 329.63],
+        [164.81, 196.00, 246.94, 293.66],
+        [146.83, 174.61, 220.00, 261.63],
+        [130.81, 164.81, 196.00, 246.94]
+    ];
+    let chordIdx = 0;
+
+    function playChillChord() {
+        if (!isMusicPlaying || !audioCtx) return;
+        const now = audioCtx.currentTime;
+        const notes = chords[chordIdx];
+        chordIdx = (chordIdx + 1) % chords.length;
+
+        notes.forEach((freq, i) => {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            const filter = audioCtx.createBiquadFilter();
+
+            osc.type = "sine";
+            osc.frequency.setValueAtTime(freq, now);
+
+            // Giai điệu arpeggio nhẹ
+            const noteStart = now + i * 0.12;
+            filter.type = "lowpass";
+            filter.frequency.setValueAtTime(650, noteStart);
+
+            gain.gain.setValueAtTime(0.0001, noteStart);
+            gain.gain.linearRampToValueAtTime(0.032, noteStart + 0.45);
+            gain.gain.exponentialRampToValueAtTime(0.0008, noteStart + 3.1);
+
+            osc.connect(filter);
+            filter.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.start(noteStart);
+            osc.stop(noteStart + 3.2);
+        });
+    }
+
+    playerBar.addEventListener("click", () => {
+        isMusicPlaying = !isMusicPlaying;
+        const dict = BIO_CONFIG.i18n[currentLang];
+
+        if (isMusicPlaying) {
+            if (!audioCtx) {
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioContextClass();
+            }
+            if (audioCtx.state === "suspended") {
+                audioCtx.resume();
+            }
+            playChillChord();
+            chordTimer = setInterval(playChillChord, 3000);
+
+            vinyl.classList.remove("paused");
+            eq.classList.remove("paused");
+            playSvg.style.display = "none";
+            pauseSvg.style.display = "block";
+            statusLabel.textContent = dict.musicPlaying;
+        } else {
+            if (chordTimer) clearInterval(chordTimer);
+            vinyl.classList.add("paused");
+            eq.classList.add("paused");
+            playSvg.style.display = "block";
+            pauseSvg.style.display = "none";
+            statusLabel.textContent = dict.musicPaused;
+        }
+    });
 }
 
 // Đồng hồ thời gian thực (Việt Nam GMT+7)
@@ -284,7 +446,7 @@ function initLiveClock() {
     setInterval(updateClock, 1000);
 }
 
-// Hiệu ứng gõ chữ tự động (hỗ trợ reset khi đổi ngôn ngữ)
+// Hiệu ứng gõ chữ tự động
 function initTypewriter(lines) {
     const el = document.getElementById("typewriter-text");
     if (!el || !lines || !lines.length) return;
