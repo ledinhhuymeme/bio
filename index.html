@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=26">
+    <link rel="stylesheet" href="style.css?v=28">
 </head>
 <body data-theme="aurora">
     <!-- Glass Splash Screen (Rich Portal Card with Cover, Live Badges, Music Teaser & Social Icons) -->
@@ -562,7 +562,7 @@
         </div>
     </div>
 
-    <!-- Secret Message / Quick Feedback Modal -->
+    <!-- Secret Message / Guestbook & Direct Inbox Modal -->
     <div class="qr-modal" id="secretMsgModal">
         <div class="secret-modal-box">
             <button class="qr-close" id="secretMsgClose" aria-label="Đóng">&times;</button>
@@ -573,12 +573,12 @@
                         <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                     </svg>
                 </span>
-                <h3 id="secret-modal-title">Gửi tin nhắn cho Huy Đình</h3>
-                <p id="secret-modal-sub">Gửi câu hỏi, trao đổi hoặc để lại lời nhắn trực tiếp</p>
+                <h3 id="secret-modal-title">Hộp thư & Lời nhắn cho Huy Đình</h3>
+                <p id="secret-modal-sub">Gửi tin nhắn trực tiếp và xem bảng lời nhắn ngay tại đây ⚡</p>
             </div>
             <div class="secret-form">
                 <input type="text" id="secretSender" class="secret-input" placeholder="Tên của bạn (để trống nếu muốn ẩn danh)">
-                <textarea id="secretContent" class="secret-textarea" rows="3" placeholder="Nhập nội dung tin nhắn..."></textarea>
+                <textarea id="secretContent" class="secret-textarea" rows="2" placeholder="Nhập nội dung tin nhắn..."></textarea>
                 <div class="secret-quick-chips">
                     <button type="button" class="quick-msg-chip">Giao diện Bio chất quá! 🔥</button>
                     <button type="button" class="quick-msg-chip">Add Locket giao lưu nhé 🤝</button>
@@ -588,12 +588,23 @@
                     <span id="secret-submit-text">Gửi tin nhắn ⚡</span>
                 </button>
             </div>
+
+            <!-- Live Inbox / Message Wall right inside the Bio page -->
+            <div class="inbox-wall">
+                <div class="inbox-wall-header">
+                    <span class="inbox-wall-title">📬 HỘP THƯ ĐÃ NHẬN</span>
+                    <span class="inbox-count-badge" id="inboxCountBadge">0 tin nhắn</span>
+                </div>
+                <div class="inbox-list" id="inboxList">
+                    <p class="inbox-empty">Đang tải hộp thư...</p>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- Toast Notification -->
     <div class="toast" id="toast">Đã sao chép liên kết! ✨</div>
 
-    <script src="script.js?v=27"></script>
+    <script src="script.js?v=28"></script>
 </body>
 </html>

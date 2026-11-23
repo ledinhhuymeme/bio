@@ -835,7 +835,7 @@ function initSmartGreeting() {
     badge.textContent = text;
 }
 
-// Hộp thư gửi lời nhắn nhanh cho Huy Đình
+// Hộp thư gửi lời nhắn & Xem trực tiếp tin nhắn ngay trên trang Bio (Không cần kích hoạt Gmail!)
 function initSecretMessageModal() {
     const triggerBtn = document.getElementById("secretMsgBtn");
     const modal = document.getElementById("secretMsgModal");
@@ -843,10 +843,94 @@ function initSecretMessageModal() {
     const senderInput = document.getElementById("secretSender");
     const contentInput = document.getElementById("secretContent");
     const submitBtn = document.getElementById("secretSubmitBtn");
+    const inboxList = document.getElementById("inboxList");
+    const inboxCountBadge = document.getElementById("inboxCountBadge");
 
     if (!triggerBtn || !modal) return;
 
-    triggerBtn.addEventListener("click", () => modal.classList.add("active"));
+    // Kho lưu trữ tin nhắn đám mây miễn phí + đồng bộ LocalStorage
+    const CLOUD_DB_URL = "https://keyvalue.immanuel.co/api/KeyVal/GetValue/huydinh21bio/messages";
+    const CLOUD_SAVE_URL = "https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/huydinh21bio/messages";
+    const LOCAL_KEY = "huydinh_bio_inbox_messages";
+
+    const defaultMessages = [
+        {
+            sender: "Một người bạn ẩn danh",
+            text: "Giao diện Bio chất quá! 🔥",
+            time: "Vừa xong"
+        }
+    ];
+
+    function getLocalMessages() {
+        try {
+            const raw = localStorage.getItem(LOCAL_KEY);
+            if (raw) {
+                const parsed = JSON.parse(raw);
+                if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+            }
+        } catch {}
+        return defaultMessages;
+    }
+
+    function renderInbox(messages) {
+        if (!inboxList) return;
+        if (!messages || messages.length === 0) {
+            inboxList.innerHTML = `<p class="inbox-empty">Chưa có tin nhắn nào. Hãy là người đầu tiên nhắn nhé!</p>`;
+            if (inboxCountBadge) inboxCountBadge.textContent = "0 tin nhắn";
+            return;
+        }
+        if (inboxCountBadge) inboxCountBadge.textContent = `${messages.length} tin nhắn`;
+
+        inboxList.innerHTML = messages
+            .slice()
+            .reverse()
+            .map((m) => {
+                const safeSender = (m.sender || "Ẩn danh").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                const safeText = (m.text || "").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                const safeTime = (m.time || "").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                return `
+                    <div class="inbox-item">
+                        <div class="inbox-item-top">
+                            <span class="inbox-sender">⚡ ${safeSender}</span>
+                            <span class="inbox-time">${safeTime}</span>
+                        </div>
+                        <p class="inbox-text">${safeText}</p>
+                    </div>
+                `;
+            })
+            .join("");
+    }
+
+    async function loadCloudMessages() {
+        renderInbox(getLocalMessages());
+        try {
+            const res = await fetch(CLOUD_DB_URL);
+            const data = await res.json();
+            if (data && typeof data === "string" && data.trim() !== "") {
+                const decoded = JSON.parse(decodeURIComponent(atob(data)));
+                if (Array.isArray(decoded) && decoded.length > 0) {
+                    localStorage.setItem(LOCAL_KEY, JSON.stringify(decoded));
+                    renderInbox(decoded);
+                }
+            }
+        } catch {}
+    }
+
+    async function saveCloudMessages(messages) {
+        const trimmed = messages.slice(-30);
+        localStorage.setItem(LOCAL_KEY, JSON.stringify(trimmed));
+        renderInbox(trimmed);
+        try {
+            const b64 = btoa(encodeURIComponent(JSON.stringify(trimmed)));
+            await fetch(`${CLOUD_SAVE_URL}/${encodeURIComponent(b64)}`, { method: "POST" });
+        } catch {}
+    }
+
+    triggerBtn.addEventListener("click", () => {
+        modal.classList.add("active");
+        loadCloudMessages();
+    });
+
     if (closeBtn) closeBtn.addEventListener("click", () => modal.classList.remove("active"));
     modal.addEventListener("click", (e) => {
         if (e.target === modal) modal.classList.remove("active");
@@ -861,7 +945,7 @@ function initSecretMessageModal() {
     if (submitBtn) {
         submitBtn.addEventListener("click", async () => {
             const msg = (contentInput ? contentInput.value : "").trim();
-            const sender = (senderInput ? senderInput.value : "").trim() || "Một người bạn ẩn danh";
+            const sender = (senderInput ? senderInput.value : "").trim() || "Ẩn danh";
             if (!msg) {
                 showToast("Hãy nhập nội dung tin nhắn trước nhé! ✍️");
                 return;
@@ -872,40 +956,28 @@ function initSecretMessageModal() {
             if (btnTextEl) btnTextEl.textContent = "Đang gửi... ⏳";
             submitBtn.disabled = true;
 
-            try {
-                // Gửi trực tiếp qua API FormSubmit tới Gmail huyledinh21@gmail.com (không cần mở app Mail trên Windows)
-                const response = await fetch("https://formsubmit.co/ajax/huyledinh21@gmail.com", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Accept": "application/json"
-                    },
-                    body: JSON.stringify({
-                        _subject: `⚡ Tin nhắn mới từ Bio (${sender})`,
-                        "Người gửi": sender,
-                        "Nội dung tin nhắn": msg,
-                        "Nguồn": "https://is.gd/huydinh_bio",
-                        _template: "table",
-                        _captcha: "false"
-                    })
-                });
+            const nowStr = new Date().toLocaleTimeString("vi-VN", {
+                hour: "2-digit",
+                minute: "2-digit",
+                day: "2-digit",
+                month: "2-digit"
+            });
 
-                const result = await response.json();
-                modal.classList.remove("active");
-                if (contentInput) contentInput.value = "";
-                if (senderInput) senderInput.value = "";
+            const currentList = getLocalMessages();
+            currentList.push({
+                sender: sender,
+                text: msg,
+                time: nowStr
+            });
 
-                if (result.success === "true" || response.ok) {
-                    showToast("Đã gửi tin nhắn thành công tới Huy Đình! ⚡");
-                } else {
-                    showToast("Đã gửi! (Kiểm tra hộp thư Gmail để kích hoạt lần đầu) 📬");
-                }
-            } catch {
-                showToast("Lỗi kết nối mạng, vui lòng thử lại! ⚠️");
-            } finally {
-                if (btnTextEl) btnTextEl.textContent = originalText;
-                submitBtn.disabled = false;
-            }
+            await saveCloudMessages(currentList);
+
+            if (contentInput) contentInput.value = "";
+            if (senderInput) senderInput.value = "";
+            if (btnTextEl) btnTextEl.textContent = originalText;
+            submitBtn.disabled = false;
+
+            showToast("Đã gửi tin nhắn thành công vào Hộp thư! ⚡");
         });
     }
 }

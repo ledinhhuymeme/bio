@@ -2301,6 +2301,95 @@ body {
     filter: brightness(1.1);
 }
 
+/* Live Inbox / Message Wall inside Modal */
+.inbox-wall {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: left;
+}
+
+.inbox-wall-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.inbox-wall-title {
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    color: #38bdf8;
+}
+
+.inbox-count-badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #94a3b8;
+    background: rgba(255, 255, 255, 0.06);
+    padding: 2px 8px;
+    border-radius: 99px;
+}
+
+.inbox-list {
+    max-height: 175px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-right: 4px;
+}
+
+.inbox-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.inbox-list::-webkit-scrollbar-thumb {
+    background: rgba(56, 189, 248, 0.35);
+    border-radius: 99px;
+}
+
+.inbox-item {
+    background: rgba(15, 23, 42, 0.75);
+    border: 1px solid rgba(56, 189, 248, 0.22);
+    border-radius: 12px;
+    padding: 9px 12px;
+}
+
+.inbox-item-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+    gap: 8px;
+}
+
+.inbox-sender {
+    font-size: 0.76rem;
+    font-weight: 800;
+    color: #38bdf8;
+}
+
+.inbox-time {
+    font-size: 0.65rem;
+    color: #64748b;
+}
+
+.inbox-text {
+    font-size: 0.8rem;
+    color: #f1f5f9;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.inbox-empty {
+    font-size: 0.76rem;
+    color: #64748b;
+    text-align: center;
+    padding: 12px 0;
+}
+
 /* Toast Notification */
 .toast {
     position: fixed;
