@@ -199,11 +199,19 @@ body {
 
 .enter-title {
     font-family: 'Be Vietnam Pro', sans-serif;
-    font-size: 1.7rem;
+    font-size: 1.78rem;
     font-weight: 800;
-    color: #fff;
     letter-spacing: -0.02em;
     margin-bottom: 2px;
+    padding: 4px 10px;
+    line-height: 1.35;
+    background: linear-gradient(90deg, #ffffff 0%, #fde047 25%, #38bdf8 50%, #f472b6 75%, #ffffff 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: nameHoloFlow 3.5s linear infinite;
+    filter: drop-shadow(0 0 14px rgba(56, 189, 248, 0.45));
 }
 
 .enter-handle {
@@ -991,14 +999,71 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
+.name-3d-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .profile-name {
+    position: relative;
+    display: inline-block;
     font-family: 'Be Vietnam Pro', sans-serif;
-    font-size: 1.72rem;
+    font-size: 1.82rem;
     font-weight: 800;
-    letter-spacing: -0.02em;
-    color: #ffffff;
-    text-shadow: 0 2px 14px rgba(56, 189, 248, 0.35);
+    letter-spacing: -0.01em;
+    line-height: 1.38;
+    padding: 2px 12px;
     margin-bottom: 2px;
+    background: linear-gradient(
+        90deg,
+        #ffffff 0%,
+        #fde047 22%,
+        #38bdf8 48%,
+        #f472b6 74%,
+        #ffffff 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: nameHoloFlow 3.2s linear infinite, nameFloat3D 3s ease-in-out infinite alternate;
+    filter: drop-shadow(0 4px 12px rgba(56, 189, 248, 0.45)) drop-shadow(0 0 22px rgba(250, 204, 21, 0.25));
+}
+
+@keyframes nameHoloFlow {
+    0% { background-position: 0% center; }
+    100% { background-position: 200% center; }
+}
+
+@keyframes nameFloat3D {
+    0% { transform: translateY(0) scale(1); }
+    100% { transform: translateY(-2px) scale(1.03); }
+}
+
+.name-sparkle {
+    position: absolute;
+    font-size: 0.92rem;
+    pointer-events: none;
+    animation: sparkleOrbit 2.4s ease-in-out infinite alternate;
+}
+
+.ns-1 {
+    top: -4px;
+    left: -10px;
+}
+
+.ns-2 {
+    bottom: 2px;
+    right: -12px;
+    font-size: 0.88rem;
+    animation-delay: -1.2s;
+}
+
+@keyframes sparkleOrbit {
+    0% { transform: translateY(2px) rotate(-15deg) scale(0.85); opacity: 0.7; }
+    100% { transform: translateY(-5px) rotate(18deg) scale(1.15); opacity: 1; }
 }
 
 .profile-handle {
