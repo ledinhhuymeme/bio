@@ -244,6 +244,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // 13g. Hiệu ứng trang trí & Mưa Banana 3D tương tác (Banana Vibe)
     initBananaEffects();
 
+    // 13h. Hộp trạng thái Mood / Vibe tương tác & Xem ảnh Chill Moment
+    initExtraBentoWidgets();
+
     // 14. Nút chia sẻ trang Bio (dùng luôn link ngắn https://is.gd/huydinh_bio)
     const OFFICIAL_SHORT_URL = "https://is.gd/huydinh_bio";
     const shareBtn = document.getElementById("shareBtn");
@@ -1020,6 +1023,47 @@ function initBananaEffects() {
             triggerBananaBurst(e.clientX || r.left + r.width / 2, e.clientY || r.top + r.height / 2);
         });
     });
+}
+
+// Hộp trạng thái Mood / Vibe tương tác & Xem ảnh Chill Moment
+function initExtraBentoWidgets() {
+    const miniMomentBox = document.getElementById("miniMomentBox");
+    const photoModal = document.getElementById("photoModal");
+    const lightboxImg = document.getElementById("lightboxImg");
+    const lightboxCaption = document.getElementById("lightbox-caption");
+    const dlBtn = document.getElementById("lightboxDownloadBtn");
+
+    if (miniMomentBox && photoModal) {
+        miniMomentBox.addEventListener("click", () => {
+            if (lightboxImg) lightboxImg.src = "avatar.jpg";
+            if (lightboxCaption) lightboxCaption.textContent = "\"Giữa núi đồi bình yên & tự do ⛰️☁️\" — Huy Đình";
+            if (dlBtn) dlBtn.style.display = "none";
+            photoModal.classList.add("active");
+        });
+    }
+
+    const moodBox = document.getElementById("moodCycleBox");
+    const moodEmoji = document.getElementById("moodEmoji");
+    const moodText = document.getElementById("moodText");
+
+    const moods = [
+        { emoji: "🔥", text: "Full năng lượng • Bấm đổi" },
+        { emoji: "🎧", text: "Đang chill nhạc Slowed 🎵" },
+        { emoji: "🍌", text: "Banana Vibe • Vui vẻ ✨" },
+        { emoji: "⛰️", text: "Thích đi phượt & ngắm cảnh" },
+        { emoji: "🕷️", text: "Spider-Verse Mode ⚡" }
+    ];
+    let moodIdx = 0;
+
+    if (moodBox) {
+        moodBox.addEventListener("click", (e) => {
+            moodIdx = (moodIdx + 1) % moods.length;
+            if (moodEmoji) moodEmoji.textContent = moods[moodIdx].emoji;
+            if (moodText) moodText.textContent = moods[moodIdx].text;
+            const r = moodBox.getBoundingClientRect();
+            spawnConfettiBurst(e.clientX || r.left + r.width / 2, e.clientY || r.top + r.height / 2);
+        });
+    }
 }
 
 // Lời chào thông minh theo khung giờ trong ngày

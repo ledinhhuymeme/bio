@@ -2214,6 +2214,93 @@ body {
     color: var(--text-secondary);
 }
 
+/* Extra Bottom Bento Row (Highlight Photo & Interactive Mood Status) */
+.extra-bento-row {
+    position: relative;
+    z-index: 3;
+    margin: 12px 22px 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.mini-bento-box {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 10px 13px;
+    border-radius: 18px;
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.75) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    box-shadow: 0 10px 22px -6px rgba(0, 0, 0, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.16);
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+}
+
+.mini-bento-box:hover {
+    transform: translateY(-3px) scale(1.015);
+    border-color: rgba(56, 189, 248, 0.55);
+    background: linear-gradient(145deg, rgba(45, 58, 82, 0.65) 0%, rgba(18, 27, 48, 0.85) 100%);
+    box-shadow: 0 14px 28px -6px rgba(14, 165, 233, 0.35);
+}
+
+.mini-moment-thumb {
+    width: 42px;
+    height: 42px;
+    border-radius: 11px;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.mood-emoji {
+    width: 42px;
+    height: 42px;
+    border-radius: 11px;
+    background: rgba(250, 204, 21, 0.14);
+    border: 1px solid rgba(250, 204, 21, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    transition: transform 0.25s ease;
+}
+
+.mood-status-box:hover .mood-emoji {
+    transform: scale(1.12) rotate(8deg);
+}
+
+.mini-moment-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    text-align: left;
+}
+
+.mini-bento-tag {
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    color: var(--accent-primary);
+}
+
+.mini-bento-val {
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.footer-ver {
+    color: #fbbf24;
+    font-weight: 700;
+}
+
 /* Footer */
 .footer {
     position: relative;
@@ -2343,7 +2430,11 @@ body {
     }
 
     .bottom-widgets {
-        margin: 16px 0 0;
+        margin: 14px 0 0;
+    }
+
+    .extra-bento-row {
+        margin: 13px 0 0;
     }
 
     .mini-qr-card {
@@ -3411,9 +3502,15 @@ body {
         height: 28px;
     }
 
-    /* Music Bar Mobile */
+    /* Music Bar & Extra Bento Row Mobile */
     .bottom-widgets {
         margin: 14px 16px 0;
+    }
+
+    .extra-bento-row {
+        margin: 11px 16px 0;
+        grid-template-columns: 1fr;
+        gap: 10px;
     }
 
     .music-bar {
