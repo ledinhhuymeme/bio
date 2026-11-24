@@ -894,16 +894,12 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    background: rgba(10, 14, 23, 0.68);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    padding: 5px 11px;
-    border-radius: 999px;
+    padding: 0 11px;
+    height: 100%;
     font-size: 0.75rem;
     font-weight: 700;
     color: #e2e8f0;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    white-space: nowrap;
 }
 
 .heart-pill {
@@ -980,14 +976,39 @@ body {
     gap: 8px;
 }
 
-.theme-btn {
+/* Unified Toolbar Pill: Weather + Theme Switcher */
+.toolbar-weather-theme {
     height: 36px;
-    padding: 0 12px;
+    display: inline-flex;
+    align-items: center;
     border-radius: 999px;
     border: 1px solid rgba(255, 255, 255, 0.16);
-    background: rgba(10, 14, 23, 0.72);
+    background: rgba(10, 14, 23, 0.74);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    padding: 2px;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.toolbar-weather-theme:hover {
+    border-color: rgba(56, 189, 248, 0.45);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+.toolbar-divider {
+    width: 1px;
+    height: 16px;
+    background: rgba(255, 255, 255, 0.16);
+    flex-shrink: 0;
+}
+
+.theme-btn {
+    height: 100%;
+    padding: 0 11px;
+    border-radius: 999px;
+    border: none;
+    background: transparent;
     color: var(--text-primary);
     display: inline-flex;
     align-items: center;
@@ -996,13 +1017,11 @@ body {
     font-family: inherit;
     font-size: 0.75rem;
     font-weight: 700;
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .theme-btn:hover {
-    background: rgba(255, 255, 255, 0.16);
-    transform: translateY(-2px);
-    border-color: rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.14);
 }
 
 .theme-dot {
@@ -4258,7 +4277,6 @@ body {
     }
 
     .status-pill,
-    .weather-pill,
     .heart-pill {
         padding: 4px 9px;
         font-size: 0.7rem;
@@ -4272,7 +4290,28 @@ body {
         flex-shrink: 0;
     }
 
-    .theme-btn,
+    .toolbar-weather-theme {
+        height: 30px;
+        padding: 1px;
+    }
+
+    .weather-pill {
+        padding: 0 7px;
+        font-size: 0.68rem;
+        gap: 3px;
+    }
+
+    .toolbar-divider {
+        height: 13px;
+    }
+
+    .theme-btn {
+        height: 26px;
+        width: 26px;
+        padding: 0;
+        justify-content: center;
+    }
+
     .icon-btn {
         height: 30px;
         width: 30px;
@@ -4520,7 +4559,8 @@ body {
 }
 
 @media (max-width: 375px) {
-    .weather-pill {
+    .weather-pill,
+    .toolbar-divider {
         display: none;
     }
     .cat-img-wrap {

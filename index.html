@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=62">
+    <link rel="stylesheet" href="style.css?v=63">
 </head>
 <body data-theme="aurora">
     <!-- 3D Holographic VIP Portal Splash Screen ("Vào Bio ✨") -->
@@ -179,10 +179,6 @@
                             <span id="live-clock">--:--:--</span>
                             <span class="tz-badge">VN</span>
                         </div>
-                        <div class="weather-pill" id="weather-pill" title="Thời tiết hiện tại">
-                            <span id="weather-icon">☁️</span>
-                            <span id="weather-temp">23°C</span>
-                        </div>
                         <button class="heart-pill" id="heartBtn" title="Thả tim cho Huy Đình 💖">
                             <span class="heart-icon">❤️</span>
                             <span id="heart-count">3,642</span>
@@ -190,10 +186,18 @@
                     </div>
 
                     <div class="top-actions">
-                        <button class="theme-btn" id="themeBtn" title="Đổi màu giao diện / Switch Theme" aria-label="Đổi màu giao diện">
-                            <span class="theme-dot" id="themeDot"></span>
-                            <span class="btn-label" id="theme-btn-label">Giao diện</span>
-                        </button>
+                        <!-- Unified Toolbar Capsule: Live Weather + Theme Switcher -->
+                        <div class="toolbar-weather-theme" title="Thời tiết thực tế & Đổi màu giao diện">
+                            <div class="weather-pill" id="weather-pill" title="Thời tiết hiện tại">
+                                <span id="weather-icon">☁️</span>
+                                <span id="weather-temp">23°C</span>
+                            </div>
+                            <span class="toolbar-divider" aria-hidden="true"></span>
+                            <button class="theme-btn" id="themeBtn" title="Đổi màu giao diện / Switch Theme" aria-label="Đổi màu giao diện">
+                                <span class="theme-dot" id="themeDot"></span>
+                                <span class="btn-label" id="theme-btn-label">Đổi màu</span>
+                            </button>
+                        </div>
                         <button class="lang-toggle" id="langBtn" title="Switch Language / Đổi ngôn ngữ" aria-label="Đổi ngôn ngữ">
                             <span class="lang-opt active" data-lang="vi">VI</span>
                             <span class="lang-sep">/</span>
@@ -872,6 +876,6 @@
     <!-- Toast Notification -->
     <div class="toast" id="toast">Đã sao chép liên kết! ✨</div>
 
-    <script src="script.js?v=62"></script>
+    <script src="script.js?v=63"></script>
 </body>
 </html>
