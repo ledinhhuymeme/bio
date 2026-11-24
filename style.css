@@ -2673,27 +2673,29 @@ body {
 .equalizer span:nth-child(4) { height: 14px; animation-delay: 0.1s; }
 .equalizer span:nth-child(5) { height: 11px; animation-delay: 0.3s; }
 
-/* Cursor Sparkle Trail (Clean Glowing Dots, No Banana Icon Follower) */
-.cursor-sparkle {
+/* Mini Banana Trail on Mouse Move (No permanent cursor follower circle) */
+.banana-cursor-trail {
     position: fixed;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
     pointer-events: none;
-    z-index: 9998;
-    background: var(--accent-primary);
-    box-shadow: 0 0 10px var(--accent-primary), 0 0 20px var(--aurora-c2);
-    animation: sparkleFade 0.65s ease-out forwards;
+    z-index: 999998;
+    font-size: 0.78rem;
+    filter: drop-shadow(0 2px 6px rgba(250, 204, 21, 0.7));
+    user-select: none;
+    animation: bananaTrailFloat 0.72s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@keyframes sparkleFade {
+@keyframes bananaTrailFloat {
     0% {
         opacity: 0.95;
-        transform: translate(-50%, -50%) scale(1);
+        transform: translate3d(-50%, -50%, 0) scale(0.75) rotate(0deg);
+    }
+    45% {
+        opacity: 0.9;
+        transform: translate3d(calc(-50% + var(--btx, 10px)), calc(-50% - 8px), 0) scale(1.02) rotate(var(--btrot, 25deg));
     }
     100% {
         opacity: 0;
-        transform: translate(-50%, calc(-50% + 18px)) scale(0.1);
+        transform: translate3d(calc(-50% + var(--btx, 18px)), calc(-50% + 18px), 0) scale(0.2) rotate(calc(var(--btrot, 25deg) * 2.2));
     }
 }
 

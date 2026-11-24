@@ -1094,14 +1094,14 @@ function initLiveWeather() {
         .catch(() => {});
 }
 
-// Hiệu ứng hạt sáng tinh tế chạy theo chuột + các quả chuối 3D ở nền nghiêng nhẹ Parallax khi di chuột (Không có icon chuối bám theo mũi chuột)
+// Hiệu ứng vệt icon chuối bé bé bay ra rồi tan dần khi di chuyển chuột (Không có vòng tròn chuối to bám dính theo chuột)
 function initCursorSparkles() {
     // Các trái chuối 3D lớn trang trí ở nền ngoài di chuyển Parallax mượt mà khi rê chuột
     const bgBananas = document.querySelectorAll(".floating-banana");
     if (bgBananas.length) {
         window.addEventListener("mousemove", (e) => {
-            const nx = (e.clientX / window.innerWidth - 0.5) * 32;
-            const ny = (e.clientY / window.innerHeight - 0.5) * 32;
+            const nx = (e.clientX / window.innerWidth - 0.5) * 28;
+            const ny = (e.clientY / window.innerHeight - 0.5) * 28;
             bgBananas.forEach((b, i) => {
                 const factor = (i % 2 === 0 ? 1 : -0.85) * (0.7 + i * 0.16);
                 b.style.marginLeft = `${(nx * factor).toFixed(1)}px`;
@@ -1110,19 +1110,29 @@ function initCursorSparkles() {
         }, { passive: true });
     }
 
-    if (window.innerWidth <= 920) return;
     let lastSpawn = 0;
-    window.addEventListener("mousemove", (e) => {
+    const trailIcons = ["🍌", "🍌", "✨", "🍌"];
+    let iconIdx = 0;
+
+    function spawnMiniBananaTrail(x, y) {
         const now = performance.now();
-        if (now - lastSpawn < 95) return;
+        if (now - lastSpawn < 58) return;
         lastSpawn = now;
 
-        const sparkle = document.createElement("span");
-        sparkle.className = "cursor-sparkle";
-        sparkle.style.left = `${e.clientX}px`;
-        sparkle.style.top = `${e.clientY}px`;
-        document.body.appendChild(sparkle);
-        setTimeout(() => sparkle.remove(), 550);
+        const item = document.createElement("span");
+        item.className = "banana-cursor-trail";
+        item.textContent = trailIcons[iconIdx % trailIcons.length];
+        iconIdx++;
+        item.style.left = `${x}px`;
+        item.style.top = `${y}px`;
+        item.style.setProperty("--btx", `${((Math.random() - 0.5) * 30).toFixed(1)}px`);
+        item.style.setProperty("--btrot", `${((Math.random() - 0.5) * 95).toFixed(1)}deg`);
+        document.body.appendChild(item);
+        setTimeout(() => item.remove(), 720);
+    }
+
+    window.addEventListener("mousemove", (e) => {
+        spawnMiniBananaTrail(e.clientX, e.clientY);
     }, { passive: true });
 }
 
