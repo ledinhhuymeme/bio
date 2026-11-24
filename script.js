@@ -931,8 +931,8 @@ function initPhotoLightbox() {
         coverBanner.addEventListener("click", (e) => {
             // Không mở lightbox nếu người dùng bấm vào các nút trên thanh top-bar
             if (e.target.closest(".top-bar")) return;
-            if (lightboxImg) lightboxImg.src = "avatar.jpg";
-            if (lightboxCaption) lightboxCaption.textContent = "\"Giữa núi đồi bình yên & tự do ⛰️☁️\" — Huy Đình";
+            if (lightboxImg) lightboxImg.src = "bg.jpg";
+            if (lightboxCaption) lightboxCaption.textContent = "Huy Đình ⚡ (@huy_dinhhh)";
             const dlBtn = document.getElementById("lightboxDownloadBtn");
             if (dlBtn) dlBtn.style.display = "none";
             photoModal.classList.add("active");

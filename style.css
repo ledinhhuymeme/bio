@@ -105,10 +105,10 @@ body {
 .enter-cover-img {
     position: absolute;
     inset: 0;
-    background-image: url('avatar.jpg');
+    background-image: url('bg.jpg');
     background-size: cover;
-    background-position: center 42%;
-    filter: brightness(1.02) contrast(1.06) saturate(1.22);
+    background-position: center 38%;
+    filter: brightness(1.05) contrast(1.08);
     transform: scale(1.02);
     animation: slowZoom 12s infinite alternate ease-in-out;
 }
@@ -341,13 +341,31 @@ body {
     pointer-events: none;
 }
 
-/* Aurora Borealis Lighting & Cyber Grid */
+/* Aurora Borealis Lighting, Custom Photo Wallpaper & Cyber Grid */
 .aurora-bg {
     position: fixed;
     inset: 0;
     z-index: 0;
     overflow: hidden;
     pointer-events: none;
+}
+
+.custom-wallpaper {
+    position: absolute;
+    inset: -15px;
+    background-image: url('bg.jpg');
+    background-size: cover;
+    background-position: center 35%;
+    filter: brightness(0.45) contrast(1.12);
+    opacity: 0.85;
+    animation: slowZoom 18s infinite alternate ease-in-out;
+}
+
+.custom-wallpaper::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(5, 6, 11, 0.35) 0%, rgba(5, 6, 11, 0.82) 100%);
 }
 
 .aurora {
@@ -629,10 +647,10 @@ body {
 .cover-image {
     position: absolute;
     inset: 0;
-    background-image: url('avatar.jpg');
+    background-image: url('bg.jpg');
     background-size: cover;
-    background-position: center 42%;
-    filter: brightness(1.04) contrast(1.06) saturate(1.22);
+    background-position: center 38%;
+    filter: brightness(1.06) contrast(1.08);
     transform: scale(1.01);
     transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
 }
