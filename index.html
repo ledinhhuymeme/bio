@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=65">
+    <link rel="stylesheet" href="style.css?v=66">
 </head>
 <body data-theme="aurora">
     <!-- 3D Holographic VIP Portal Splash Screen ("Vào Bio ✨") -->
@@ -374,6 +374,41 @@
                                 <h3 class="cat-donate-title" id="cat-donate-title">Ủng hộ cho chú mèo ít cá 😄</h3>
                                 <p class="cat-donate-sub" id="cat-donate-sub">Chạm vào chú mèo 3D để quét MoMo / VietQR 🐟✨</p>
                                 <span class="cat-donate-btn" id="cat-donate-btn">Mở mã QR 💛</span>
+                            </div>
+                        </div>
+
+                        <!-- Desktop-Only Pro Hub under Cat Card (Fills empty space on PC with Quick Actions & Live Audio/System Radar) -->
+                        <div class="desktop-sidebar-hub" id="desktopSidebarHub">
+                            <div class="dsh-header">
+                                <span class="dsh-badge">⚡ QUICK CONNECT & LIVE RADAR</span>
+                                <span class="dsh-live-dot"><i></i> PRO</span>
+                            </div>
+
+                            <div class="dsh-actions-grid">
+                                <button type="button" class="dsh-action-btn dsh-btn-vcard" id="dshSaveVcardBtn" title="Tải danh bạ vCard (.vcf) 1 chạm">
+                                    <span class="dsh-btn-icon">📇</span>
+                                    <div class="dsh-btn-txt">
+                                        <strong id="cta-save-contact">Lưu Danh Bạ</strong>
+                                        <span>Tải vCard 1 chạm</span>
+                                    </div>
+                                </button>
+                                <button type="button" class="dsh-action-btn dsh-btn-copy" id="dshCopyLinkBtn" title="Sao chép nhanh link Bio ngắn">
+                                    <span class="dsh-btn-icon">🔗</span>
+                                    <div class="dsh-btn-txt">
+                                        <strong>Copy Link</strong>
+                                        <span>is.gd/huydinh_bio</span>
+                                    </div>
+                                </button>
+                            </div>
+
+                            <div class="dsh-spectrum-box" id="dshSpectrumBox" title="Sóng âm thanh & Trạng thái hệ thống trực tiếp">
+                                <div class="dsh-spec-info">
+                                    <span class="dsh-spec-title">🎛️ AUDIO SPECTRUM</span>
+                                    <span class="dsh-spec-sub" id="dshSpecState">60 FPS • 3D Engine Ready</span>
+                                </div>
+                                <div class="dsh-bars" id="dshAudioBars">
+                                    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                                </div>
                             </div>
                         </div>
                     </header>
@@ -879,6 +914,6 @@
     <!-- Toast Notification -->
     <div class="toast" id="toast">Đã sao chép liên kết! ✨</div>
 
-    <script src="script.js?v=65"></script>
+    <script src="script.js?v=66"></script>
 </body>
 </html>

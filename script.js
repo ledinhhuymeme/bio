@@ -262,6 +262,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 14. Nút chia sẻ trang Bio (dùng luôn link ngắn https://is.gd/huydinh_bio)
     const OFFICIAL_SHORT_URL = "https://is.gd/huydinh_bio";
+    const dshSaveVcardBtn = document.getElementById("dshSaveVcardBtn");
+    if (dshSaveVcardBtn) {
+        dshSaveVcardBtn.addEventListener("click", downloadVCard);
+    }
+    const dshCopyLinkBtn = document.getElementById("dshCopyLinkBtn");
+    if (dshCopyLinkBtn) {
+        dshCopyLinkBtn.addEventListener("click", () => {
+            const dict = BIO_CONFIG.i18n[currentLang];
+            copyToClipboard(OFFICIAL_SHORT_URL, dict.toastCopiedBio);
+        });
+    }
     const shareBtn = document.getElementById("shareBtn");
     shareBtn.addEventListener("click", async () => {
         const dict = BIO_CONFIG.i18n[currentLang];
@@ -1848,7 +1859,12 @@ function initResponsiveSectionOrder() {
             }
         } else {
             if (catCard.parentElement !== profileHeader) {
-                profileHeader.appendChild(catCard);
+                const desktopHub = document.getElementById("desktopSidebarHub");
+                if (desktopHub && desktopHub.parentElement === profileHeader) {
+                    profileHeader.insertBefore(catCard, desktopHub);
+                } else {
+                    profileHeader.appendChild(catCard);
+                }
             }
             if (secretCard.parentElement !== bentoRight) {
                 bentoRight.insertBefore(secretCard, bentoRight.firstElementChild);

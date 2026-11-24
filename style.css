@@ -1873,6 +1873,13 @@ body {
     transform: translateX(2px);
 }
 
+/* ==========================================================
+   DESKTOP-ONLY PRO HUB UNDER CAT CARD (Quick Connect & Audio Spectrum)
+   ========================================================== */
+.desktop-sidebar-hub {
+    display: none;
+}
+
 /* Prominent Secret Message Banner Card (Masculine Cyber Blue & Slate Tech Style) */
 .secret-banner-card {
     position: relative;
@@ -3314,7 +3321,7 @@ body {
         grid-template-columns: 330px minmax(0, 1fr);
         gap: 26px;
         padding: 0 30px 6px;
-        align-items: start;
+        align-items: stretch;
     }
 
     .bento-left {
@@ -3325,6 +3332,8 @@ body {
         margin-top: -65px;
         position: relative;
         z-index: 4;
+        display: flex;
+        flex-direction: column;
         box-shadow: 
             0 25px 50px rgba(0, 0, 0, 0.6),
             inset 0 1px 0 rgba(255, 255, 255, 0.18);
@@ -3334,6 +3343,192 @@ body {
         padding: 0;
         margin-top: -46px;
         margin-bottom: 0;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    /* Desktop Pro Hub Below Cute Cat Card */
+    .desktop-sidebar-hub {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 14px;
+        padding: 12px 13px;
+        flex: 1;
+        border-radius: 20px;
+        background: linear-gradient(145deg, rgba(15, 23, 42, 0.78) 0%, rgba(30, 41, 59, 0.45) 100%);
+        border: 1px solid rgba(56, 189, 248, 0.25);
+        box-shadow: 
+            0 14px 28px -8px rgba(0, 0, 0, 0.65),
+            inset 0 1px 1px rgba(255, 255, 255, 0.14);
+        text-align: left;
+    }
+
+    .dsh-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .dsh-badge {
+        font-size: 0.58rem;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        color: #38bdf8;
+    }
+
+    .dsh-live-dot {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 0.56rem;
+        font-weight: 800;
+        color: #34d399;
+        background: rgba(16, 185, 129, 0.14);
+        border: 1px solid rgba(16, 185, 129, 0.35);
+        padding: 2px 7px;
+        border-radius: 99px;
+    }
+
+    .dsh-live-dot i {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: #10b981;
+        box-shadow: 0 0 6px #10b981;
+        animation: pulseDot 1.8s infinite;
+    }
+
+    .dsh-actions-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    .dsh-action-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 10px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.045);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: #f8fafc;
+        font-family: inherit;
+        cursor: pointer;
+        text-align: left;
+        transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .dsh-action-btn:hover {
+        transform: translateY(-2px);
+        border-color: rgba(56, 189, 248, 0.65);
+        background: rgba(56, 189, 248, 0.14);
+        box-shadow: 0 8px 18px -4px rgba(14, 165, 233, 0.35);
+    }
+
+    .dsh-btn-icon {
+        width: 30px;
+        height: 30px;
+        border-radius: 9px;
+        background: rgba(56, 189, 248, 0.15);
+        border: 1px solid rgba(56, 189, 248, 0.32);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.92rem;
+        flex-shrink: 0;
+    }
+
+    .dsh-btn-txt {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        line-height: 1.25;
+    }
+
+    .dsh-btn-txt strong {
+        font-size: 0.72rem;
+        font-weight: 800;
+        color: #ffffff;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .dsh-btn-txt span {
+        font-size: 0.6rem;
+        color: #94a3b8;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .dsh-spectrum-box {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 8px 11px;
+        border-radius: 13px;
+        background: rgba(5, 6, 11, 0.55);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .dsh-spec-info {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+    }
+
+    .dsh-spec-title {
+        font-size: 0.58rem;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+        color: #fde047;
+    }
+
+    .dsh-spec-sub {
+        font-size: 0.63rem;
+        font-weight: 600;
+        color: #cbd5e1;
+    }
+
+    .dsh-bars {
+        display: flex;
+        align-items: flex-end;
+        gap: 3px;
+        height: 20px;
+    }
+
+    .dsh-bars span {
+        width: 3px;
+        height: 6px;
+        border-radius: 99px;
+        background: linear-gradient(180deg, #38bdf8, #818cf8);
+        animation: dshEqBounce 1.1s ease-in-out infinite alternate;
+    }
+
+    .dsh-bars span:nth-child(2n) {
+        animation-duration: 0.75s;
+        background: linear-gradient(180deg, #fde047, #38bdf8);
+    }
+
+    .dsh-bars span:nth-child(3n) {
+        animation-duration: 0.95s;
+        animation-delay: -0.4s;
+    }
+
+    .dsh-bars span:nth-child(4n) {
+        animation-duration: 0.65s;
+        animation-delay: -0.2s;
+    }
+
+    @keyframes dshEqBounce {
+        0% { height: 4px; opacity: 0.55; }
+        100% { height: 19px; opacity: 1; }
     }
 
     .avatar-container {
