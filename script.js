@@ -675,6 +675,50 @@ function initCardInteractions() {
             rafId = requestAnimationFrame(updateSmoothTilt);
         }
     }, { passive: true });
+
+    // Hiệu ứng nghiêng 3D Parallax mượt 60FPS cho Thẻ Cổng Chào "Vào Bio ✨"
+    const enterCard = document.getElementById("enterCard3D");
+    const enterOverlay = document.getElementById("enterOverlay");
+    if (enterCard && enterOverlay) {
+        let eTargetRX = 0, eTargetRY = 0, eCurRX = 0, eCurRY = 0, eRaf = null;
+
+        function animateEnterCard3D() {
+            eCurRX += (eTargetRX - eCurRX) * 0.14;
+            eCurRY += (eTargetRY - eCurRY) * 0.14;
+
+            if (Math.abs(eTargetRX - eCurRX) > 0.02 || Math.abs(eTargetRY - eCurRY) > 0.02) {
+                enterCard.style.transform = `rotateX(${eCurRX.toFixed(2)}deg) rotateY(${eCurRY.toFixed(2)}deg) translateZ(0)`;
+                eRaf = requestAnimationFrame(animateEnterCard3D);
+            } else {
+                enterCard.style.transform = eTargetRX === 0 && eTargetRY === 0
+                    ? "translateZ(0)"
+                    : `rotateX(${eTargetRX.toFixed(2)}deg) rotateY(${eTargetRY.toFixed(2)}deg) translateZ(0)`;
+                eRaf = null;
+            }
+        }
+
+        enterOverlay.addEventListener("mousemove", (e) => {
+            if (window.innerWidth <= 768 || enterOverlay.classList.contains("hidden")) return;
+            const r = enterCard.getBoundingClientRect();
+            const x = e.clientX - r.left;
+            const y = e.clientY - r.top;
+            enterCard.style.setProperty("--enter-mx", `${x}px`);
+            enterCard.style.setProperty("--enter-my", `${y}px`);
+
+            const cx = r.width / 2;
+            const cy = r.height / 2;
+            eTargetRX = Math.max(-10, Math.min(10, ((y - cy) / cy) * -7));
+            eTargetRY = Math.max(-12, Math.min(12, ((x - cx) / cx) * 8));
+
+            if (!eRaf) eRaf = requestAnimationFrame(animateEnterCard3D);
+        }, { passive: true });
+
+        enterOverlay.addEventListener("mouseleave", () => {
+            eTargetRX = 0;
+            eTargetRY = 0;
+            if (!eRaf) eRaf = requestAnimationFrame(animateEnterCard3D);
+        }, { passive: true });
+    }
 }
 
 // Hiệu ứng hạt phát sáng lơ lửng + Sao băng (Tối ưu GPU 60FPS siêu mượt)
