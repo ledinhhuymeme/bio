@@ -2537,6 +2537,155 @@ body {
     box-shadow: 0 8px 20px -5px rgba(245, 158, 11, 0.5);
 }
 
+/* ==========================================================
+   3D SPIDER-MAN WEB-SWINGING STAGE (BOTTOM PLAYGROUND)
+   ========================================================== */
+.spidey-swing-stage {
+    position: relative;
+    z-index: 3;
+    margin: 14px 22px 0;
+    height: 118px;
+    border-radius: 22px;
+    background: linear-gradient(145deg, rgba(220, 38, 38, 0.14) 0%, rgba(15, 23, 42, 0.85) 50%, rgba(37, 99, 235, 0.18) 100%);
+    border: 1px solid rgba(239, 68, 68, 0.42);
+    box-shadow: 
+        0 14px 30px -8px rgba(0, 0, 0, 0.7),
+        0 0 28px -8px rgba(220, 38, 38, 0.35),
+        inset 0 1px 1px rgba(255, 255, 255, 0.18);
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 20px;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.spidey-swing-stage:hover {
+    border-color: rgba(239, 68, 68, 0.85);
+    box-shadow: 
+        0 18px 36px -8px rgba(220, 38, 38, 0.48),
+        0 0 35px -6px rgba(56, 189, 248, 0.4),
+        inset 0 1px 1px rgba(255, 255, 255, 0.28);
+}
+
+.spidey-city-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.spidey-corner-web {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 85px;
+    height: 85px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.spidey-stage-info {
+    position: relative;
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    text-align: right;
+    pointer-events: none;
+}
+
+.spidey-stage-badge {
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    color: #fca5a5;
+    background: rgba(220, 38, 38, 0.24);
+    border: 1px solid rgba(239, 68, 68, 0.5);
+    padding: 3px 10px;
+    border-radius: 99px;
+    box-shadow: 0 0 14px rgba(239, 68, 68, 0.35);
+}
+
+.spidey-stage-sub {
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: #e2e8f0;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+/* Swinging Pendulum Animation (60FPS GPU Accelerated) */
+.spidey-pendulum {
+    position: absolute;
+    top: -12px;
+    left: 34%;
+    transform-origin: top center;
+    z-index: 3;
+    will-change: transform;
+    animation: spideyPendulumSwing 2.6s ease-in-out infinite alternate;
+}
+
+@keyframes spideyPendulumSwing {
+    0% {
+        transform: rotate(36deg) translate3d(0, 0, 0);
+    }
+    50% {
+        transform: rotate(-4deg) translate3d(0, 3px, 0) scale(1.04);
+    }
+    100% {
+        transform: rotate(-38deg) translate3d(0, 0, 0);
+    }
+}
+
+.spidey-rope {
+    position: absolute;
+    top: 0;
+    left: 47px;
+    width: 2.2px;
+    height: 36px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.4), #ffffff, #38bdf8);
+    box-shadow: 0 0 8px #ffffff;
+}
+
+.spidey-swing-hero {
+    margin-top: 22px;
+    filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.75)) drop-shadow(0 0 14px rgba(239, 68, 68, 0.45));
+    transition: transform 0.25s ease;
+}
+
+.spidey-swing-stage:hover .spidey-swing-hero {
+    transform: scale(1.1);
+}
+
+.spidey-shoot-beam {
+    position: absolute;
+    top: 52px;
+    left: 84px;
+    width: 0;
+    height: 2.5px;
+    background: linear-gradient(90deg, #ffffff, #38bdf8, transparent);
+    box-shadow: 0 0 10px #ffffff, 0 0 16px #38bdf8;
+    border-radius: 99px;
+    transform: rotate(-16deg);
+    transform-origin: left center;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.spidey-shoot-beam.shooting {
+    animation: shootWebBeam 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes shootWebBeam {
+    0% { width: 0; opacity: 1; }
+    45% { width: 170px; opacity: 1; }
+    100% { width: 220px; opacity: 0; }
+}
+
 .mini-bento-box {
     display: flex;
     align-items: center;
@@ -2799,6 +2948,11 @@ body {
         margin: 0;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 13px;
+    }
+
+    .spidey-swing-stage {
+        margin: 14px 0 0;
+        height: 124px;
     }
 
     .mini-qr-card {
@@ -3875,6 +4029,16 @@ body {
         margin: 11px 16px 0;
         grid-template-columns: 1fr;
         gap: 10px;
+    }
+
+    .spidey-swing-stage {
+        margin: 12px 16px 0;
+        height: 112px;
+        padding: 0 14px;
+    }
+
+    .spidey-pendulum {
+        left: 18%;
     }
 
     .music-bar {

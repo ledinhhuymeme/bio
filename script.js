@@ -1162,6 +1162,36 @@ function initExtraBentoWidgets() {
             }
         });
     }
+
+    // Sân khấu Người Nhện đu dây tơ 3D tương tác ở phần dưới
+    const spideyStage = document.getElementById("spideySwingStage");
+    const spideyBeam = document.getElementById("spideyShootBeam");
+    if (spideyStage) {
+        spideyStage.addEventListener("click", (e) => {
+            if (spideyBeam) {
+                spideyBeam.classList.remove("shooting");
+                void spideyBeam.offsetWidth;
+                spideyBeam.classList.add("shooting");
+            }
+            const r = spideyStage.getBoundingClientRect();
+            const clickX = e.clientX || r.left + r.width / 2;
+            const clickY = e.clientY || r.top + r.height / 2;
+            spawnConfettiBurst(clickX, clickY);
+
+            const webEmojis = ["🕸️", "🕷️", "⚡", "✨"];
+            for (let i = 0; i < 5; i++) {
+                const w = document.createElement("span");
+                w.className = "floating-heart";
+                w.textContent = webEmojis[i % webEmojis.length];
+                w.style.left = `${clickX}px`;
+                w.style.top = `${clickY}px`;
+                w.style.setProperty("--dx", `${(Math.random() - 0.5) * 90}px`);
+                w.style.setProperty("--rot", `${(Math.random() - 0.5) * 80}deg`);
+                document.body.appendChild(w);
+                setTimeout(() => w.remove(), 1100);
+            }
+        });
+    }
 }
 
 // Lời chào thông minh theo khung giờ trong ngày
