@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=55">
+    <link rel="stylesheet" href="style.css?v=56">
 </head>
 <body data-theme="aurora">
     <!-- Glass Splash Screen (Rich Portal Card with Cover, Live Badges, Music Teaser & Social Icons) -->
@@ -314,16 +314,24 @@
                             </div>
                         </div>
 
-                        <!-- Cute Cat Donate Card (Ủng hộ cho chú mèo ít cá 😄) -->
-                        <div class="cat-donate-card" id="catDonateCard" title="Bấm để phóng to mã QR ủng hộ chú mèo cá 🐟">
-                            <div class="cat-img-wrap">
-                                <img src="donate_cat.jpg" alt="Ủng hộ cho chú mèo ít cá" class="cat-donate-img">
-                                <span class="cat-zoom-badge">🔍 Quét QR</span>
+                        <!-- 3D Pop-Out Cute Cat Donate Card (Ủng hộ cho chú mèo ít cá 😄) -->
+                        <div class="cat-donate-card cat-3d-stage" id="catDonateCard" title="Bấm để phóng to mã QR ủng hộ chú mèo cá 🐟">
+                            <div class="cat-3d-glare" id="cat3dGlare"></div>
+                            <div class="cat-3d-orbit-items" aria-hidden="true">
+                                <span class="cat-float-item cfi-1">🐟</span>
+                                <span class="cat-float-item cfi-2">🪙</span>
+                                <span class="cat-float-item cfi-3">✨</span>
                             </div>
-                            <div class="cat-donate-info">
-                                <span class="cat-donate-tag" id="cat-donate-tag">🐱 GÓC NUÔI MÈO</span>
+                            <div class="cat-img-wrap cat-3d-figure" id="cat3dFigure">
+                                <div class="cat-3d-halo"></div>
+                                <img src="donate_cat.jpg" alt="Ủng hộ cho chú mèo ít cá" class="cat-donate-img">
+                                <div class="cat-3d-qr-scanner"></div>
+                                <span class="cat-zoom-badge">🔍 3D QR</span>
+                            </div>
+                            <div class="cat-donate-info cat-3d-info">
+                                <span class="cat-donate-tag" id="cat-donate-tag">🐱 GÓC NUÔI MÈO 3D</span>
                                 <h3 class="cat-donate-title" id="cat-donate-title">Ủng hộ cho chú mèo ít cá 😄</h3>
-                                <p class="cat-donate-sub" id="cat-donate-sub">Chạm vào ảnh để phóng to mã MoMo / VietQR 🐟✨</p>
+                                <p class="cat-donate-sub" id="cat-donate-sub">Chạm vào chú mèo 3D để quét MoMo / VietQR 🐟✨</p>
                                 <span class="cat-donate-btn" id="cat-donate-btn">Mở mã QR 💛</span>
                             </div>
                         </div>
@@ -827,6 +835,6 @@
     <!-- Toast Notification -->
     <div class="toast" id="toast">Đã sao chép liên kết! ✨</div>
 
-    <script src="script.js?v=55"></script>
+    <script src="script.js?v=56"></script>
 </body>
 </html>
