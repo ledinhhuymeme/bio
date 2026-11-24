@@ -1163,11 +1163,80 @@ function initExtraBentoWidgets() {
         });
     }
 
-    // Sân khấu Người Nhện đu dây tơ 3D tương tác ở phần dưới
+    // Sân khấu Người Nhện Chibi 5K đu dây tơ đàn hồi mềm mại (Elastic Bezier Web + Squash & Stretch Physics)
     const spideyStage = document.getElementById("spideySwingStage");
     const spideyBeam = document.getElementById("spideyShootBeam");
-    if (spideyStage) {
+    const chibiActor = document.getElementById("chibiSpideyActor");
+    const chibiBody = document.getElementById("chibiSpideyBody");
+    const webCanvas = document.getElementById("spideyWebCanvas");
+
+    if (spideyStage && chibiActor && chibiBody && webCanvas) {
+        const wCtx = webCanvas.getContext("2d");
+        let stageW = (webCanvas.width = spideyStage.clientWidth || 500);
+        let stageH = (webCanvas.height = spideyStage.clientHeight || 132);
+
+        window.addEventListener("resize", () => {
+            stageW = webCanvas.width = spideyStage.clientWidth || 500;
+            stageH = webCanvas.height = spideyStage.clientHeight || 132;
+        }, { passive: true });
+
+        let phase = 0;
+        let boostVel = 0;
+        let flipAngle = 0;
+
+        function animateChibiSpidey() {
+            phase += 0.032 + boostVel;
+            boostVel *= 0.94;
+            if (flipAngle > 0.5) {
+                flipAngle *= 0.86;
+            } else {
+                flipAngle = 0;
+            }
+
+            // Quỹ đạo đu võng hình cung tròn mềm mại + nhịp nhún lò xo tự nhiên (không bị cứng như con lắc)
+            const anchorX = stageW * 0.28;
+            const anchorY = -6;
+            const swingX = anchorX + Math.sin(phase) * 62;
+            const swingY = 16 + Math.cos(phase * 2) * 9 - boostVel * 90;
+
+            // Độ nghiêng thân người + độ co giãn đàn hồi (Squash & Stretch) theo vận tốc đu
+            const tiltDeg = Math.cos(phase) * -14 + flipAngle;
+            const stretchX = 1 + Math.sin(phase * 2) * 0.045;
+            const stretchY = 1 - Math.sin(phase * 2) * 0.045;
+
+            chibiActor.style.transform = `translate3d(${(swingX - 44).toFixed(1)}px, ${swingY.toFixed(1)}px, 0)`;
+            chibiBody.style.transform = `rotate(${tiltDeg.toFixed(1)}deg) scale(${stretchX.toFixed(3)}, ${stretchY.toFixed(3)})`;
+
+            // Vẽ sợi dây tơ uốn cong đàn hồi (Quadratic Bezier Curve) nối từ trần xuống tay Chibi Spider-Man
+            wCtx.clearRect(0, 0, stageW, stageH);
+            const handX = swingX - 18;
+            const handY = swingY + 46;
+            const ctrlX = (anchorX + handX) / 2 + Math.cos(phase) * 24;
+            const ctrlY = (anchorY + handY) / 2 + 14;
+
+            wCtx.beginPath();
+            wCtx.moveTo(anchorX, anchorY);
+            wCtx.quadraticCurveTo(ctrlX, ctrlY, handX, handY);
+            const grad = wCtx.createLinearGradient(anchorX, anchorY, handX, handY);
+            grad.addColorStop(0, "rgba(56, 189, 248, 0.25)");
+            grad.addColorStop(0.5, "rgba(255, 255, 255, 0.95)");
+            grad.addColorStop(1, "rgba(244, 63, 94, 0.85)");
+            wCtx.strokeStyle = grad;
+            wCtx.lineWidth = 2.4;
+            wCtx.shadowColor = "#38bdf8";
+            wCtx.shadowBlur = 8;
+            wCtx.stroke();
+
+            requestAnimationFrame(animateChibiSpidey);
+        }
+
+        requestAnimationFrame(animateChibiSpidey);
+
         spideyStage.addEventListener("click", (e) => {
+            // Bấm vào để Chibi Spider-Man nhào lộn 360 độ mềm mại và bắn tơ!
+            boostVel = 0.14;
+            flipAngle = 360;
+
             if (spideyBeam) {
                 spideyBeam.classList.remove("shooting");
                 void spideyBeam.offsetWidth;

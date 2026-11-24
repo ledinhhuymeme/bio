@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=54">
+    <link rel="stylesheet" href="style.css?v=55">
 </head>
 <body data-theme="aurora">
     <!-- Glass Splash Screen (Rich Portal Card with Cover, Live Badges, Music Teaser & Social Icons) -->
@@ -595,87 +595,57 @@
                         </div>
                     </div>
 
-                    <!-- 3D Spider-Man Web-Swinging Playground Stage (Fills Bottom Space) -->
-                    <div class="spidey-swing-stage" id="spideySwingStage" title="Bấm vào Người Nhện để bắn tơ 🕸️⚡">
-                        <!-- City Skyline Silhouette & Glowing Webs -->
-                        <svg class="spidey-city-bg" viewBox="0 0 600 130" preserveAspectRatio="none">
+                    <!-- 5K Cute Chibi Spider-Man Web-Swinging Playground Stage (Organic Physics Motion) -->
+                    <div class="spidey-swing-stage" id="spideySwingStage" title="Bấm vào Người Nhện Chibi để phóng tơ 🕸️⚡">
+                        <!-- Bokeh Lights & City Skyline Background -->
+                        <div class="spidey-bokeh-layer">
+                            <span class="sb-dot sb-1"></span>
+                            <span class="sb-dot sb-2"></span>
+                            <span class="sb-dot sb-3"></span>
+                            <span class="sb-dot sb-4"></span>
+                        </div>
+                        <svg class="spidey-city-bg" viewBox="0 0 600 140" preserveAspectRatio="none">
                             <defs>
                                 <linearGradient id="cityGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                                    <stop offset="0%" stop-color="rgba(30, 41, 59, 0.45)"/>
+                                    <stop offset="0%" stop-color="rgba(30, 41, 59, 0.35)"/>
                                     <stop offset="100%" stop-color="rgba(5, 6, 11, 0.92)"/>
                                 </linearGradient>
                                 <linearGradient id="webLineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" stop-color="rgba(56, 189, 248, 0.08)"/>
-                                    <stop offset="50%" stop-color="rgba(255, 255, 255, 0.45)"/>
-                                    <stop offset="100%" stop-color="rgba(239, 68, 68, 0.2)"/>
+                                    <stop offset="0%" stop-color="rgba(56, 189, 248, 0.12)"/>
+                                    <stop offset="50%" stop-color="rgba(255, 255, 255, 0.55)"/>
+                                    <stop offset="100%" stop-color="rgba(239, 68, 68, 0.25)"/>
                                 </linearGradient>
                             </defs>
-                            <!-- Background Web Arcs -->
-                            <path d="M0 15 Q 150 75 310 10" stroke="url(#webLineGrad)" stroke-width="1.2" fill="none" stroke-dasharray="4 3"/>
-                            <path d="M290 8 Q 440 80 600 20" stroke="url(#webLineGrad)" stroke-width="1.2" fill="none" stroke-dasharray="4 3"/>
-                            <!-- Cyberpunk City Buildings Silhouette -->
-                            <path d="M0 130 L0 85 L28 85 L28 62 L58 62 L58 92 L85 92 L85 48 L122 48 L122 88 L152 88 L152 70 L188 70 L188 98 L220 98 L220 54 L260 54 L260 86 L295 86 L295 66 L332 66 L332 94 L368 94 L368 44 L410 44 L410 82 L448 82 L448 60 L485 60 L485 90 L520 90 L520 52 L562 52 L562 84 L600 84 L600 130 Z" fill="url(#cityGrad)"/>
+                            <path d="M0 18 Q 160 80 330 12" stroke="url(#webLineGrad)" stroke-width="1.3" fill="none" stroke-dasharray="5 3"/>
+                            <path d="M270 10 Q 440 82 600 22" stroke="url(#webLineGrad)" stroke-width="1.3" fill="none" stroke-dasharray="5 3"/>
+                            <path d="M0 140 L0 90 L35 90 L35 66 L70 66 L70 96 L105 96 L105 54 L145 54 L145 92 L185 92 L185 72 L225 72 L225 102 L265 102 L265 58 L310 58 L310 90 L350 90 L350 68 L395 68 L395 96 L435 96 L435 50 L480 50 L480 86 L525 86 L525 64 L565 64 L565 92 L600 92 L600 140 Z" fill="url(#cityGrad)"/>
                         </svg>
 
                         <!-- Left Corner Decorative Web -->
                         <svg class="spidey-corner-web web-left" viewBox="0 0 100 100" fill="none">
-                            <path d="M0 0 L100 0 M0 0 L85 50 M0 0 L50 85 M0 0 L0 100" stroke="rgba(255,255,255,0.16)" stroke-width="1.2"/>
-                            <path d="M30 0 Q26 26 0 30 M60 0 Q50 50 0 60 M90 0 Q72 72 0 90" stroke="rgba(239,68,68,0.28)" stroke-width="1.2"/>
+                            <path d="M0 0 L100 0 M0 0 L85 50 M0 0 L50 85 M0 0 L0 100" stroke="rgba(255,255,255,0.18)" stroke-width="1.2"/>
+                            <path d="M30 0 Q26 26 0 30 M60 0 Q50 50 0 60 M90 0 Q72 72 0 90" stroke="rgba(239,68,68,0.32)" stroke-width="1.2"/>
                         </svg>
+
+                        <!-- Dynamic Curved Elastic Web Line Canvas -->
+                        <canvas id="spideyWebCanvas" class="spidey-web-canvas"></canvas>
+
+                        <!-- Multi-Joint Organic Physics Chibi Spider-Man Rig -->
+                        <div class="chibi-spidey-actor" id="chibiSpideyActor">
+                            <div class="chibi-spidey-aura"></div>
+                            <div class="chibi-spidey-body" id="chibiSpideyBody">
+                                <img src="spidey_cute.jpg" alt="Cute 5K Chibi Spider-Man" class="chibi-spidey-img">
+                                <span class="chibi-eye-gleam gleam-left"></span>
+                                <span class="chibi-eye-gleam gleam-right"></span>
+                            </div>
+                            <div class="spidey-shoot-beam" id="spideyShootBeam"></div>
+                        </div>
 
                         <!-- Right Info & Interactive Trigger -->
                         <div class="spidey-stage-info">
-                            <span class="spidey-stage-badge">🕷️ SPIDER-VERSE ZONE</span>
-                            <span class="spidey-stage-sub">Chạm để Người Nhện bắn tơ 🕸️</span>
-                        </div>
-
-                        <!-- Swinging Pendulum: Web Rope + 3D Spider-Man Full Body -->
-                        <div class="spidey-pendulum" id="spideyPendulum">
-                            <div class="spidey-rope"></div>
-                            <!-- Web Shoot Flash from Hand -->
-                            <div class="spidey-shoot-beam" id="spideyShootBeam"></div>
-
-                            <!-- 3D Spider-Man Swinging Character SVG -->
-                            <svg class="spidey-swing-hero" viewBox="0 0 140 130" width="96" height="90">
-                                <defs>
-                                    <radialGradient id="suitRed" cx="35%" cy="30%" r="70%">
-                                        <stop offset="0%" stop-color="#ff3b4b"/>
-                                        <stop offset="60%" stop-color="#dc2626"/>
-                                        <stop offset="100%" stop-color="#7f1d1d"/>
-                                    </radialGradient>
-                                    <linearGradient id="suitBlue" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stop-color="#2563eb"/>
-                                        <stop offset="100%" stop-color="#1e3a8a"/>
-                                    </linearGradient>
-                                </defs>
-                                <!-- Dynamic Web Trail Behind Hero -->
-                                <path d="M68 12 Q 30 35 8 22" stroke="rgba(255,255,255,0.65)" stroke-width="2" fill="none" stroke-linecap="round"/>
-                                <!-- Back Leg (Bent in mid-air swing pose) -->
-                                <path d="M58 76 L34 86 L22 106" stroke="url(#suitBlue)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                                <path d="M26 98 L20 108" stroke="url(#suitRed)" stroke-width="11" stroke-linecap="round" fill="none"/>
-                                <!-- Front Leg (Knee pulled up dynamically) -->
-                                <path d="M70 76 L98 68 L112 92" stroke="url(#suitBlue)" stroke-width="11.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                                <path d="M104 78 L114 94" stroke="url(#suitRed)" stroke-width="11.5" stroke-linecap="round" fill="none"/>
-                                <!-- Torso (Red & Blue Spider Suit) -->
-                                <ellipse cx="66" cy="64" rx="16" ry="20" transform="rotate(-18 66 64)" fill="url(#suitRed)" stroke="#ef4444" stroke-width="1.2"/>
-                                <!-- Chest Spider Emblem -->
-                                <circle cx="66" cy="62" r="3.2" fill="#0f172a"/>
-                                <path d="M61 58 L71 66 M61 66 L71 58 M60 62 L72 62" stroke="#0f172a" stroke-width="1.3"/>
-                                <!-- Left Arm Reaching Up Holding Web Rope -->
-                                <path d="M56 52 L64 26 L68 10" stroke="url(#suitRed)" stroke-width="9.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                                <!-- Right Arm Shooting Web Forward -->
-                                <path d="M76 56 L104 46 L124 38" stroke="url(#suitRed)" stroke-width="9.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                                <!-- Spider-Man Head (3D Mask & Expressive White Eyes) -->
-                                <g transform="translate(46, 18) rotate(8 20 20)">
-                                    <path d="M22 4 C8 4, 3 18, 5 32 C7 43, 14 50, 22 51 C30 50, 37 43, 39 32 C41 18, 36 4, 22 4 Z" fill="url(#suitRed)" stroke="#ef4444" stroke-width="1.2"/>
-                                    <!-- Web pattern on mask -->
-                                    <line x1="22" y1="4" x2="22" y2="51" stroke="rgba(15,23,42,0.55)" stroke-width="1"/>
-                                    <path d="M10 16 Q22 22 34 16 M8 36 Q22 31 36 36" stroke="rgba(15,23,42,0.55)" stroke-width="1" fill="none"/>
-                                    <!-- Big Expressive Spider-Man Eyes -->
-                                    <path d="M7 23 C7 17, 14 17, 20 26 C21 28, 17 32, 12 30 C8 29, 7 26, 7 23 Z" fill="#ffffff" stroke="#0f172a" stroke-width="2.6"/>
-                                    <path d="M37 23 C37 17, 30 17, 24 26 C23 28, 27 32, 32 30 C36 29, 37 26, 37 23 Z" fill="#ffffff" stroke="#0f172a" stroke-width="2.6"/>
-                                </g>
-                            </svg>
+                            <span class="spidey-stage-badge">🕷️ CHIBI SPIDER-VERSE 5K</span>
+                            <span class="spidey-stage-title">Miles Morales • Cute Vibe</span>
+                            <span class="spidey-stage-sub">Chạm để nhảy nhào lộn & bắn tơ 🕸️⚡</span>
                         </div>
                     </div>
                 </div>
@@ -835,57 +805,15 @@
                 <div class="sent-3d-ring ring-outer"></div>
                 <div class="sent-3d-ring ring-inner"></div>
 
-                <!-- 3D Spider-Man Character Head & Web Shoot Effect -->
+                <!-- 5K Cute Chibi Spider-Man Character & Web Shoot Effect in Sent Modal -->
                 <div class="spidey-3d-wrap">
-                    <!-- Shooting Web Beam -->
                     <svg class="spidey-web-shot" viewBox="0 0 140 140" fill="none">
                         <line x1="70" y1="70" x2="135" y2="5" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
                         <line x1="70" y1="70" x2="5" y2="5" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
                         <path d="M95 30 Q105 40 112 28" stroke="#38bdf8" stroke-width="1.8" fill="none"/>
                         <path d="M45 30 Q35 40 28 28" stroke="#ef4444" stroke-width="1.8" fill="none"/>
                     </svg>
-
-                    <!-- 3D Spider-Man Mask SVG -->
-                    <svg class="spidey-3d-head" viewBox="0 0 120 140" width="96" height="110">
-                        <defs>
-                            <radialGradient id="spideyRed" cx="38%" cy="32%" r="68%">
-                                <stop offset="0%" stop-color="#ff3b4b"/>
-                                <stop offset="55%" stop-color="#dc2626"/>
-                                <stop offset="100%" stop-color="#7f1d1d"/>
-                            </radialGradient>
-                            <linearGradient id="eyeRim" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#0f172a"/>
-                                <stop offset="100%" stop-color="#020617"/>
-                            </linearGradient>
-                            <radialGradient id="eyeLens" cx="40%" cy="40%" r="65%">
-                                <stop offset="0%" stop-color="#ffffff"/>
-                                <stop offset="75%" stop-color="#e2e8f0"/>
-                                <stop offset="100%" stop-color="#94a3b8"/>
-                            </radialGradient>
-                        </defs>
-                        <!-- Mask Head Shape with 3D Shading -->
-                        <path d="M60 10 C25 10, 12 42, 16 80 C19 108, 38 130, 60 132 C82 130, 101 108, 104 80 C108 42, 95 10, 60 10 Z" fill="url(#spideyRed)" stroke="#ef4444" stroke-width="2"/>
-                        <!-- Mask Web Lines -->
-                        <g stroke="rgba(15,23,42,0.72)" stroke-width="1.4" fill="none">
-                            <line x1="60" y1="10" x2="60" y2="132"/>
-                            <path d="M60 66 L22 28"/>
-                            <path d="M60 66 L98 28"/>
-                            <path d="M60 66 L15 68"/>
-                            <path d="M60 66 L105 68"/>
-                            <path d="M60 66 L26 108"/>
-                            <path d="M60 66 L94 108"/>
-                            <path d="M36 24 Q60 32 84 24"/>
-                            <path d="M24 44 Q60 54 96 44"/>
-                            <path d="M22 92 Q60 82 98 92"/>
-                            <path d="M36 114 Q60 105 84 114"/>
-                        </g>
-                        <!-- Left Spider-Man Expressive Eye -->
-                        <path class="spidey-eye-left" d="M23 56 C22 44, 38 44, 53 64 C55 68, 46 78, 34 74 C25 71, 23 63, 23 56 Z" fill="url(#eyeLens)" stroke="url(#eyeRim)" stroke-width="5.5" stroke-linejoin="round"/>
-                        <!-- Right Spider-Man Expressive Eye -->
-                        <path class="spidey-eye-right" d="M97 56 C98 44, 82 44, 67 64 C65 68, 74 78, 86 74 C95 71, 97 63, 97 56 Z" fill="url(#eyeLens)" stroke="url(#eyeRim)" stroke-width="5.5" stroke-linejoin="round"/>
-                        <!-- Specular 3D Highlight on Forehead -->
-                        <ellipse cx="46" cy="26" rx="14" ry="6" transform="rotate(-18 46 26)" fill="rgba(255,255,255,0.22)"/>
-                    </svg>
+                    <img src="spidey_cute.jpg" alt="Cute 5K Chibi Spider-Man" class="spidey-modal-chibi-img">
                 </div>
 
                 <span class="spidey-badge">🕷️ SPIDEY EXPRESS DELIVERY</span>
@@ -899,6 +827,6 @@
     <!-- Toast Notification -->
     <div class="toast" id="toast">Đã sao chép liên kết! ✨</div>
 
-    <script src="script.js?v=54"></script>
+    <script src="script.js?v=55"></script>
 </body>
 </html>
