@@ -2372,7 +2372,7 @@ body {
     color: var(--text-secondary);
 }
 
-/* Extra Bottom Bento Row (3 Balanced Cards on Desktop: Photo Gallery, Current Mood, QR Code) */
+/* Extra Bottom Bento Row (4 Balanced Cards: 2x2 Grid on Desktop) */
 .extra-bento-row {
     position: relative;
     z-index: 3;
@@ -2382,13 +2382,153 @@ body {
     gap: 12px;
 }
 
-.extra-bento-row.three-col-bento .mini-qr-card img {
+.extra-bento-row .mini-qr-card img {
     width: 42px;
     height: 42px;
     border-radius: 11px;
     background: #fff;
     padding: 3px;
     flex-shrink: 0;
+}
+
+/* Highlighted Order Bio Service Card */
+.order-bio-box {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.18) 0%, rgba(56, 189, 248, 0.18) 55%, rgba(15, 23, 42, 0.85) 100%) !important;
+    border-color: rgba(250, 204, 21, 0.5) !important;
+    box-shadow: 0 12px 26px -6px rgba(245, 158, 11, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.25) !important;
+}
+
+.order-bio-box:hover {
+    border-color: rgba(250, 204, 21, 0.95) !important;
+    box-shadow: 0 16px 32px -6px rgba(245, 158, 11, 0.5) !important;
+}
+
+.order-bio-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 11px;
+    background: linear-gradient(135deg, #f59e0b 0%, #eab308 100%);
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+    box-shadow: 0 6px 15px -3px rgba(245, 158, 11, 0.6);
+}
+
+.order-bio-top {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.order-tag {
+    color: #fde047 !important;
+}
+
+.order-hot-dot {
+    font-size: 0.52rem;
+    font-weight: 800;
+    padding: 1px 5px;
+    border-radius: 99px;
+    background: linear-gradient(135deg, #ef4444, #f97316);
+    color: #fff;
+    letter-spacing: 0.04em;
+}
+
+.footer-order-link {
+    background: rgba(250, 204, 21, 0.14);
+    border: 1px solid rgba(250, 204, 21, 0.4);
+    color: #fde047;
+    font-family: inherit;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 99px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.footer-order-link:hover {
+    background: rgba(250, 204, 21, 0.28);
+    border-color: #fde047;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+/* Order Custom Bio Service Modal */
+.order-modal-badge {
+    background: rgba(250, 204, 21, 0.16) !important;
+    border-color: rgba(250, 204, 21, 0.45) !important;
+    font-size: 1.45rem;
+}
+
+.order-features-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: left;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 12px 14px;
+    margin-bottom: 16px;
+}
+
+.order-feat-item {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #e2e8f0;
+    line-height: 1.4;
+}
+
+.order-contact-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.order-action-btn {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 14px;
+    font-family: inherit;
+    font-size: 0.84rem;
+    font-weight: 800;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.order-action-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+.order-zalo-btn {
+    background: linear-gradient(135deg, #0084FF 0%, #0055E5 100%);
+    color: #ffffff;
+    border: 1px solid rgba(125, 211, 252, 0.35);
+    box-shadow: 0 8px 20px -5px rgba(0, 104, 255, 0.55);
+}
+
+.order-fb-btn {
+    background: linear-gradient(135deg, #2563eb 0%, #1877F2 100%);
+    color: #ffffff;
+    border: 1px solid rgba(147, 197, 253, 0.35);
+    box-shadow: 0 8px 20px -5px rgba(24, 119, 242, 0.55);
+}
+
+.order-inbox-btn {
+    background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+    color: #ffffff;
+    border: 1px solid rgba(253, 224, 71, 0.4);
+    box-shadow: 0 8px 20px -5px rgba(245, 158, 11, 0.5);
 }
 
 .mini-bento-box {
@@ -2651,7 +2791,7 @@ body {
 
     .extra-bento-row {
         margin: 0;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 13px;
     }
 

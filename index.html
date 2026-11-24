@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=51">
+    <link rel="stylesheet" href="style.css?v=52">
 </head>
 <body data-theme="aurora">
     <!-- Glass Splash Screen (Rich Portal Card with Cover, Live Badges, Music Teaser & Social Icons) -->
@@ -554,8 +554,19 @@
                         </div>
                     </div>
 
-                    <!-- Bottom Clean 3-Card Bento Row (Photo Gallery + Current Mood + Quick QR Scan) -->
-                    <div class="extra-bento-row three-col-bento">
+                    <!-- Bottom Clean 4-Card Bento Grid under "CÁC MỤC KHÁC" (Order Bio Service + Photo Gallery + Current Mood + Quick QR) -->
+                    <div class="extra-bento-row four-col-bento">
+                        <div class="mini-bento-box order-bio-box" id="orderBioBox" title="Liên hệ Huy Đình thiết kế trang Bio chuyên nghiệp">
+                            <span class="order-bio-icon">✨</span>
+                            <div class="mini-moment-text">
+                                <div class="order-bio-top">
+                                    <span class="mini-bento-tag order-tag" id="order-bio-tag">💎 NHẬN LÀM BIO</span>
+                                    <span class="order-hot-dot">HOT</span>
+                                </div>
+                                <span class="mini-bento-val" id="order-bio-val">Muốn làm Bio xịn • Liên hệ mình</span>
+                            </div>
+                        </div>
+
                         <div class="mini-bento-box highlight-photo-box" id="miniMomentBox" title="Bấm để xem bộ sưu tập ảnh lớn">
                             <div class="mini-thumb-stack">
                                 <img src="avatar.jpg" alt="Mountain Chill" class="mini-moment-thumb thumb-primary" id="miniGalleryThumb">
@@ -588,10 +599,38 @@
 
             <!-- Footer -->
             <footer class="footer">
-                <p>© <span id="year"></span> <strong>Huy Đình</strong> • <span id="footer-crafted">Thiết kế với ✨</span> • <span class="footer-ver">VIP v45 🍌</span></p>
+                <p>© <span id="year"></span> <strong>Huy Đình</strong> • <span id="footer-crafted">Thiết kế với ✨</span> • <button type="button" class="footer-order-link" id="footerOrderBioBtn">💎 Nhận làm Bio: Liên hệ mình</button></p>
             </footer>
         </div>
     </main>
+
+    <!-- Order Custom Bio Service Modal -->
+    <div class="qr-modal" id="orderBioModal">
+        <div class="secret-modal-box order-bio-modal-box">
+            <button class="qr-close" id="orderBioClose" aria-label="Đóng">&times;</button>
+            <div class="secret-modal-header">
+                <span class="secret-icon-badge order-modal-badge">💎</span>
+                <h3 id="order-modal-title">Thiết Kế Bio Chuyên Nghiệp</h3>
+                <p id="order-modal-sub">Bạn muốn sở hữu trang Bio 3D có nhạc nền, hiệu ứng riêng & link rút gọn như thế này? Liên hệ ngay với <strong>Huy Đình</strong> nhé!</p>
+            </div>
+            <div class="order-features-list">
+                <div class="order-feat-item">✨ Giao diện 3D Bento Glassmorphism chuẩn Điện thoại & Máy tính</div>
+                <div class="order-feat-item">🎵 Tích hợp Nhạc nền yêu thích, Lời bài hát & Hiệu ứng 3D</div>
+                <div class="order-feat-item">🔗 Đầy đủ FB, IG, TikTok, Locket, Zalo (ẩn SĐT), Mã QR & Hộp thư riêng</div>
+            </div>
+            <div class="order-contact-actions">
+                <button type="button" class="order-action-btn order-zalo-btn" id="orderViaZaloBtn">
+                    <span>💬 Nhắn Zalo cho Huy Đình</span>
+                </button>
+                <a href="https://www.facebook.com/share/1FgFbPsM9g/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" class="order-action-btn order-fb-btn">
+                    <span>📘 Nhắn qua Facebook</span>
+                </a>
+                <button type="button" class="order-action-btn order-inbox-btn" id="orderViaInboxBtn">
+                    <span>⚡ Để lại yêu cầu làm Bio ngay tại đây</span>
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- QR Code Modal -->
     <div class="qr-modal" id="qrModal">
@@ -776,6 +815,6 @@
     <!-- Toast Notification -->
     <div class="toast" id="toast">Đã sao chép liên kết! ✨</div>
 
-    <script src="script.js?v=51"></script>
+    <script src="script.js?v=52"></script>
 </body>
 </html>

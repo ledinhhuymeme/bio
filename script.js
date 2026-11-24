@@ -54,7 +54,10 @@ const BIO_CONFIG = {
             sectionTitle: "KẾT NỐI MẠNG XÃ HỘI",
             sectionSub: "Chạm để mở hoặc sao chép nhanh",
             otherSectionTitle: "CÁC MỤC KHÁC",
-            otherSectionBadge: "✨ Tiện ích & Bộ sưu tập",
+            otherSectionBadge: "✨ Tiện ích & Dịch vụ",
+            orderBioTag: "💎 NHẬN LÀM BIO",
+            orderBioVal: "Muốn làm Bio xịn • Liên hệ mình",
+            footerOrderBtn: "💎 Nhận làm Bio: Liên hệ mình",
             subtitles: {
                 facebook: "Kết bạn & nhắn tin cho mình",
                 instagram: "@huy_chuis • Stories mỗi ngày 📸",
@@ -98,7 +101,10 @@ const BIO_CONFIG = {
             sectionTitle: "SOCIAL NETWORKS",
             sectionSub: "Tap to open or quick copy link",
             otherSectionTitle: "OTHER SECTIONS",
-            otherSectionBadge: "✨ Widgets & Gallery",
+            otherSectionBadge: "✨ Widgets & Services",
+            orderBioTag: "💎 GET A CUSTOM BIO",
+            orderBioVal: "Want a pro Bio? • Contact me",
+            footerOrderBtn: "💎 Want a custom Bio? Contact me",
             subtitles: {
                 facebook: "Add friend & message me",
                 instagram: "@huy_chuis • Daily stories 📸",
@@ -325,6 +331,9 @@ function applyLanguage(lang, showNotification) {
     setText("section-sub", dict.sectionSub);
     setText("other-section-title", dict.otherSectionTitle);
     setText("other-section-badge", dict.otherSectionBadge);
+    setText("order-bio-tag", dict.orderBioTag);
+    setText("order-bio-val", dict.orderBioVal);
+    setText("footerOrderBioBtn", dict.footerOrderBtn);
     setText("music-status-label", isMusicPlaying ? dict.musicPlaying : dict.musicPaused);
     setText("mini-qr-title", dict.miniQrTitle);
     setText("mini-qr-sub", dict.miniQrSub);
@@ -1130,6 +1139,52 @@ function initExtraBentoWidgets() {
             if (moodText) moodText.textContent = moods[moodIdx].text;
             const r = moodBox.getBoundingClientRect();
             spawnConfettiBurst(e.clientX || r.left + r.width / 2, e.clientY || r.top + r.height / 2);
+        });
+    }
+
+    // Nút mở hộp thoại "Nhận làm Bio - Liên hệ cho Huy Đình"
+    const orderBioBox = document.getElementById("orderBioBox");
+    const footerOrderBioBtn = document.getElementById("footerOrderBioBtn");
+    const orderBioModal = document.getElementById("orderBioModal");
+    const orderBioClose = document.getElementById("orderBioClose");
+    const orderViaZaloBtn = document.getElementById("orderViaZaloBtn");
+    const orderViaInboxBtn = document.getElementById("orderViaInboxBtn");
+
+    function openOrderBioModal() {
+        if (orderBioModal) orderBioModal.classList.add("active");
+    }
+
+    if (orderBioBox) orderBioBox.addEventListener("click", openOrderBioModal);
+    if (footerOrderBioBtn) footerOrderBioBtn.addEventListener("click", openOrderBioModal);
+    if (orderBioClose && orderBioModal) {
+        orderBioClose.addEventListener("click", () => orderBioModal.classList.remove("active"));
+        orderBioModal.addEventListener("click", (e) => {
+            if (e.target === orderBioModal) orderBioModal.classList.remove("active");
+        });
+    }
+
+    if (orderViaZaloBtn) {
+        orderViaZaloBtn.addEventListener("click", () => {
+            // Mở thẳng Zalo của Huy Đình (vẫn ẩn số điện thoại)
+            const encodedZalo = BIO_CONFIG.links.zalo.encodedUrl;
+            if (encodedZalo) {
+                window.open(atob(encodedZalo), "_blank", "noopener,noreferrer");
+            }
+        });
+    }
+
+    if (orderViaInboxBtn) {
+        orderViaInboxBtn.addEventListener("click", () => {
+            if (orderBioModal) orderBioModal.classList.remove("active");
+            const secretModal = document.getElementById("secretMsgModal");
+            const secretContent = document.getElementById("secretContent");
+            if (secretModal) {
+                secretModal.classList.add("active");
+                if (secretContent) {
+                    secretContent.value = "Mình muốn đặt làm 1 trang Bio giống của bạn! Tư vấn giúp mình qua SĐT/FB/Zalo: ";
+                    secretContent.focus();
+                }
+            }
         });
     }
 }
