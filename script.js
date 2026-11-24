@@ -257,6 +257,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // 13h. Hộp trạng thái Mood / Vibe tương tác & Xem ảnh Chill Moment
     initExtraBentoWidgets();
 
+    // 13i. Sắp xếp bố cục riêng cho giao diện Điện Thoại (Mobile <= 919px) mà không đụng tới giao diện Máy Tính (Desktop >= 920px)
+    initResponsiveSectionOrder();
+
     // 14. Nút chia sẻ trang Bio (dùng luôn link ngắn https://is.gd/huydinh_bio)
     const OFFICIAL_SHORT_URL = "https://is.gd/huydinh_bio";
     const shareBtn = document.getElementById("shareBtn");
@@ -1820,4 +1823,39 @@ function showToast(message) {
     toastTimeout = setTimeout(() => {
         toast.classList.remove("show");
     }, 2400);
+}
+
+// Chỉ thay đổi thứ tự trên giao diện Điện Thoại (< 920px):
+// - Máy tính (>= 920px): Giữ nguyên Góc Nuôi Mèo ở cột trái dưới Stats, Gửi tin nhắn ở đầu cột phải.
+// - Điện thoại (< 920px): Đẩy Kết nối mạng xã hội lên trên, chuyển Gửi tin nhắn & Góc Nuôi Mèo xuống dưới "CÁC MỤC KHÁC".
+function initResponsiveSectionOrder() {
+    const catCard = document.getElementById("catDonateCard");
+    const secretCard = document.getElementById("secretMsgBtn");
+    const profileHeader = document.querySelector(".profile");
+    const bentoRight = document.querySelector(".bento-right");
+    const mobileAnchor = document.getElementById("mobileUnderOtherAnchor");
+
+    if (!catCard || !secretCard || !profileHeader || !bentoRight || !mobileAnchor) return;
+
+    function syncLayoutOrder() {
+        const isMobile = window.innerWidth < 920;
+        if (isMobile) {
+            if (secretCard.parentElement !== mobileAnchor) {
+                mobileAnchor.appendChild(secretCard);
+            }
+            if (catCard.parentElement !== mobileAnchor) {
+                mobileAnchor.appendChild(catCard);
+            }
+        } else {
+            if (catCard.parentElement !== profileHeader) {
+                profileHeader.appendChild(catCard);
+            }
+            if (secretCard.parentElement !== bentoRight) {
+                bentoRight.insertBefore(secretCard, bentoRight.firstElementChild);
+            }
+        }
+    }
+
+    syncLayoutOrder();
+    window.addEventListener("resize", syncLayoutOrder, { passive: true });
 }
