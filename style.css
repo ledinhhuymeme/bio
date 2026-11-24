@@ -184,24 +184,6 @@ body {
     );
 }
 
-.enter-laser-beam {
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent 5%, rgba(56, 189, 248, 0.65) 50%, transparent 95%);
-    box-shadow: 0 0 14px rgba(56, 189, 248, 0.55);
-    z-index: 5;
-    pointer-events: none;
-    animation: portalLaserSweep 4.5s ease-in-out infinite alternate;
-}
-
-@keyframes portalLaserSweep {
-    0% { top: 8%; opacity: 0.25; }
-    50% { opacity: 0.75; }
-    100% { top: 92%; opacity: 0.25; }
-}
-
 .enter-card-glow {
     position: absolute;
     inset: -2px;
