@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=49">
+    <link rel="stylesheet" href="style.css?v=50">
 </head>
 <body data-theme="aurora">
     <!-- Glass Splash Screen (Rich Portal Card with Cover, Live Badges, Music Teaser & Social Icons) -->
@@ -249,6 +249,48 @@
                             <span class="id-ping-badge">
                                 <span class="id-ping-dot"></span> 18ms
                             </span>
+                        </div>
+
+                        <!-- Compact Music Pill (Moved into Profile Sidebar for Ultra-Clean Layout) -->
+                        <div class="music-bar compact-music-pill" id="musicPlayerBtn" title="Bấm để Bật / Tắt nhạc nền">
+                            <audio id="bgmAudio" src="bgm.mp3" loop preload="auto"></audio>
+                            <div class="vinyl-disc paused" id="vinyl-disc">
+                                <div class="vinyl-inner"></div>
+                            </div>
+                            <div class="music-meta">
+                                <div class="music-top-line">
+                                    <span class="music-label" id="music-status-label">NHẠC NỀN 🎧</span>
+                                    <span class="music-time" id="music-time">0:00</span>
+                                </div>
+                                <span class="music-track">We Don't Talk Anymore</span>
+                                <div class="music-lyric-line" id="music-lyric">♪ We don't talk anymore...</div>
+                                <div class="music-progress-wrap" id="musicProgressWrap">
+                                    <div class="music-progress-fill" id="musicProgressFill"></div>
+                                </div>
+                            </div>
+                            <button class="music-mute-btn" id="musicMuteBtn" title="Bật / Tắt tiếng" aria-label="Bật tắt tiếng">
+                                <svg id="volOnSvg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                                </svg>
+                                <svg id="volOffSvg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                    <line x1="23" y1="9" x2="17" y2="15"></line>
+                                    <line x1="17" y1="9" x2="23" y2="15"></line>
+                                </svg>
+                            </button>
+                            <button class="music-play-btn" id="musicToggleIcon" aria-label="Phát nhạc">
+                                <svg id="playSvg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon points="6 3 20 12 6 21 6 3"></polygon>
+                                </svg>
+                                <svg id="pauseSvg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="display:none;">
+                                    <rect x="6" y="4" width="4" height="16"></rect>
+                                    <rect x="14" y="4" width="4" height="16"></rect>
+                                </svg>
+                            </button>
+                            <div class="equalizer paused" id="equalizer" style="display:none;">
+                                <span></span><span></span><span></span>
+                            </div>
                         </div>
 
                         <!-- Live Stats Bar -->
@@ -504,63 +546,8 @@
                         </a>
                     </section>
 
-                    <!-- Bottom Interactive Bento Widgets (Music Player + Quick QR Card) -->
-                    <div class="bottom-widgets">
-                        <!-- Interactive Music / Vibe Bar (Click to Play/Pause Real Audio + Synced Lyrics + Speed Toggle) -->
-                        <div class="music-bar" id="musicPlayerBtn" title="Bấm để Bật / Tắt nhạc nền">
-                            <audio id="bgmAudio" src="bgm.mp3" loop preload="auto"></audio>
-                            <div class="vinyl-disc paused" id="vinyl-disc">
-                                <div class="vinyl-inner"></div>
-                            </div>
-                            <div class="music-meta">
-                                <div class="music-top-line">
-                                    <span class="music-label" id="music-status-label">CHẠM ĐỂ PHÁT NHẠC 🎧</span>
-                                    <span class="music-time" id="music-time">0:00 / 1:00</span>
-                                </div>
-                                <span class="music-track">We Don't Talk Anymore • Slowed & Reverb</span>
-                                <div class="music-lyric-line" id="music-lyric">♪ We don't talk anymore, like we used to do...</div>
-                                <div class="music-progress-wrap" id="musicProgressWrap">
-                                    <div class="music-progress-fill" id="musicProgressFill"></div>
-                                </div>
-                            </div>
-                            <button class="music-mute-btn" id="musicMuteBtn" title="Bật / Tắt tiếng" aria-label="Bật tắt tiếng">
-                                <svg id="volOnSvg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                                </svg>
-                                <svg id="volOffSvg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
-                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                                    <line x1="23" y1="9" x2="17" y2="15"></line>
-                                    <line x1="17" y1="9" x2="23" y2="15"></line>
-                                </svg>
-                            </button>
-                            <input type="range" class="music-vol-slider" id="musicVolSlider" min="0" max="1" step="0.05" value="0.25" title="Chỉnh âm lượng">
-                            <button class="music-play-btn" id="musicToggleIcon" aria-label="Phát nhạc">
-                                <svg id="playSvg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                                    <polygon points="6 3 20 12 6 21 6 3"></polygon>
-                                </svg>
-                                <svg id="pauseSvg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display:none;">
-                                    <rect x="6" y="4" width="4" height="16"></rect>
-                                    <rect x="14" y="4" width="4" height="16"></rect>
-                                </svg>
-                            </button>
-                            <div class="equalizer paused" id="equalizer">
-                                <span></span><span></span><span></span><span></span><span></span>
-                            </div>
-                        </div>
-
-                        <!--Desktop Quick QR Scan Card -->
-                        <div class="mini-qr-card" id="miniQrCard" title="Bấm để phóng to mã QR">
-                            <img id="miniQrImg" src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=https%3A%2F%2Fis.gd%2Fhuydinh_bio" alt="QR Bio">
-                            <div class="mini-qr-info">
-                                <span class="mini-qr-title" id="mini-qr-title">Quét trên điện thoại</span>
-                                <span class="mini-qr-sub" id="mini-qr-sub">is.gd/huydinh_bio</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Mini Interactive Status & Highlights Bento Row (Fills Bottom Space Balanced with Left Column) -->
-                    <div class="extra-bento-row">
+                    <!-- Bottom Clean 3-Card Bento Row (Photo Gallery + Current Mood + Quick QR Scan) -->
+                    <div class="extra-bento-row three-col-bento">
                         <div class="mini-bento-box highlight-photo-box" id="miniMomentBox" title="Bấm để xem bộ sưu tập ảnh lớn">
                             <div class="mini-thumb-stack">
                                 <img src="avatar.jpg" alt="Mountain Chill" class="mini-moment-thumb thumb-primary" id="miniGalleryThumb">
@@ -577,6 +564,14 @@
                             <div class="mini-moment-text">
                                 <span class="mini-bento-tag">⚡ CURRENT MOOD</span>
                                 <span class="mini-bento-val" id="moodText">Full năng lượng • Bấm đổi</span>
+                            </div>
+                        </div>
+
+                        <div class="mini-bento-box mini-qr-card" id="miniQrCard" title="Bấm để phóng to mã QR">
+                            <img id="miniQrImg" src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=https%3A%2F%2Fis.gd%2Fhuydinh_bio" alt="QR Bio">
+                            <div class="mini-moment-text">
+                                <span class="mini-bento-tag" id="mini-qr-title">📱 QUÉT MÃ QR</span>
+                                <span class="mini-bento-val" id="mini-qr-sub">is.gd/huydinh_bio</span>
                             </div>
                         </div>
                     </div>
@@ -773,6 +768,6 @@
     <!-- Toast Notification -->
     <div class="toast" id="toast">Đã sao chép liên kết! ✨</div>
 
-    <script src="script.js?v=49"></script>
+    <script src="script.js?v=50"></script>
 </body>
 </html>

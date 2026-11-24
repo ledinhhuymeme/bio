@@ -1310,13 +1310,42 @@ body {
     animation: pulseDot 1.6s infinite;
 }
 
+/* Compact Music Pill inside Profile Sidebar */
+.compact-music-pill {
+    margin-top: 12px;
+    padding: 9px 12px !important;
+    border-radius: 16px !important;
+    gap: 10px !important;
+    text-align: left;
+}
+
+.compact-music-pill .vinyl-disc {
+    width: 34px;
+    height: 34px;
+}
+
+.compact-music-pill .music-track {
+    font-size: 0.74rem;
+}
+
+.compact-music-pill .music-lyric-line {
+    font-size: 0.68rem;
+    min-height: 15px;
+}
+
+.compact-music-pill .music-mute-btn,
+.compact-music-pill .music-play-btn {
+    width: 27px;
+    height: 27px;
+}
+
 /* Live Stats Bar with 3D Bevel */
 .stats-bar {
     display: flex;
     align-items: center;
     justify-content: space-around;
-    margin-top: 18px;
-    padding: 13px 14px;
+    margin-top: 12px;
+    padding: 11px 12px;
     background: linear-gradient(145deg, rgba(255, 255, 255, 0.065) 0%, rgba(15, 23, 42, 0.55) 100%);
     border: 1px solid rgba(255, 255, 255, 0.13);
     border-radius: 20px;
@@ -2332,14 +2361,23 @@ body {
     color: var(--text-secondary);
 }
 
-/* Extra Bottom Bento Row (Highlight Photo & Interactive Mood Status) */
+/* Extra Bottom Bento Row (3 Balanced Cards on Desktop: Photo Gallery, Current Mood, QR Code) */
 .extra-bento-row {
     position: relative;
     z-index: 3;
-    margin: 12px 22px 0;
+    margin: 14px 22px 0;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
+}
+
+.extra-bento-row.three-col-bento .mini-qr-card img {
+    width: 42px;
+    height: 42px;
+    border-radius: 11px;
+    background: #fff;
+    padding: 3px;
+    flex-shrink: 0;
 }
 
 .mini-bento-box {
@@ -2601,7 +2639,9 @@ body {
     }
 
     .extra-bento-row {
-        margin: 13px 0 0;
+        margin: 15px 0 0;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 13px;
     }
 
     .mini-qr-card {
