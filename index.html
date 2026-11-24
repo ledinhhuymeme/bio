@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=47">
+    <link rel="stylesheet" href="style.css?v=48">
 </head>
 <body data-theme="aurora">
     <!-- Glass Splash Screen (Rich Portal Card with Cover, Live Badges, Music Teaser & Social Icons) -->
@@ -235,6 +235,20 @@
                             <span class="tag-chip">✨ Lifestyle</span>
                             <span class="tag-chip">🎧 Music & Chill</span>
                             <span class="tag-chip banana-chip" id="bananaVibeChip" title="Bấm để tung Banana 🍌">🍌 Banana Vibe</span>
+                        </div>
+
+                        <!-- Verified Digital ID Badge Strip -->
+                        <div class="digital-id-strip">
+                            <div class="id-left">
+                                <span class="id-shield">🛡️</span>
+                                <div class="id-meta">
+                                    <span class="id-label">VERIFIED CREATOR ID</span>
+                                    <span class="id-code">HD-2026-VN • OFFICIAL</span>
+                                </div>
+                            </div>
+                            <span class="id-ping-badge">
+                                <span class="id-ping-dot"></span> 18ms
+                            </span>
                         </div>
 
                         <!-- Live Stats Bar -->
@@ -492,7 +506,7 @@
 
                     <!-- Bottom Interactive Bento Widgets (Music Player + Quick QR Card) -->
                     <div class="bottom-widgets">
-                        <!-- Interactive Music / Vibe Bar (Click to Play/Pause Real Audio + Synced Lyrics) -->
+                        <!-- Interactive Music / Vibe Bar (Click to Play/Pause Real Audio + Synced Lyrics + Speed Toggle) -->
                         <div class="music-bar" id="musicPlayerBtn" title="Bấm để Bật / Tắt nhạc nền">
                             <audio id="bgmAudio" src="bgm.mp3" loop preload="auto"></audio>
                             <div class="vinyl-disc paused" id="vinyl-disc">
@@ -509,6 +523,7 @@
                                     <div class="music-progress-fill" id="musicProgressFill"></div>
                                 </div>
                             </div>
+                            <button type="button" class="music-speed-btn" id="musicSpeedBtn" title="Đổi tốc độ phát nhạc (1x / 1.15x / 0.9x)">1x</button>
                             <button class="music-mute-btn" id="musicMuteBtn" title="Bật / Tắt tiếng" aria-label="Bật tắt tiếng">
                                 <svg id="volOnSvg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                     <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
@@ -547,11 +562,14 @@
 
                     <!-- Mini Interactive Status & Highlights Bento Row (Fills Bottom Space Balanced with Left Column) -->
                     <div class="extra-bento-row">
-                        <div class="mini-bento-box highlight-photo-box" id="miniMomentBox" title="Bấm để xem ảnh lớn">
-                            <img src="avatar.jpg" alt="Mountain Chill" class="mini-moment-thumb">
+                        <div class="mini-bento-box highlight-photo-box" id="miniMomentBox" title="Bấm để xem bộ sưu tập ảnh lớn">
+                            <div class="mini-thumb-stack">
+                                <img src="avatar.jpg" alt="Mountain Chill" class="mini-moment-thumb thumb-primary" id="miniGalleryThumb">
+                                <span class="thumb-count-badge">2 📷</span>
+                            </div>
                             <div class="mini-moment-text">
-                                <span class="mini-bento-tag">⛰️ CHILL MOMENT</span>
-                                <span class="mini-bento-val">"Giữa núi đồi tự do ☁️"</span>
+                                <span class="mini-bento-tag">📸 PHOTO GALLERY</span>
+                                <span class="mini-bento-val" id="miniGalleryTitle">Bộ sưu tập • Chạm xem</span>
                             </div>
                         </div>
 
@@ -586,12 +604,17 @@
         </div>
     </div>
 
-    <!-- Photo Lightbox Modal (With Quick Download QR Button) -->
+    <!-- Photo Lightbox Modal (With Gallery Switcher & Quick Download QR Button) -->
     <div class="qr-modal" id="photoModal">
         <div class="photo-lightbox-box">
             <button class="qr-close" id="photoClose" aria-label="Đóng">&times;</button>
             <img src="donate_qr.jpg" alt="Mã QR ủng hộ chú mèo ít cá" class="lightbox-img" id="lightboxImg">
             <p class="lightbox-caption" id="lightbox-caption">Ủng hộ cho chú mèo ít cá 😄🐟</p>
+            <div class="lightbox-gallery-tabs" id="lightboxGalleryTabs" style="display:none;">
+                <button type="button" class="lb-tab active" data-photo="avatar.jpg" data-cap="&quot;Giữa núi đồi bình yên &amp; tự do ⛰️☁️&quot; — Huy Đình">⛰️ Núi đồi Chill</button>
+                <button type="button" class="lb-tab" data-photo="bg.jpg" data-cap="Mirror Flash Vibe ⚡ — Huy Đình (@huy_dinhhh)">⚡ Mirror Flash</button>
+                <button type="button" class="lb-tab" data-photo="donate_cat.jpg" data-cap="Ủng hộ cho chú mèo ít cá 😄🐟">🐱 Chú mèo cá</button>
+            </div>
             <div class="lightbox-actions">
                 <a href="donate_qr.jpg" download="VietQR_HuyDinh.jpg" class="lightbox-download-btn" id="lightboxDownloadBtn">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -751,6 +774,6 @@
     <!-- Toast Notification -->
     <div class="toast" id="toast">Đã sao chép liên kết! ✨</div>
 
-    <script src="script.js?v=47"></script>
+    <script src="script.js?v=48"></script>
 </body>
 </html>

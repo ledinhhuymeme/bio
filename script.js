@@ -469,6 +469,24 @@ function initChillMusicPlayer() {
         });
     }
 
+    // Nút đổi tốc độ phát nhạc (1x Chuẩn Slowed -> 1.15x Vibe Nhanh -> 0.88x Deep Reverb)
+    const speedBtn = document.getElementById("musicSpeedBtn");
+    const speeds = [
+        { rate: 1.0, label: "1x", msg: "Tốc độ chuẩn: Slowed & Reverb (1x) 🎧" },
+        { rate: 1.15, label: "1.15x", msg: "Tốc độ: Original Upbeat (1.15x) ⚡" },
+        { rate: 0.88, label: "0.9x", msg: "Tốc độ: Ultra Deep Chill (0.9x) 🌙" }
+    ];
+    let speedIdx = 0;
+    if (speedBtn) {
+        speedBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            speedIdx = (speedIdx + 1) % speeds.length;
+            audio.playbackRate = speeds[speedIdx].rate;
+            speedBtn.textContent = speeds[speedIdx].label;
+            showToast(speeds[speedIdx].msg);
+        });
+    }
+
     if (progressWrap) {
         progressWrap.addEventListener("click", (e) => {
             e.stopPropagation();
@@ -908,34 +926,53 @@ function initPhotoLightbox() {
             if (lightboxImg) lightboxImg.src = "donate_qr.jpg";
             if (lightboxCaption) lightboxCaption.textContent = "Ủng hộ cho chú mèo ít cá 😄🐟 (Quét mã VietQR / MoMo)";
             const dlBtn = document.getElementById("lightboxDownloadBtn");
+            const galTabs = document.getElementById("lightboxGalleryTabs");
             if (dlBtn) {
                 dlBtn.style.display = "inline-flex";
                 dlBtn.href = "donate_qr.jpg";
             }
+            if (galTabs) galTabs.style.display = "none";
             photoModal.classList.add("active");
         });
     }
 
+    function openGalleryAt(photoSrc, captionText) {
+        if (lightboxImg) lightboxImg.src = photoSrc;
+        if (lightboxCaption) lightboxCaption.textContent = captionText;
+        const dlBtn = document.getElementById("lightboxDownloadBtn");
+        const galTabs = document.getElementById("lightboxGalleryTabs");
+        if (dlBtn) dlBtn.style.display = "none";
+        if (galTabs) {
+            galTabs.style.display = "flex";
+            galTabs.querySelectorAll(".lb-tab").forEach((t) => {
+                t.classList.toggle("active", t.getAttribute("data-photo") === photoSrc);
+            });
+        }
+        photoModal.classList.add("active");
+    }
+
     if (avatarContainer) {
         avatarContainer.addEventListener("click", () => {
-            if (lightboxImg) lightboxImg.src = "avatar.jpg";
-            if (lightboxCaption) lightboxCaption.textContent = "\"Giữa núi đồi bình yên & tự do ⛰️☁️\" — Huy Đình";
-            const dlBtn = document.getElementById("lightboxDownloadBtn");
-            if (dlBtn) dlBtn.style.display = "none";
-            photoModal.classList.add("active");
+            openGalleryAt("avatar.jpg", "\"Giữa núi đồi bình yên & tự do ⛰️☁️\" — Huy Đình");
         });
     }
 
     const coverBanner = document.getElementById("coverBanner");
     if (coverBanner) {
         coverBanner.addEventListener("click", (e) => {
-            // Không mở lightbox nếu người dùng bấm vào các nút trên thanh top-bar
             if (e.target.closest(".top-bar")) return;
-            if (lightboxImg) lightboxImg.src = "bg.jpg";
-            if (lightboxCaption) lightboxCaption.textContent = "Huy Đình ⚡ (@huy_dinhhh)";
-            const dlBtn = document.getElementById("lightboxDownloadBtn");
-            if (dlBtn) dlBtn.style.display = "none";
-            photoModal.classList.add("active");
+            openGalleryAt("bg.jpg", "Mirror Flash Vibe ⚡ — Huy Đình (@huy_dinhhh)");
+        });
+    }
+
+    const galTabs = document.getElementById("lightboxGalleryTabs");
+    if (galTabs) {
+        galTabs.querySelectorAll(".lb-tab").forEach((tab) => {
+            tab.addEventListener("click", () => {
+                const src = tab.getAttribute("data-photo");
+                const cap = tab.getAttribute("data-cap");
+                if (src) openGalleryAt(src, cap || "");
+            });
         });
     }
 
@@ -1038,19 +1075,47 @@ function initBananaEffects() {
     });
 }
 
-// Hộp trạng thái Mood / Vibe tương tác & Xem ảnh Chill Moment
+// Hộp trạng thái Mood / Vibe tương tác & Bộ sưu tập ảnh tự chuyển (Auto-Cycling Photo Gallery)
 function initExtraBentoWidgets() {
     const miniMomentBox = document.getElementById("miniMomentBox");
+    const miniThumb = document.getElementById("miniGalleryThumb");
+    const miniTitle = document.getElementById("miniGalleryTitle");
     const photoModal = document.getElementById("photoModal");
     const lightboxImg = document.getElementById("lightboxImg");
     const lightboxCaption = document.getElementById("lightbox-caption");
     const dlBtn = document.getElementById("lightboxDownloadBtn");
+    const galTabs = document.getElementById("lightboxGalleryTabs");
+
+    const galleryPhotos = [
+        { src: "avatar.jpg", label: "Núi đồi tự do ⛰️", cap: "\"Giữa núi đồi bình yên & tự do ⛰️☁️\" — Huy Đình" },
+        { src: "bg.jpg", label: "Mirror Flash ⚡", cap: "Mirror Flash Vibe ⚡ — Huy Đình (@huy_dinhhh)" }
+    ];
+    let galIdx = 0;
+
+    setInterval(() => {
+        galIdx = (galIdx + 1) % galleryPhotos.length;
+        if (miniThumb) {
+            miniThumb.style.opacity = "0.3";
+            setTimeout(() => {
+                miniThumb.src = galleryPhotos[galIdx].src;
+                miniThumb.style.opacity = "1";
+            }, 220);
+        }
+        if (miniTitle) miniTitle.textContent = galleryPhotos[galIdx].label;
+    }, 4500);
 
     if (miniMomentBox && photoModal) {
         miniMomentBox.addEventListener("click", () => {
-            if (lightboxImg) lightboxImg.src = "avatar.jpg";
-            if (lightboxCaption) lightboxCaption.textContent = "\"Giữa núi đồi bình yên & tự do ⛰️☁️\" — Huy Đình";
+            const currentItem = galleryPhotos[galIdx];
+            if (lightboxImg) lightboxImg.src = currentItem.src;
+            if (lightboxCaption) lightboxCaption.textContent = currentItem.cap;
             if (dlBtn) dlBtn.style.display = "none";
+            if (galTabs) {
+                galTabs.style.display = "flex";
+                galTabs.querySelectorAll(".lb-tab").forEach((t) => {
+                    t.classList.toggle("active", t.getAttribute("data-photo") === currentItem.src);
+                });
+            }
             photoModal.classList.add("active");
         });
     }
