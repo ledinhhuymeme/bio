@@ -389,7 +389,8 @@ function initChillMusicPlayer() {
 
     if (!playerBar || !audio) return;
 
-    audio.volume = 0.8;
+    // Đặt âm lượng nhạc nền mặc định nhỏ, êm dịu (25%)
+    audio.volume = 0.25;
 
     // Lời bài hát đồng bộ theo từng giây của file bgm.mp3 (We Don't Talk Anymore - Slowed & Reverb)
     const syncedLyrics = [
@@ -456,6 +457,7 @@ function initChillMusicPlayer() {
 
     const volSlider = document.getElementById("musicVolSlider");
     if (volSlider) {
+        volSlider.value = "0.25";
         volSlider.addEventListener("click", (e) => e.stopPropagation());
         volSlider.addEventListener("input", (e) => {
             e.stopPropagation();
@@ -466,24 +468,6 @@ function initChillMusicPlayer() {
                 volOnSvg.style.display = audio.muted ? "none" : "block";
                 volOffSvg.style.display = audio.muted ? "block" : "none";
             }
-        });
-    }
-
-    // Nút đổi tốc độ phát nhạc (1x Chuẩn Slowed -> 1.15x Vibe Nhanh -> 0.88x Deep Reverb)
-    const speedBtn = document.getElementById("musicSpeedBtn");
-    const speeds = [
-        { rate: 1.0, label: "1x", msg: "Tốc độ chuẩn: Slowed & Reverb (1x) 🎧" },
-        { rate: 1.15, label: "1.15x", msg: "Tốc độ: Original Upbeat (1.15x) ⚡" },
-        { rate: 0.88, label: "0.9x", msg: "Tốc độ: Ultra Deep Chill (0.9x) 🌙" }
-    ];
-    let speedIdx = 0;
-    if (speedBtn) {
-        speedBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            speedIdx = (speedIdx + 1) % speeds.length;
-            audio.playbackRate = speeds[speedIdx].rate;
-            speedBtn.textContent = speeds[speedIdx].label;
-            showToast(speeds[speedIdx].msg);
         });
     }
 
