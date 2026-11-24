@@ -53,6 +53,8 @@ const BIO_CONFIG = {
             catDonateBtn: "Mở mã QR 💛",
             sectionTitle: "KẾT NỐI MẠNG XÃ HỘI",
             sectionSub: "Chạm để mở hoặc sao chép nhanh",
+            otherSectionTitle: "CÁC MỤC KHÁC",
+            otherSectionBadge: "✨ Tiện ích & Bộ sưu tập",
             subtitles: {
                 facebook: "Kết bạn & nhắn tin cho mình",
                 instagram: "@huy_chuis • Stories mỗi ngày 📸",
@@ -95,6 +97,8 @@ const BIO_CONFIG = {
             catDonateBtn: "Open QR 💛",
             sectionTitle: "SOCIAL NETWORKS",
             sectionSub: "Tap to open or quick copy link",
+            otherSectionTitle: "OTHER SECTIONS",
+            otherSectionBadge: "✨ Widgets & Gallery",
             subtitles: {
                 facebook: "Add friend & message me",
                 instagram: "@huy_chuis • Daily stories 📸",
@@ -319,6 +323,8 @@ function applyLanguage(lang, showNotification) {
     setText("cat-donate-btn", dict.catDonateBtn);
     setText("section-title", dict.sectionTitle);
     setText("section-sub", dict.sectionSub);
+    setText("other-section-title", dict.otherSectionTitle);
+    setText("other-section-badge", dict.otherSectionBadge);
     setText("music-status-label", isMusicPlaying ? dict.musicPlaying : dict.musicPaused);
     setText("mini-qr-title", dict.miniQrTitle);
     setText("mini-qr-sub", dict.miniQrSub);

@@ -1639,6 +1639,17 @@ body {
     border-radius: 99px;
 }
 
+.other-section-header {
+    margin-top: 18px;
+    margin-bottom: 10px;
+}
+
+.other-badge {
+    color: #fbbf24;
+    background: rgba(250, 204, 21, 0.12);
+    border-color: rgba(250, 204, 21, 0.3);
+}
+
 .secret-msg-trigger {
     background: linear-gradient(135deg, rgba(139, 92, 246, 0.22), rgba(236, 72, 153, 0.22));
     border: 1px solid rgba(236, 72, 153, 0.45);
@@ -2365,7 +2376,7 @@ body {
 .extra-bento-row {
     position: relative;
     z-index: 3;
-    margin: 14px 22px 0;
+    margin: 0 22px 0;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
@@ -2639,7 +2650,7 @@ body {
     }
 
     .extra-bento-row {
-        margin: 15px 0 0;
+        margin: 0;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 13px;
     }
