@@ -1094,22 +1094,90 @@ function initLiveWeather() {
         .catch(() => {});
 }
 
-// Hiệu ứng hạt sáng chạy theo chuột (Chỉ chạy trên máy tính, tần suất nhẹ mượt không gây khựng)
+// Hiệu ứng di chuyển chuột Banana 3D (Con trỏ Banana bám theo chuột 60fps + Vệt Banana & Sao lấp lánh)
 function initCursorSparkles() {
     if (window.innerWidth <= 920) return;
+
+    // 1. Tạo trái chuối 3D bay bám theo mũi chuột mượt mà (60fps Lerp + nghiêng theo vận tốc chuột)
+    const follower = document.createElement("div");
+    follower.className = "banana-cursor-follower";
+    follower.textContent = "🍌";
+    document.body.appendChild(follower);
+
+    let targetX = window.innerWidth / 2;
+    let targetY = window.innerHeight / 2;
+    let curX = targetX;
+    let curY = targetY;
+    let scale = 1;
+    let rafId = null;
+
+    function updateFollower() {
+        const dx = targetX - curX;
+        const dy = targetY - curY;
+        curX += dx * 0.24;
+        curY += dy * 0.24;
+
+        // Nghiêng nhẹ trái chuối theo hướng vẩy chuột
+        const tilt = Math.max(-35, Math.min(35, dx * 1.35 - 12));
+        follower.style.transform = `translate3d(${(curX + 14).toFixed(1)}px, ${(curY + 14).toFixed(1)}px, 0) rotate(${tilt.toFixed(1)}deg) scale(${scale})`;
+
+        if (Math.abs(dx) > 0.1 || Math.abs(dy) > 0.1) {
+            rafId = requestAnimationFrame(updateFollower);
+        } else {
+            rafId = null;
+        }
+    }
+
+    // 2. Tạo vệt Banana mini & tia sáng vàng lấp lánh dọc đường di chuyển chuột
     let lastSpawn = 0;
+    const trailIcons = ["🍌", "🍌", "✨", "🍌", "💛"];
+    let iconIdx = 0;
+
     window.addEventListener("mousemove", (e) => {
+        targetX = e.clientX;
+        targetY = e.clientY;
+        follower.classList.add("active");
+        if (!rafId) rafId = requestAnimationFrame(updateFollower);
+
         const now = performance.now();
-        if (now - lastSpawn < 95) return;
+        if (now - lastSpawn < 65) return;
         lastSpawn = now;
 
-        const sparkle = document.createElement("span");
-        sparkle.className = "cursor-sparkle";
-        sparkle.style.left = `${e.clientX}px`;
-        sparkle.style.top = `${e.clientY}px`;
-        document.body.appendChild(sparkle);
-        setTimeout(() => sparkle.remove(), 550);
+        const item = document.createElement("span");
+        item.className = "banana-cursor-trail";
+        item.textContent = trailIcons[iconIdx % trailIcons.length];
+        iconIdx++;
+        item.style.left = `${e.clientX}px`;
+        item.style.top = `${e.clientY}px`;
+        item.style.setProperty("--btx", `${((Math.random() - 0.5) * 34).toFixed(1)}px`);
+        item.style.setProperty("--btrot", `${((Math.random() - 0.5) * 90).toFixed(1)}deg`);
+        document.body.appendChild(item);
+        setTimeout(() => item.remove(), 750);
     }, { passive: true });
+
+    window.addEventListener("mousedown", () => {
+        scale = 1.35;
+        if (!rafId) rafId = requestAnimationFrame(updateFollower);
+    }, { passive: true });
+
+    window.addEventListener("mouseup", () => {
+        scale = 1;
+        if (!rafId) rafId = requestAnimationFrame(updateFollower);
+    }, { passive: true });
+
+    // 3. Hiệu ứng các trái chuối 3D ở nền phản ứng né/nghiêng nhẹ theo vị trí chuột
+    const bgBananas = document.querySelectorAll(".floating-banana");
+    if (bgBananas.length) {
+        window.addEventListener("mousemove", (e) => {
+            const nx = (e.clientX / window.innerWidth - 0.5) * 24;
+            const ny = (e.clientY / window.innerHeight - 0.5) * 24;
+            bgBananas.forEach((b, i) => {
+                const factor = (i % 2 === 0 ? 1 : -0.8) * (0.7 + i * 0.15);
+                b.style.marginLeft = `${(nx * factor).toFixed(1)}px`;
+                b.style.marginTop = `${(ny * factor).toFixed(1)}px`;
+            });
+        }, { passive: true });
+    }
 }
 
 // Hiệu ứng Mưa Banana 3D khi bấm vào huy hiệu Banana
