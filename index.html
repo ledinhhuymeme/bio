@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=56">
+    <link rel="stylesheet" href="style.css?v=57">
 </head>
 <body data-theme="aurora">
     <!-- Glass Splash Screen (Rich Portal Card with Cover, Live Badges, Music Teaser & Social Icons) -->
@@ -324,8 +324,18 @@
                             </div>
                             <div class="cat-img-wrap cat-3d-figure" id="cat3dFigure">
                                 <div class="cat-3d-halo"></div>
-                                <img src="donate_cat.jpg" alt="Ủng hộ cho chú mèo ít cá" class="cat-donate-img">
-                                <div class="cat-3d-qr-scanner"></div>
+                                <img src="donate_cat.jpg" alt="Ủng hộ cho chú mèo ít cá" class="cat-donate-img cat-base-img">
+                                <!-- 3D Pop-Out Empty Wallet Paw (Thrusts forward when hovered!) -->
+                                <div class="cat-3d-wallet-prop" aria-hidden="true">
+                                    <img src="donate_cat.jpg" alt="" class="cat-prop-img">
+                                    <span class="wallet-empty-moth">🪰</span>
+                                    <span class="wallet-cry-bubble">Ví rỗng rồi! 😿</span>
+                                </div>
+                                <!-- 3D Pop-Out QR Board Paw (Thrusts forward on right!) -->
+                                <div class="cat-3d-qr-prop" aria-hidden="true">
+                                    <img src="donate_cat.jpg" alt="" class="cat-prop-img">
+                                    <div class="cat-3d-qr-scanner"></div>
+                                </div>
                                 <span class="cat-zoom-badge">🔍 3D QR</span>
                             </div>
                             <div class="cat-donate-info cat-3d-info">
@@ -835,6 +845,6 @@
     <!-- Toast Notification -->
     <div class="toast" id="toast">Đã sao chép liên kết! ✨</div>
 
-    <script src="script.js?v=56"></script>
+    <script src="script.js?v=57"></script>
 </body>
 </html>
