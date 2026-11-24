@@ -910,46 +910,43 @@ function initPhotoLightbox() {
     if (!photoModal) return;
 
     if (catDonateCard) {
-        // Hiệu ứng nghiêng 3D Parallax & nổi khối riêng cho chú mèo cầm mã QR
+        // Chỉ duy nhất khung ảnh chú mèo nghiêng & nổi 3D theo góc chuột, còn khung thẻ ngoài và chữ đứng yên
         const catFigure = document.getElementById("cat3dFigure");
-        let catRX = 0, catRY = 0, curCatRX = 0, curCatRY = 0, catRaf = null;
+        let catRX = 4, catRY = 10, curCatRX = 4, curCatRY = 10, catRaf = null;
 
-        function animateCat3dTilt() {
-            curCatRX += (catRX - curCatRX) * 0.15;
-            curCatRY += (catRY - curCatRY) * 0.15;
+        function animateCatFrame3D() {
+            curCatRX += (catRX - curCatRX) * 0.16;
+            curCatRY += (catRY - curCatRY) * 0.16;
 
-            catDonateCard.style.transform = `perspective(900px) rotateX(${curCatRX.toFixed(2)}deg) rotateY(${curCatRY.toFixed(2)}deg) translate3d(0, -3px, 0)`;
             if (catFigure) {
-                catFigure.style.animation = "none";
-                catFigure.style.transform = `translate3d(0, -8px, 38px) rotateX(${(curCatRX * 1.4).toFixed(2)}deg) rotateY(${(curCatRY * 1.4 + 6).toFixed(2)}deg) scale(1.05)`;
+                catFigure.style.transform = `perspective(550px) translate3d(0, -5px, 34px) rotateX(${curCatRX.toFixed(2)}deg) rotateY(${curCatRY.toFixed(2)}deg) scale(1.06)`;
             }
 
             if (Math.abs(catRX - curCatRX) > 0.05 || Math.abs(catRY - curCatRY) > 0.05) {
-                catRaf = requestAnimationFrame(animateCat3dTilt);
+                catRaf = requestAnimationFrame(animateCatFrame3D);
             } else {
                 catRaf = null;
             }
         }
 
         catDonateCard.addEventListener("mousemove", (e) => {
-            const r = catDonateCard.getBoundingClientRect();
-            const x = e.clientX - r.left;
-            const y = e.clientY - r.top;
-            catDonateCard.style.setProperty("--cat-mx", `${x}px`);
-            catDonateCard.style.setProperty("--cat-my", `${y}px`);
+            if (!catFigure) return;
+            const r = catFigure.getBoundingClientRect();
+            const x = e.clientX - (r.left + r.width / 2);
+            const y = e.clientY - (r.top + r.height / 2);
 
-            catRX = ((y - r.height / 2) / (r.height / 2)) * -10;
-            catRY = ((x - r.width / 2) / (r.width / 2)) * 12;
-            if (!catRaf) catRaf = requestAnimationFrame(animateCat3dTilt);
+            catRX = Math.max(-18, Math.min(18, (y / (r.height / 2)) * -14));
+            catRY = Math.max(-22, Math.min(22, (x / (r.width / 2)) * 16));
+            if (!catRaf) catRaf = requestAnimationFrame(animateCatFrame3D);
         }, { passive: true });
 
         catDonateCard.addEventListener("mouseleave", () => {
-            catRX = 0;
-            catRY = 0;
-            catDonateCard.style.transform = "";
+            if (catRaf) {
+                cancelAnimationFrame(catRaf);
+                catRaf = null;
+            }
             if (catFigure) {
                 catFigure.style.transform = "";
-                catFigure.style.animation = "";
             }
         }, { passive: true });
 
