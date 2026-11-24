@@ -623,12 +623,34 @@ function initTypewriter(lines) {
     tick();
 }
 
-// Hiệu ứng Spotlight & 3D Tilt nhẹ trên máy tính
+// Hiệu ứng Spotlight & 3D Tilt siêu mượt (Sử dụng nội suy quán tính Lerp 60FPS không bị khựng/cấn)
 function initCardInteractions() {
     const card = document.getElementById("main-card");
     if (!card) return;
 
+    let targetRX = 0;
+    let targetRY = 0;
+    let currentRX = 0;
+    let currentRY = 0;
+    let rafId = null;
+
+    function updateSmoothTilt() {
+        currentRX += (targetRX - currentRX) * 0.12;
+        currentRY += (targetRY - currentRY) * 0.12;
+
+        if (Math.abs(targetRX - currentRX) > 0.01 || Math.abs(targetRY - currentRY) > 0.01) {
+            card.style.transform = `rotateX(${currentRX.toFixed(2)}deg) rotateY(${currentRY.toFixed(2)}deg) translateZ(0)`;
+            rafId = requestAnimationFrame(updateSmoothTilt);
+        } else {
+            card.style.transform = targetRX === 0 && targetRY === 0
+                ? "translateZ(0)"
+                : `rotateX(${targetRX.toFixed(2)}deg) rotateY(${targetRY.toFixed(2)}deg) translateZ(0)`;
+            rafId = null;
+        }
+    }
+
     card.addEventListener("mousemove", (e) => {
+        if (window.innerWidth <= 920) return;
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
@@ -636,42 +658,26 @@ function initCardInteractions() {
         card.style.setProperty("--mouse-x", `${x}px`);
         card.style.setProperty("--mouse-y", `${y}px`);
 
-        if (window.innerWidth > 768) {
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = ((y - centerY) / centerY) * -2.5;
-            const rotateY = ((x - centerX) / centerX) * 2.5;
-            card.style.transform = `rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg)`;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        targetRX = ((y - centerY) / centerY) * -1.4;
+        targetRY = ((x - centerX) / centerX) * 1.4;
+
+        if (!rafId) {
+            rafId = requestAnimationFrame(updateSmoothTilt);
         }
-    });
+    }, { passive: true });
 
     card.addEventListener("mouseleave", () => {
-        card.style.transform = "rotateX(0deg) rotateY(0deg)";
-    });
-
-    // Ánh sáng Spotlight 3D & Nghiêng 3D riêng trên từng thẻ mạng xã hội
-    document.querySelectorAll(".link-card").forEach((linkCard) => {
-        linkCard.addEventListener("mousemove", (e) => {
-            const r = linkCard.getBoundingClientRect();
-            const x = e.clientX - r.left;
-            const y = e.clientY - r.top;
-            linkCard.style.setProperty("--card-mx", `${x}px`);
-            linkCard.style.setProperty("--card-my", `${y}px`);
-
-            if (window.innerWidth > 768) {
-                const rx = ((y - r.height / 2) / (r.height / 2)) * -6;
-                const ry = ((x - r.width / 2) / (r.width / 2)) * 6;
-                linkCard.style.transform = `translateY(-6px) scale(1.02) perspective(600px) rotateX(${rx.toFixed(1)}deg) rotateY(${ry.toFixed(1)}deg)`;
-            }
-        });
-
-        linkCard.addEventListener("mouseleave", () => {
-            linkCard.style.transform = "";
-        });
-    });
+        targetRX = 0;
+        targetRY = 0;
+        if (!rafId) {
+            rafId = requestAnimationFrame(updateSmoothTilt);
+        }
+    }, { passive: true });
 }
 
-// Hiệu ứng hạt phát sáng lơ lửng + Sao băng (Fireflies & Shooting Stars)
+// Hiệu ứng hạt phát sáng lơ lửng + Sao băng (Tối ưu GPU 60FPS siêu mượt)
 function initParticles() {
     const canvas = document.getElementById("bg-canvas");
     if (!canvas) return;
@@ -683,25 +689,26 @@ function initParticles() {
     window.addEventListener("resize", () => {
         width = canvas.width = window.innerWidth;
         height = canvas.height = window.innerHeight;
-    });
+    }, { passive: true });
 
-    const particles = Array.from({ length: 48 }, () => ({
+    const particleCount = window.innerWidth < 768 ? 18 : 28;
+    const particles = Array.from({ length: particleCount }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
-        r: Math.random() * 2.1 + 0.6,
-        vx: (Math.random() - 0.5) * 0.35,
-        vy: -Math.random() * 0.45 - 0.1,
-        alpha: Math.random() * 0.65 + 0.2
+        r: Math.random() * 1.9 + 0.6,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: -Math.random() * 0.38 - 0.08,
+        alpha: Math.random() * 0.6 + 0.2
     }));
 
     const meteors = [];
     function spawnMeteor() {
-        if (meteors.length < 2 && Math.random() < 0.018) {
+        if (meteors.length < 1 && Math.random() < 0.012) {
             meteors.push({
                 x: Math.random() * width * 0.8 + width * 0.1,
                 y: -20,
-                len: 65 + Math.random() * 55,
-                speed: 9 + Math.random() * 6,
+                len: 65 + Math.random() * 45,
+                speed: 8 + Math.random() * 5,
                 alpha: 1
             });
         }
@@ -721,24 +728,6 @@ function initParticles() {
             ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
             ctx.fillStyle = `rgba(255, 255, 255, ${p.alpha})`;
             ctx.fill();
-        }
-
-        // Vẽ mạng tinh vân (Constellation Lines) nối các hạt sao gần nhau tạo chiều sâu 3D
-        for (let i = 0; i < particles.length; i++) {
-            for (let j = i + 1; j < particles.length; j++) {
-                const dx = particles[i].x - particles[j].x;
-                const dy = particles[i].y - particles[j].y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < 115) {
-                    const lineAlpha = (1 - dist / 115) * 0.16;
-                    ctx.beginPath();
-                    ctx.moveTo(particles[i].x, particles[i].y);
-                    ctx.lineTo(particles[j].x, particles[j].y);
-                    ctx.strokeStyle = `rgba(56, 189, 248, ${lineAlpha})`;
-                    ctx.lineWidth = 0.8;
-                    ctx.stroke();
-                }
-            }
         }
 
         spawnMeteor();
@@ -1004,35 +993,21 @@ function initLiveWeather() {
         .catch(() => {});
 }
 
-// Hiệu ứng hạt sáng & Banana mini lấp lánh chạy theo chuột (Cursor Sparkle & Banana Trail)
+// Hiệu ứng hạt sáng chạy theo chuột (Chỉ chạy trên máy tính, tần suất nhẹ mượt không gây khựng)
 function initCursorSparkles() {
+    if (window.innerWidth <= 920) return;
     let lastSpawn = 0;
-    let count = 0;
     window.addEventListener("mousemove", (e) => {
         const now = performance.now();
-        if (now - lastSpawn < 50) return;
+        if (now - lastSpawn < 95) return;
         lastSpawn = now;
-        count++;
 
-        if (count % 5 === 0) {
-            const miniBanana = document.createElement("span");
-            miniBanana.className = "floating-heart";
-            miniBanana.style.fontSize = "0.95rem";
-            miniBanana.textContent = "🍌";
-            miniBanana.style.left = `${e.clientX}px`;
-            miniBanana.style.top = `${e.clientY}px`;
-            miniBanana.style.setProperty("--dx", `${(Math.random() - 0.5) * 35}px`);
-            miniBanana.style.setProperty("--rot", `${(Math.random() - 0.5) * 90}deg`);
-            document.body.appendChild(miniBanana);
-            setTimeout(() => miniBanana.remove(), 900);
-        } else {
-            const sparkle = document.createElement("span");
-            sparkle.className = "cursor-sparkle";
-            sparkle.style.left = `${e.clientX}px`;
-            sparkle.style.top = `${e.clientY}px`;
-            document.body.appendChild(sparkle);
-            setTimeout(() => sparkle.remove(), 650);
-        }
+        const sparkle = document.createElement("span");
+        sparkle.className = "cursor-sparkle";
+        sparkle.style.left = `${e.clientX}px`;
+        sparkle.style.top = `${e.clientY}px`;
+        document.body.appendChild(sparkle);
+        setTimeout(() => sparkle.remove(), 550);
     }, { passive: true });
 }
 

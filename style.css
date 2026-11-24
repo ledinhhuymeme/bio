@@ -34,6 +34,12 @@ body[data-theme="sunset"] {
     -webkit-tap-highlight-color: transparent;
 }
 
+html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
 body {
     font-family: 'Be Vietnam Pro', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     background-color: var(--bg-deep);
@@ -45,6 +51,7 @@ body {
     overflow-x: hidden;
     position: relative;
     padding: 20px 16px;
+    overscroll-behavior-y: none;
 }
 
 /* Tap-to-Enter Rich Portal Splash Screen */
@@ -352,13 +359,13 @@ body {
 
 .custom-wallpaper {
     position: absolute;
-    inset: -15px;
+    inset: -10px;
     background-image: url('bg.jpg');
     background-size: cover;
     background-position: center 35%;
-    filter: brightness(0.45) contrast(1.12);
+    filter: brightness(0.45) contrast(1.08);
     opacity: 0.85;
-    animation: slowZoom 18s infinite alternate ease-in-out;
+    transform: translateZ(0);
 }
 
 .custom-wallpaper::after {
@@ -371,10 +378,11 @@ body {
 .aurora {
     position: absolute;
     border-radius: 50%;
-    filter: blur(115px);
-    opacity: 0.48;
-    mix-blend-mode: screen;
-    animation: auroraFloat 16s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+    filter: blur(85px);
+    opacity: 0.42;
+    will-change: transform;
+    transform: translateZ(0);
+    animation: auroraFloat 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .aurora-1 {
@@ -410,15 +418,14 @@ body {
 
 .cyber-grid {
     position: absolute;
-    inset: -30% -20% 0 -20%;
+    inset: -20% -15% 0 -15%;
     background-image: 
-        linear-gradient(to right, rgba(56, 189, 248, 0.08) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(139, 92, 246, 0.08) 1px, transparent 1px);
+        linear-gradient(to right, rgba(56, 189, 248, 0.07) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(139, 92, 246, 0.07) 1px, transparent 1px);
     background-size: 54px 54px;
-    transform: perspective(650px) rotateX(55deg);
+    transform: perspective(650px) rotateX(55deg) translateZ(0);
     transform-origin: center bottom;
     mask-image: radial-gradient(circle at 50% 60%, black 25%, transparent 82%);
-    animation: gridFlow3D 12s linear infinite;
 }
 
 @keyframes gridFlow3D {
@@ -569,26 +576,25 @@ body {
     transition: max-width 0.4s ease;
 }
 
-/* Main Bento Glass Card with 3D Depth & Holographic Rim */
+/* Main Bento Glass Card with 3D Depth & Silky 60fps GPU Acceleration */
 .bento-card {
     position: relative;
     width: 100%;
-    background: linear-gradient(155deg, rgba(18, 22, 36, 0.78) 0%, rgba(10, 13, 22, 0.84) 100%);
-    backdrop-filter: blur(32px) saturate(185%);
-    -webkit-backdrop-filter: blur(32px) saturate(185%);
+    background: linear-gradient(155deg, rgba(18, 22, 36, 0.84) 0%, rgba(10, 13, 22, 0.9) 100%);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
     border: 1.5px solid rgba(255, 255, 255, 0.16);
     border-radius: 34px;
     overflow: hidden;
     box-shadow: 
-        0 45px 100px -15px rgba(0, 0, 0, 0.95),
-        0 18px 40px -10px rgba(0, 0, 0, 0.75),
-        0 0 65px -15px var(--aurora-c1),
+        0 35px 75px -15px rgba(0, 0, 0, 0.9),
+        0 0 45px -15px var(--aurora-c1),
         0 0 0 1px rgba(255, 255, 255, 0.1) inset,
-        0 2px 3px 0 rgba(255, 255, 255, 0.32) inset,
-        0 -3px 8px 0 rgba(0, 0, 0, 0.65) inset;
-    transform-style: preserve-3d;
-    transition: transform 0.18s ease-out, box-shadow 0.3s ease;
-    animation: cardEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        0 2px 3px 0 rgba(255, 255, 255, 0.28) inset;
+    will-change: transform;
+    transform: translateZ(0);
+    transition: box-shadow 0.3s ease;
+    animation: cardEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Glowing Top Laser Accent Line */
